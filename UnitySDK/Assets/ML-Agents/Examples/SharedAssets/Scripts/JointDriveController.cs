@@ -117,7 +117,7 @@ namespace MLAgents
         /// </summary>
         public void SetupBodyPart(Transform t)
         {
-            BodyPart bp = new BodyPart
+            var bp = new BodyPart
             {
                 rb = t.GetComponent<Rigidbody>(),
                 joint = t.GetComponent<ConfigurableJoint>(),

@@ -44,7 +44,7 @@ namespace MLAgents
 
             // For each ray sublist stores categorical information on detected object
             // along with object distance.
-            foreach (float angle in rayAngles)
+            foreach (var angle in rayAngles)
             {
                 m_EndPosition = transform.TransformDirection(
                     PolarToCartesian(rayDistance, angle));
@@ -61,7 +61,7 @@ namespace MLAgents
                     new Vector3(0f, startOffset, 0f), 0.5f,
                     m_EndPosition, out m_Hit, rayDistance))
                 {
-                    for (int i = 0; i < detectableObjects.Length; i++)
+                    for (var i = 0; i < detectableObjects.Length; i++)
                     {
                         if (m_Hit.collider.gameObject.CompareTag(detectableObjects[i]))
                         {
@@ -87,8 +87,8 @@ namespace MLAgents
         /// </summary>
         public static Vector3 PolarToCartesian(float radius, float angle)
         {
-            float x = radius * Mathf.Cos(DegreeToRadian(angle));
-            float z = radius * Mathf.Sin(DegreeToRadian(angle));
+            var x = radius * Mathf.Cos(DegreeToRadian(angle));
+            var z = radius * Mathf.Sin(DegreeToRadian(angle));
             return new Vector3(x, 0f, z);
         }
     }

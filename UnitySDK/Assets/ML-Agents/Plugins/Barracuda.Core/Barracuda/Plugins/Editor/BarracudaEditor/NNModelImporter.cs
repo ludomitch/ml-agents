@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEditor.Experimental.AssetImporters;
@@ -29,7 +29,7 @@ namespace Barracuda
         {
             if (m_IconTexture == null)
             {
-                string[] allCandidates = AssetDatabase.FindAssets(k_IconName);
+                var allCandidates = AssetDatabase.FindAssets(k_IconName);
 
                 if (allCandidates.Length > 0)
                 {

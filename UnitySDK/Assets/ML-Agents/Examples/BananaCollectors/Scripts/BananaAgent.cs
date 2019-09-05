@@ -45,11 +45,11 @@ public class BananaAgent : Agent
     {
         if (useVectorObs)
         {
-            float rayDistance = 50f;
+            var rayDistance = 50f;
             float[] rayAngles = { 20f, 90f, 160f, 45f, 135f, 70f, 110f };
             string[] detectableObjects = { "banana", "agent", "wall", "badBanana", "frozenAgent" };
             AddVectorObs(m_RayPer.Perceive(rayDistance, rayAngles, detectableObjects, 0f, 0f));
-            Vector3 localVelocity = transform.InverseTransformDirection(m_AgentRb.velocity);
+            var localVelocity = transform.InverseTransformDirection(m_AgentRb.velocity);
             AddVectorObs(localVelocity.x);
             AddVectorObs(localVelocity.z);
             AddVectorObs(System.Convert.ToInt32(m_Frozen));

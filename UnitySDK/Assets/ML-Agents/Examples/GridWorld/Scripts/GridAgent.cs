@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using System.Linq;
 using MLAgents;
@@ -79,9 +79,9 @@ public class GridAgent : Agent
     public override void AgentAction(float[] vectorAction, string textAction)
     {
         AddReward(-0.01f);
-        int action = Mathf.FloorToInt(vectorAction[0]);
+        var action = Mathf.FloorToInt(vectorAction[0]);
 
-        Vector3 targetPos = transform.position;
+        var targetPos = transform.position;
         switch (action)
         {
             case k_NoAction:

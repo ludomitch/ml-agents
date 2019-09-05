@@ -59,17 +59,17 @@ namespace MLAgents
         {
             if (brainParameters.vectorActionSpaceType == SpaceType.Continuous)
             {
-                foreach (Agent agent in m_AgentInfos.Keys)
+                foreach (var agent in m_AgentInfos.Keys)
                 {
                     var action = new float[brainParameters.vectorActionSize[0]];
-                    foreach (KeyContinuousPlayerAction cha in keyContinuousPlayerActions)
+                    foreach (var cha in keyContinuousPlayerActions)
                     {
                         if (Input.GetKey(cha.key))
                         {
                             action[cha.index] = cha.value;
                         }
                     }
-                    foreach (AxisContinuousPlayerAction axisAction in axisContinuousPlayerActions)
+                    foreach (var axisAction in axisContinuousPlayerActions)
                     {
                         var axisValue = Input.GetAxis(axisAction.axis);
                         axisValue *= axisAction.scale;
@@ -83,7 +83,7 @@ namespace MLAgents
             }
             else
             {
-                foreach (Agent agent in m_AgentInfos.Keys)
+                foreach (var agent in m_AgentInfos.Keys)
                 {
                     var action = new float[brainParameters.vectorActionSize.Length];
                     foreach (var dha in discretePlayerActions)

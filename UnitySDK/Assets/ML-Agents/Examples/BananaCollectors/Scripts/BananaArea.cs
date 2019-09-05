@@ -12,9 +12,9 @@ public class BananaArea : Area
 
     void CreateBanana(int numBana, GameObject bananaType)
     {
-        for (int i = 0; i < numBana; i++)
+        for (var i = 0; i < numBana; i++)
         {
-            GameObject bana = Instantiate(bananaType, new Vector3(Random.Range(-range, range), 1f,
+            var bana = Instantiate(bananaType, new Vector3(Random.Range(-range, range), 1f,
                 Random.Range(-range, range)) + transform.position,
                 Quaternion.Euler(new Vector3(0f, Random.Range(0f, 360f), 90f)));
             bana.GetComponent<BananaLogic>().respawn = respawnBananas;
@@ -24,7 +24,7 @@ public class BananaArea : Area
 
     public void ResetBananaArea(GameObject[] agents)
     {
-        foreach (GameObject agent in agents)
+        foreach (var agent in agents)
         {
             if (agent.transform.parent == gameObject.transform)
             {

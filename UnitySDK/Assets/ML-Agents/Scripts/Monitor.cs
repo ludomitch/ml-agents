@@ -103,7 +103,7 @@ namespace MLAgents
                     new Dictionary<string, DisplayValue>();
             }
 
-            Dictionary<string, DisplayValue> displayValues =
+            var displayValues =
                 s_DisplayTransformValues[target];
 
             if (value == null)
@@ -123,7 +123,7 @@ namespace MLAgents
                 displayValues[key] = dv;
                 while (displayValues.Count > 20)
                 {
-                    string max = (
+                    var max = (
                         displayValues
                             .Aggregate((l, r) => l.Value.time < r.Value.time ? l : r)
                             .Key
@@ -133,7 +133,7 @@ namespace MLAgents
             }
             else
             {
-                DisplayValue dv = displayValues[key];
+                var dv = displayValues[key];
                 dv.stringValue = value;
                 dv.valueType = DisplayValue.ValueType.String;
                 displayValues[key] = dv;
@@ -237,7 +237,7 @@ namespace MLAgents
                 s_DisplayTransformValues[target] = new Dictionary<string, DisplayValue>();
             }
 
-            Dictionary<string, DisplayValue> displayValues = s_DisplayTransformValues[target];
+            var displayValues = s_DisplayTransformValues[target];
 
             if (!displayValues.ContainsKey(key))
             {
@@ -360,7 +360,7 @@ namespace MLAgents
             }
 
             var toIterate = s_DisplayTransformValues.Keys.ToList();
-            foreach (Transform target in toIterate)
+            foreach (var target in toIterate)
             {
                 if (target == null)
                 {

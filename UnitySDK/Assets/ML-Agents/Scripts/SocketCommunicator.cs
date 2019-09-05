@@ -41,7 +41,7 @@ namespace MLAgents
                 ProtocolType.Tcp);
             m_Sender.Connect("localhost", m_CommunicatorParameters.port);
 
-            UnityMessage initializationInput =
+            var initializationInput =
                 UnityMessage.Parser.ParseFrom(Receive());
 
             Send(WrapMessage(unityOutput, 200).ToByteArray());
@@ -65,12 +65,12 @@ namespace MLAgents
         byte[] Receive()
         {
             m_Sender.Receive(m_LengthHolder);
-            int totalLength = System.BitConverter.ToInt32(m_LengthHolder, 0);
-            int location = 0;
-            byte[] result = new byte[totalLength];
+            var totalLength = System.BitConverter.ToInt32(m_LengthHolder, 0);
+            var location = 0;
+            var result = new byte[totalLength];
             while (location != totalLength)
             {
-                int fragment = m_Sender.Receive(m_MessageHolder);
+                var fragment = m_Sender.Receive(m_MessageHolder);
                 System.Buffer.BlockCopy(
                     m_MessageHolder, 0, result, location, fragment);
                 location += fragment;
@@ -85,7 +85,7 @@ namespace MLAgents
         /// <param name="input">The byte[] to be sent.</param>
         void Send(byte[] input)
         {
-            byte[] newArray = new byte[input.Length + 4];
+            var newArray = new byte[input.Length + 4];
             input.CopyTo(newArray, 4);
             System.BitConverter.GetBytes(input.Length).CopyTo(newArray, 0);
             m_Sender.Send(newArray);

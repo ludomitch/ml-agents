@@ -18,7 +18,7 @@ namespace MLAgents
         {
             // gameObject.transform.position = target.position + offset;
             var position = target.position;
-            Vector3 newPosition = new Vector3(position.x + m_Offset.x, transform.position.y,
+            var newPosition = new Vector3(position.x + m_Offset.x, transform.position.y,
                 position.z + m_Offset.z);
             gameObject.transform.position = newPosition;
         }

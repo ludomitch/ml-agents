@@ -97,15 +97,15 @@ public class CrawlerAgent : Agent
         var rb = bp.rb;
         AddVectorObs(bp.groundContact.touchingGround ? 1 : 0); // Whether the bp touching the ground
 
-        Vector3 velocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.velocity);
+        var velocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.velocity);
         AddVectorObs(velocityRelativeToLookRotationToTarget);
 
-        Vector3 angularVelocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.angularVelocity);
+        var angularVelocityRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(rb.angularVelocity);
         AddVectorObs(angularVelocityRelativeToLookRotationToTarget);
 
         if (bp.rb.transform != body)
         {
-            Vector3 localPosRelToBody = body.InverseTransformPoint(rb.position);
+            var localPosRelToBody = body.InverseTransformPoint(rb.position);
             AddVectorObs(localPosRelToBody);
             AddVectorObs(bp.currentXNormalizedRot); // Current x rot
             AddVectorObs(bp.currentYNormalizedRot); // Current y rot
@@ -132,10 +132,10 @@ public class CrawlerAgent : Agent
             AddVectorObs(10.0f);
 
         // Forward & up to help with orientation
-        Vector3 bodyForwardRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(body.forward);
+        var bodyForwardRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(body.forward);
         AddVectorObs(bodyForwardRelativeToLookRotationToTarget);
 
-        Vector3 bodyUpRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(body.up);
+        var bodyUpRelativeToLookRotationToTarget = m_TargetDirMatrix.inverse.MultiplyVector(body.up);
         AddVectorObs(bodyUpRelativeToLookRotationToTarget);
 
         foreach (var bodyPart in m_JdController.bodyPartsDict.Values)
@@ -161,7 +161,7 @@ public class CrawlerAgent : Agent
     /// </summary>
     public void GetRandomTargetPos()
     {
-        Vector3 newTargetPos = Random.insideUnitSphere * targetSpawnRadius;
+        var newTargetPos = Random.insideUnitSphere * targetSpawnRadius;
         newTargetPos.y = 5;
         target.position = newTargetPos + ground.position;
     }
@@ -203,7 +203,7 @@ public class CrawlerAgent : Agent
             // The dictionary with all the body parts in it are in the jdController
             var bpDict = m_JdController.bodyPartsDict;
 
-            int i = -1;
+            var i = -1;
             // Pick a new target joint rotation
             bpDict[leg0Upper].SetJointTargetRotation(vectorAction[++i], vectorAction[++i], 0);
             bpDict[leg1Upper].SetJointTargetRotation(vectorAction[++i], vectorAction[++i], 0);

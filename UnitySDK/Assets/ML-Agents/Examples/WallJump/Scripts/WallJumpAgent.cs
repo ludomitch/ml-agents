@@ -1,4 +1,4 @@
-//Put this script on your blue cube.
+﻿//Put this script on your blue cube.
 
 using System.Collections;
 using System.Linq;
@@ -125,7 +125,7 @@ public class WallJumpAgent : Agent
             rayDistance, rayAngles, m_DetectableObjects, 0f, 0f));
         AddVectorObs(m_RayPer.Perceive(
             rayDistance, rayAngles, m_DetectableObjects, 2.5f, 2.5f));
-        Vector3 agentPos = m_AgentRb.position - ground.transform.position;
+        var agentPos = m_AgentRb.position - ground.transform.position;
 
         AddVectorObs(agentPos / 20f);
         AddVectorObs(DoGroundCheck(true) ? 1 : 0);

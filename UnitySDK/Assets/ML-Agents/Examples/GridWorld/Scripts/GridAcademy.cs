@@ -55,14 +55,14 @@ public class GridAcademy : Academy
             -((int)resetParameters["gridSize"] - 1) / 2f);
         m_Cam.orthographicSize = ((int)resetParameters["gridSize"] + 5f) / 2f;
 
-        List<int> playersList = new List<int>();
+        var playersList = new List<int>();
 
-        for (int i = 0; i < (int)resetParameters["numObstacles"]; i++)
+        for (var i = 0; i < (int)resetParameters["numObstacles"]; i++)
         {
             playersList.Add(2);
         }
 
-        for (int i = 0; i < (int)resetParameters["numGoals"]; i++)
+        for (var i = 0; i < (int)resetParameters["numGoals"]; i++)
         {
             playersList.Add(1);
         }
@@ -85,7 +85,7 @@ public class GridAcademy : Academy
 
     public override void AcademyReset()
     {
-        foreach (GameObject actor in actorObjs)
+        foreach (var actor in actorObjs)
         {
             DestroyImmediate(actor);
         }
@@ -93,24 +93,24 @@ public class GridAcademy : Academy
 
         actorObjs.Clear();
 
-        HashSet<int> numbers = new HashSet<int>();
+        var numbers = new HashSet<int>();
         while (numbers.Count < players.Length + 1)
         {
             numbers.Add(Random.Range(0, gridSize * gridSize));
         }
-        int[] numbersA = Enumerable.ToArray(numbers);
+        var numbersA = Enumerable.ToArray(numbers);
 
-        for (int i = 0; i < players.Length; i++)
+        for (var i = 0; i < players.Length; i++)
         {
-            int x = (numbersA[i]) / gridSize;
-            int y = (numbersA[i]) % gridSize;
-            GameObject actorObj = Instantiate(m_Objects[players[i]]);
+            var x = (numbersA[i]) / gridSize;
+            var y = (numbersA[i]) % gridSize;
+            var actorObj = Instantiate(m_Objects[players[i]]);
             actorObj.transform.position = new Vector3(x, -0.25f, y);
             actorObjs.Add(actorObj);
         }
 
-        int xA = (numbersA[players.Length]) / gridSize;
-        int yA = (numbersA[players.Length]) % gridSize;
+        var xA = (numbersA[players.Length]) / gridSize;
+        var yA = (numbersA[players.Length]) % gridSize;
         trueAgent.transform.position = new Vector3(xA, -0.25f, yA);
     }
 

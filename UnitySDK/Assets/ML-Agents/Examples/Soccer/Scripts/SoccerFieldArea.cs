@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,7 +54,7 @@ public class SoccerFieldArea : MonoBehaviour
 
     public void GoalTouched(AgentSoccer.Team scoredTeam)
     {
-        foreach (PlayerState ps in playerStates)
+        foreach (var ps in playerStates)
         {
             if (ps.agentScript.team == scoredTeam)
             {

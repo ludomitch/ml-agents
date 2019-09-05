@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -61,7 +61,7 @@ namespace MLAgents
                     m_AgentInfos[agent].done,
                     m_AgentInfos[agent].memories));
             }
-            foreach (Agent agent in m_AgentInfos.Keys)
+            foreach (var agent in m_AgentInfos.Keys)
             {
                 agent.UpdateMemoriesAction(decision.MakeMemory(
                     m_AgentInfos[agent].stackedVectorObservation,

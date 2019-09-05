@@ -813,7 +813,7 @@ namespace MLAgents
 
         protected void AddVectorObs(int observation, int range)
         {
-            float[] oneHotVector = new float[range];
+            var oneHotVector = new float[range];
             oneHotVector[observation] = 1;
             m_Info.vectorObservation.AddRange(oneHotVector);
         }
