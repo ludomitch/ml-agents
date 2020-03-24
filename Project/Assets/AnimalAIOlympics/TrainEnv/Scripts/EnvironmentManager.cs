@@ -34,15 +34,15 @@ public class EnvironmentManager : MonoBehaviour
         if (m_firstReset)
         {
             m_ResetParameters = Academy.Instance.FloatProperties;
-            bool playerMode = (m_ResetParameters.GetPropertyWithDefault("playerMode", 1f))>0;
-            bool inferenceMode = (m_ResetParameters.GetPropertyWithDefault("inferenceMode", 0f))>0;
-            bool receiveConfiguration = (m_ResetParameters.GetPropertyWithDefault("receiveConfiguration", 0f))>0;
+            bool playerMode = (m_ResetParameters.GetPropertyWithDefault("playerMode", 1f)) > 0;
+            bool inferenceMode = (m_ResetParameters.GetPropertyWithDefault("inferenceMode", 0f)) > 0;
+            bool receiveConfiguration = (m_ResetParameters.GetPropertyWithDefault("receiveConfiguration", 0f)) > 0;
             int numberOfArenas = (int)(m_ResetParameters.GetPropertyWithDefault("numberOfArenas", 1f));
             int resolutionWidth = (int)(m_ResetParameters.GetPropertyWithDefault("resolutionWidth", 84f));
             int resolutionHeight = (int)(m_ResetParameters.GetPropertyWithDefault("resolutionHeight", 84f));
 
-            resolutionWidth = Math.Max(minimumResolution, Math.Min(maximumResolution,resolutionWidth));
-            resolutionHeight = Math.Max(minimumResolution, Math.Min(maximumResolution,resolutionHeight));
+            resolutionWidth = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionWidth));
+            resolutionHeight = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionHeight));
             numberOfArenas = playerMode ? 1 : numberOfArenas;
 
             m_areas = new TrainingArea[numberOfArenas];
@@ -150,7 +150,7 @@ public class EnvironmentManager : MonoBehaviour
         // }
     }
 
-    
+
 
     // public override void AcademyReset()
     // {
