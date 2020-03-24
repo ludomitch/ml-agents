@@ -82,4 +82,9 @@ public class TrainingArea : Area
         }
     }
 
+    public void SetResolution(int resolutionWidth, int resolutionHeight)
+    {
+        // TODO: set the camera resolution
+    }
+
 }
