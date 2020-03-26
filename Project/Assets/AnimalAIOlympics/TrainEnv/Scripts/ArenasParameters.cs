@@ -2,8 +2,11 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using Lights;
-// TODO: add using arenas configurations protobuf
+using AAIO.CommunicatorObjects;
 
+using ArenaParametersProto = ArenasParametersProto.Types.ArenaParametersProto;
+using ItemsToSpawn = ArenaParametersProto.Types.ItemsToSpawn;
+using Vector3Proto = ArenaParametersProto.Types.ItemsToSpawn.Types.Vector3;
 
 namespace ArenasParameters
 {
@@ -45,22 +48,22 @@ namespace ArenasParameters
             colors = new List<Vector3>();
         }
 
-        public Spawnable(ArenaParametersProto.Types.ItemsToSpawn proto)
+        public Spawnable(ItemsToSpawn proto)
         {
             name = proto.Name;
             positions = new List<Vector3>();
-            foreach (ArenaParametersProto.Types.ItemsToSpawn.Types.Vector3 v in proto.Positions)
+            foreach (Vector3Proto v in proto.Positions)
             {
                 positions.Add(new Vector3(v.X, v.Y, v.Z));
             }
             rotations = new List<float>(proto.Rotations);
             sizes = new List<Vector3>();
-            foreach (ArenaParametersProto.Types.ItemsToSpawn.Types.Vector3 v in proto.Sizes)
+            foreach (Vector3Proto v in proto.Sizes)
             {
                 sizes.Add(new Vector3(v.X, v.Y, v.Z));
             }
             colors = new List<Vector3>();
-            foreach (ArenaParametersProto.Types.ItemsToSpawn.Types.Vector3 v in proto.Colors)
+            foreach (Vector3Proto v in proto.Colors)
             {
                 colors.Add(new Vector3(v.X, v.Y, v.Z));
             }
@@ -99,7 +102,7 @@ namespace ArenasParameters
         {
             T = proto.T;
             spawnables = new List<Spawnable>();
-            foreach (ArenaParametersProto.Types.ItemsToSpawn item in proto.Items)
+            foreach (ItemsToSpawn item in proto.Items)
             {
                 spawnables.Add(new Spawnable(item));
             }
@@ -148,6 +151,31 @@ namespace ArenasParameters
                     if (arena.ToString() != configurations[k].protoString)
                     {
                         configurations[k] = new ArenaConfiguration(arena);
+                    }
+                }
+            }
+        }
+
+        public void Update(ArenasParametersProto arenas)
+        {
+            Dictionary<int, ArenaParametersProto> arenasConfigurations = ArenasParametersProto.Parser.ParseFrom(arenas);
+            if (arenasConfigurations.ContainsKey(-1))
+            {
+                // In case we have only a single configuration for all arenas we copy this configuration
+                // to all arenas
+                for (int i=0; i<numberOfArenas; i++)
+                {
+                    Add(i, arenasConfigurations[-1]);
+                }
+                else
+                {
+                    foreach (KeyValuePair<int,ArenasParametersProto> arenaConfiguration in arenasConfigurations)
+                    {
+                        if (configurations.ContainsKey(arenaConfiguration.Key))
+                        {
+                            // we only update the arenas for which a new configuration was received
+                            Add(arenaConfiguration.Key, arenaConfiguration.Value);
+                        }
                     }
                 }
             }

@@ -25,7 +25,6 @@ public class EnvironmentManager : MonoBehaviour
         _arenasParametersSideChannel = new ArenasParametersSideChannel();
         Academy.Instance.RegisterSideChannel(_arenasParametersSideChannel);
         Academy.Instance.OnEnvironmentReset += EnvironmentReset;
-        
     }
 
     public void EnvironmentReset()
@@ -48,6 +47,7 @@ public class EnvironmentManager : MonoBehaviour
             resolutionHeight = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionHeight));
             numberOfArenas = playerMode ? 1 : numberOfArenas;
 
+            _arenasConfigurations.numberOfArenas = numberOfArenas;
             _areas = new TrainingArea[numberOfArenas];
             InstantiateArenas(numberOfArenas);
             ConfigureIfPlayer(playerMode, inferenceMode, receiveConfiguration);
