@@ -1,11 +1,8 @@
-// using System.Collections;
 using System.Collections.Generic;
 using System;
-// using System.IO;
 using UnityEngine;
-using MLAgents.CommunicatorObjects;
 using Lights;
-// using Google.Protobuf;
+// TODO: add using arenas configurations protobuf
 
 
 namespace ArenasParameters

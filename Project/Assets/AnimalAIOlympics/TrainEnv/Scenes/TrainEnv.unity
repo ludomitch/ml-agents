@@ -446,7 +446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1151363269}
   m_Layer: 0
-  m_Name: Score
+  m_Name: CanvasScore
   m_TagString: score
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 1823249184}
   - component: {fileID: 1823249183}
   m_Layer: 0
-  m_Name: ArenasManager
+  m_Name: EnvironmentManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
