@@ -167,15 +167,15 @@ namespace ArenasParameters
                 {
                     Add(i, arenasConfigurations[-1]);
                 }
-                else
+            }
+            else
+            {
+                foreach (KeyValuePair<int,ArenasParametersProto> arenaConfiguration in arenasConfigurations)
                 {
-                    foreach (KeyValuePair<int,ArenasParametersProto> arenaConfiguration in arenasConfigurations)
+                    if (configurations.ContainsKey(arenaConfiguration.Key))
                     {
-                        if (configurations.ContainsKey(arenaConfiguration.Key))
-                        {
-                            // we only update the arenas for which a new configuration was received
-                            Add(arenaConfiguration.Key, arenaConfiguration.Value);
-                        }
+                        // we only update the arenas for which a new configuration was received
+                        Add(arenaConfiguration.Key, arenaConfiguration.Value);
                     }
                 }
             }
@@ -186,6 +186,4 @@ namespace ArenasParameters
             configurations.Clear();
         }
     }
-
-
 }
