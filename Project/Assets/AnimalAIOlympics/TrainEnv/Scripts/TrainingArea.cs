@@ -44,7 +44,7 @@ public class TrainingArena : MonoBehaviour
         }
         
         agent = transform.FindChildWithTag("agent").GetComponent<Agent>();
-        _agentDecisionInterval =transform.FindChildWithTag("agent").GetComponent<DecisionRequester>().DecitionPeriod;
+        _agentDecisionInterval = transform.FindChildWithTag("agent").GetComponent<DecisionRequester>().DecitionPeriod;
         _fades = blackScreens.GetFades();
     }
 

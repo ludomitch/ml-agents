@@ -1,12 +1,10 @@
-﻿// using System;
-// using System.Collections;
-// using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using MLAgents;
 using PrefabInterface;
+using MLAgents.Sensors;
 
 // using ArenasParameters;
 
@@ -53,21 +51,21 @@ public class TrainingAgent : Agent, IPrefab
     private Color[] _allBlackImage;
     private PlayerControls _playerScript;
 
-    public override void InitializeAgent()
+    public override void Initialize()
     {
         _arena = GetComponentInParent<TrainingArena>();
         _rigidBody = GetComponent<Rigidbody>();
-        _rewardPerStep = agentParameters.maxStep > 0 ? -1f / agentParameters.maxStep : 0;
+        _rewardPerStep = maxStep > 0 ? -1f / maxStep : 0;
         _playerScript = GameObject.FindObjectOfType<PlayerControls>();
     }
 
-    public override void CollectObservations()
+    public override void CollectObservations(VectorSensor sensor)
     {
         Vector3 localVel = transform.InverseTransformDirection(_rigidBody.velocity);
-        AddVectorObs(localVel);
+        sensor.AddObservation(localVel);
     }
 
-    public override void AgentAction(float[] vectorAction, string textAction)
+    public override void OnActionReceived(float[] vectorAction)
     {
         int actionForward = Mathf.FloorToInt(vectorAction[0]);
         int actionRotate = Mathf.FloorToInt(vectorAction[1]);
@@ -108,12 +106,34 @@ public class TrainingAgent : Agent, IPrefab
         _rigidBody.AddForce(directionToGo * speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
     }
 
+    public override float[] Heuristic()
+    {
+        var action = new float[2];
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        {
+            action[0] = 1f;
+        }
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        {
+            action[0] = 2f;
+        }
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            action[1] = 1f;
+        }
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            action[1] = 2f;
+        }
+        return action;
+    }
+
     public override void AgentReset()
     {
         _playerScript.prevScore = GetCumulativeReward();
         numberOfGoalsCollected = 0;
         _arena.ResetArena();
-        _rewardPerStep = agentParameters.maxStep > 0 ? -1f / agentParameters.maxStep : 0;
+        _rewardPerStep = maxStep > 0 ? -1f / maxStep : 0;
         _isGrounded = false;
     }
 
