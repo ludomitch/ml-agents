@@ -2,11 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using Lights;
-using AAIO.CommunicatorObjects;
-
-using ArenaParametersProto = ArenasParametersProto.Types.ArenaParametersProto;
-using ItemsToSpawn = ArenaParametersProto.Types.ItemsToSpawn;
-using Vector3Proto = ArenaParametersProto.Types.ItemsToSpawn.Types.Vector3;
+using AAIOCommunicators;
 
 namespace ArenasParameters
 {
@@ -48,22 +44,22 @@ namespace ArenasParameters
             colors = new List<Vector3>();
         }
 
-        public Spawnable(ItemsToSpawn proto)
+        internal Spawnable(ItemsToSpawn proto)
         {
             name = proto.Name;
             positions = new List<Vector3>();
-            foreach (Vector3Proto v in proto.Positions)
+            foreach (Vector v in proto.Positions)
             {
                 positions.Add(new Vector3(v.X, v.Y, v.Z));
             }
             rotations = new List<float>(proto.Rotations);
             sizes = new List<Vector3>();
-            foreach (Vector3Proto v in proto.Sizes)
+            foreach (Vector v in proto.Sizes)
             {
                 sizes.Add(new Vector3(v.X, v.Y, v.Z));
             }
             colors = new List<Vector3>();
-            foreach (Vector3Proto v in proto.Colors)
+            foreach (Vector v in proto.Colors)
             {
                 colors.Add(new Vector3(v.X, v.Y, v.Z));
             }
@@ -98,7 +94,7 @@ namespace ArenasParameters
             toUpdate = true;
         }
 
-        public ArenaConfiguration(ArenaParametersProto proto)
+        internal ArenaConfiguration(ArenaConfigurationProto proto)
         {
             T = proto.T;
             spawnables = new List<Spawnable>();
@@ -132,45 +128,47 @@ namespace ArenasParameters
     {
         public Dictionary<int, ArenaConfiguration> configurations;
         public int numberOfArenas = 1;
+        public int seed;
 
         public ArenasConfigurations()
         {
             configurations = new Dictionary<int, ArenaConfiguration>();
         }
 
-        public void Add(int k, ArenaParametersProto arena)
+        internal void Add(int k, ArenaConfigurationProto arenaConfigurationProto)
         {
             if (k<numberOfArenas)
             {
                 if (!configurations.ContainsKey(k))
                 {
-                    configurations.Add(k, new ArenaConfiguration(arena));
+                    configurations.Add(k, new ArenaConfiguration(arenaConfigurationProto));
                 }
                 else
                 {
-                    if (arena.ToString() != configurations[k].protoString)
+                    if (arenaConfigurationProto.ToString() != configurations[k].protoString)
                     {
-                        configurations[k] = new ArenaConfiguration(arena);
+                        configurations[k] = new ArenaConfiguration(arenaConfigurationProto);
                     }
                 }
             }
         }
 
-        public void Update(ArenasParametersProto arenas)
+        public void Update(byte[] arenas)
         {
-            Dictionary<int, ArenaParametersProto> arenasConfigurations = ArenasParametersProto.Parser.ParseFrom(arenas);
-            if (arenasConfigurations.ContainsKey(-1))
+            ArenasConfigurationsProto arenasConfigurationsProto = ArenasConfigurationsProto.Parser.ParseFrom(arenas);
+            
+            if (arenasConfigurationsProto.Arenas.ContainsKey(-1))
             {
                 // In case we have only a single configuration for all arenas we copy this configuration
                 // to all arenas
                 for (int i=0; i<numberOfArenas; i++)
                 {
-                    Add(i, arenasConfigurations[-1]);
+                    Add(i, arenasConfigurationsProto.Arenas[-1]);
                 }
             }
             else
             {
-                foreach (KeyValuePair<int,ArenasParametersProto> arenaConfiguration in arenasConfigurations)
+                foreach (KeyValuePair<int,ArenaConfigurationProto> arenaConfiguration in arenasConfigurationsProto.Arenas)
                 {
                     if (configurations.ContainsKey(arenaConfiguration.Key))
                     {

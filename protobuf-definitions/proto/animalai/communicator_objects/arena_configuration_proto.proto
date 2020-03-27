@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "animalai/communicator_objects/items_to_spawn_proto.proto";
+
+option csharp_namespace = "AAIOCommunicators";
+package communicator_objects;
+
+message ArenaConfigurationProto {
+
+    int32 t = 1;
+    repeated ItemsToSpawn items = 2;
+    repeated int32 blackouts = 3;
+}
