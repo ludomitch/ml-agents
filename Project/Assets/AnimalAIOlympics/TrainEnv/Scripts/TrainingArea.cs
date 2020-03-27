@@ -9,7 +9,7 @@ using ArenasParameters;
 using System.Linq;
 using Holders;
 
-public class TrainingArea : Area
+public class TrainingArena : Area
 {
 
     public ListOfPrefabs prefabs = new ListOfPrefabs();
@@ -24,7 +24,7 @@ public class TrainingArea : Area
 
     private ArenaBuilder _builder;
     private ArenaConfiguration _arenaConfiguration = new ArenaConfiguration();
-    private ArenasConfigurations _arenasConfigurations;
+    // private ArenasConfigurations _arenasConfigurations;
     private int _agentDecisionInterval;
     private List<Fade> _fades = new List<Fade>();
     private bool _lightStatus = true;
@@ -47,8 +47,7 @@ public class TrainingArea : Area
         _fades = blackScreens.GetFades();
     }
 
-
-    public override void ResetArea()
+    public override void ResetArena()
     {
         DestroyImmediate(transform.FindChildWithTag("spawnedObjects"));
 

@@ -5,6 +5,7 @@ using MLAgents;
 using ArenasParameters;
 using UnityEngineExtensions;
 using MLAgents.SideChannels;
+using Random = UnityEngine.Random;
 
 public class EnvironmentManager : MonoBehaviour
 {
@@ -14,15 +15,19 @@ public class EnvironmentManager : MonoBehaviour
     public int minimumResolution = 4;
 
     private FloatPropertiesChannel _ResetParameters;
-    private TrainingArea[] _areas;
+    private TrainingArena[] _arenas;
     private Agent _agent;
     private bool _firstReset = true;
-    private ArenasConfigurations _arenasConfigurations = new ArenasConfigurations();
+    private ArenasConfigurations _arenasConfigurations;
     private ArenasParametersSideChannel _arenasParametersSideChannel;
 
     public void Awake()
     {
         _arenasParametersSideChannel = new ArenasParametersSideChannel();
+        _arenasConfigurations = new ArenasConfigurations();
+
+        _arenasParametersSideChannel.NewArenasParametersReceived += _arenasConfigurations.UpdateWithConfigurationsReceived;
+
         Academy.Instance.RegisterSideChannel(_arenasParametersSideChannel);
         Academy.Instance.OnEnvironmentReset += EnvironmentReset;
     }
@@ -48,41 +53,14 @@ public class EnvironmentManager : MonoBehaviour
             numberOfArenas = playerMode ? 1 : numberOfArenas;
 
             _arenasConfigurations.numberOfArenas = numberOfArenas;
-            _areas = new TrainingArea[numberOfArenas];
+            _arenas = new TrainingArena[numberOfArenas];
             InstantiateArenas(numberOfArenas);
             ConfigureIfPlayer(playerMode, inferenceMode, receiveConfiguration);
             ChangeResolution(resolutionWidth, resolutionHeight);
             _firstReset = false;
         }
-
-        // bool receiveConfiguration = false;
-        // int numberOfArenas = -1;
-        // int resolution = 84;
-        // ParseArguments(ref receiveConfiguration, ref numberOfArenas, ref resolution);
-
-        // if (numberOfArenas == -1 || externalInferenceMode)
-        // {
-        //     playerMode = true;
-        //     numberOfArenas = 1;
-        // }
-
-        // if (Application.isEditor)
-        // {
-        //     // playerMode = true;
-        //     playerMode = false;
-        //     externalInferenceMode = true;
-        //     numberOfArenas = 4;
-        //     receiveConfiguration = true;
-        //     // resolution = 126;
-        // }
-
-        // ChangeResolution(resolution);
-
-        // _arenas = new TrainingArea[numberOfArenas];
-        // arenasConfigurations.numberOfArenas = numberOfArenas;
-        // InstantiateArenas(numberOfArenas);
-        // ConfigureIfPlayer(receiveConfiguration);
     }
+
 
     private void InstantiateArenas(int numberOfArenas)
     {
@@ -99,8 +77,8 @@ public class EnvironmentManager : MonoBehaviour
             float x = (i % n) * width;
             float y = (i / n) * height;
             GameObject arenaInst = Instantiate(arena, new Vector3(x, 0f, y), Quaternion.identity);
-            _areas[i] = arenaInst.GetComponent<TrainingArea>();
-            _areas[i].arenaID = i;
+            _arenas[i] = arenaInst.GetComponent<TrainingArena>();
+            _arenas[i].arenaID = i;
         }
 
         GameObject.FindGameObjectWithTag("MainCamera").transform.localPosition =
@@ -109,9 +87,9 @@ public class EnvironmentManager : MonoBehaviour
 
     private void ChangeResolution(int resolutionWidth, int resolutionHeight)
     {
-        foreach (TrainingArea area in _areas)
+        foreach (TrainingArena arena in _arenas)
         {
-            area.SetResolution(resolutionWidth, resolutionHeight);
+            arena.SetResolution(resolutionWidth, resolutionHeight);
         }
         // var controlledBrains = broadcastHub.broadcastingBrains.Where(
         //         x => x != null && x is LearningBrain && broadcastHub.IsControlled(x));

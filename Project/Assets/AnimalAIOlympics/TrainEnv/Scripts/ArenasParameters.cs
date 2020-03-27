@@ -129,6 +129,7 @@ namespace ArenasParameters
         public Dictionary<int, ArenaConfiguration> configurations;
         public int numberOfArenas = 1;
         public int seed;
+        public bool toUpdate = true;
 
         public ArenasConfigurations()
         {
@@ -153,8 +154,9 @@ namespace ArenasParameters
             }
         }
 
-        public void Update(byte[] arenas)
+        public void UpdateWithConfigurationsReceived(object sender, ArenasParametersEventArgs arenasParametersEvent)
         {
+            byte[] arenas = arenasParametersEvent.Proto;
             ArenasConfigurationsProto arenasConfigurationsProto = ArenasConfigurationsProto.Parser.ParseFrom(arenas);
             
             if (arenasConfigurationsProto.Arenas.ContainsKey(-1))
@@ -165,6 +167,7 @@ namespace ArenasParameters
                 {
                     Add(i, arenasConfigurationsProto.Arenas[-1]);
                 }
+                toUpdate = true;
             }
             else
             {
@@ -174,8 +177,17 @@ namespace ArenasParameters
                     {
                         // we only update the arenas for which a new configuration was received
                         Add(arenaConfiguration.Key, arenaConfiguration.Value);
+                        toUpdate = true;
                     }
                 }
+            }
+        }
+
+        public void SetAllToUpdated()
+        {
+            foreach (KeyValuePair<int, ArenaConfiguration> configuration in configurations)
+            {
+                configuration.Value.toUpdate = false;
             }
         }
 

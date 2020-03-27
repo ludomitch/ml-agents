@@ -1,14 +1,9 @@
-using UnityEngine;
-using MLAgents;
 using MLAgents.SideChannels;
-using System.Text;
 using System;
+using ArenasParameters;
 
 public class ArenasParametersSideChannel : SideChannel
 {
-
-    public bool arenasParametersToUpdate = false;
-    public String arenasParametersProtoString = "";
 
     public ArenasParametersSideChannel()
     {
@@ -17,9 +12,25 @@ public class ArenasParametersSideChannel : SideChannel
 
     public override void OnMessageReceived(IncomingMessage msg)
     {
-        arenasParametersProtoString = msg.ReadString();
-        arenasParametersToUpdate = true;
+        // when a new message is received we trigger an event to signal the environment
+        // configurations to check if they need to update
+        
+        ArenasParametersEventArgs args = new ArenasParametersEventArgs();
+        args.Proto = msg.GetRawBytes();
+        OnArenasParametersReceived(args);
     }
+
+    protected virtual void OnArenasParametersReceived(ArenasParametersEventArgs arenasParametersEvent)
+    {
+        EventHandler<ArenasParametersEventArgs> handler = NewArenasParametersReceived;
+        if (handler != null)
+        {
+            handler(this, arenasParametersEvent);
+        }
+    }
+
+    public EventHandler<ArenasParametersEventArgs> NewArenasParametersReceived;
+
 
     // TODO: maybe add feedback on which items haven't been spawned ??
     

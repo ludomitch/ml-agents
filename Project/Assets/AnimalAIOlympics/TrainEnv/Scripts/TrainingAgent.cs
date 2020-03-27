@@ -48,14 +48,14 @@ public class TrainingAgent : Agent, IPrefab
     private Rigidbody _rigidBody;
     private bool _isGrounded;
     private ContactPoint _lastContactPoint;
-    private TrainingArea _area;
+    private TrainingArena _arena;
     private float _rewardPerStep;
     private Color[] _allBlackImage;
     private PlayerControls _playerScript;
 
     public override void InitializeAgent()
     {
-        _area = GetComponentInParent<TrainingArea>();
+        _arena = GetComponentInParent<TrainingArena>();
         _rigidBody = GetComponent<Rigidbody>();
         _rewardPerStep = agentParameters.maxStep > 0 ? -1f / agentParameters.maxStep : 0;
         _playerScript = GameObject.FindObjectOfType<PlayerControls>();
@@ -115,7 +115,7 @@ public class TrainingAgent : Agent, IPrefab
     {
         _playerScript.prevScore = GetCumulativeReward();
         numberOfGoalsCollected = 0;
-        _area.ResetArea();
+        _arena.ResetArena();
         _rewardPerStep = agentParameters.maxStep > 0 ? -1f / agentParameters.maxStep : 0;
         _isGrounded = false;
     }
