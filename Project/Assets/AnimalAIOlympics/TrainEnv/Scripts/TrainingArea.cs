@@ -9,7 +9,7 @@ using ArenasParameters;
 using System.Linq;
 using Holders;
 
-public class TrainingArena : Area
+public class TrainingArena : MonoBehaviour
 {
 
     public ListOfPrefabs prefabs = new ListOfPrefabs();
@@ -24,35 +24,36 @@ public class TrainingArena : Area
 
     private ArenaBuilder _builder;
     private ArenaConfiguration _arenaConfiguration = new ArenaConfiguration();
-    // private ArenasConfigurations _arenasConfigurations;
+    private EnvironmentManager _environmentManager;
     private int _agentDecisionInterval;
     private List<Fade> _fades = new List<Fade>();
     private bool _lightStatus = true;
 
-    public void Awake()
+    internal void Awake()
     {
         _builder = new ArenaBuilder(gameObject,
                                     spawnedObjectsHolder,
                                     maxSpawnAttemptsForPrefabs,
                                     maxSpawnAttemptsForAgent);
-        _arenasConfigurations = GameObject.FindObjectOfType<Academy>().arenasConfigurations;
-        if (!_arenasConfigurations.configurations.TryGetValue(arenaID, out _arenaConfiguration))
+        EnvironmentManager _environmentManager = GameObject.FindObjectOfType<EnvironmentManager>();
+        if (!_environmentManager.GetConfiguration(arenaID, out _arenaConfiguration))
         {
             // Debug.Log("configuration missing for arena " + arenaID);
             _arenaConfiguration = new ArenaConfiguration(prefabs);
-            _arenasConfigurations.configurations.Add(arenaID, _arenaConfiguration);
+            _environmentManager.AddConfiguration(arenaID, _arenaConfiguration);
         }
+        
         agent = transform.FindChildWithTag("agent").GetComponent<Agent>();
-        _agentDecisionInterval = agent.agentParameters.numberOfActionsBetweenDecisions;
+        _agentDecisionInterval =transform.FindChildWithTag("agent").GetComponent<DecisionRequester>().DecitionPeriod;
         _fades = blackScreens.GetFades();
     }
 
-    public override void ResetArena()
+    public void ResetArena()
     {
         DestroyImmediate(transform.FindChildWithTag("spawnedObjects"));
 
         ArenaConfiguration newConfiguration;
-        if (_arenasConfigurations.configurations.TryGetValue(arenaID, out newConfiguration))
+        if (_environmentManager.GetConfiguration(arenaID, out newConfiguration))
         {
             _arenaConfiguration = newConfiguration;
             if (_arenaConfiguration.toUpdate)
@@ -60,7 +61,7 @@ public class TrainingArena : Area
                 _arenaConfiguration.SetGameObject(prefabs.GetList());
                 _builder.Spawnables = _arenaConfiguration.spawnables;
                 _arenaConfiguration.toUpdate = false;
-                agent.agentParameters.maxStep = _arenaConfiguration.T * _agentDecisionInterval;
+                agent.maxStep = _arenaConfiguration.T * _agentDecisionInterval;
             }
         }
         _builder.Build();
@@ -69,7 +70,7 @@ public class TrainingArena : Area
 
     public void UpdateLigthStatus()
     {
-        int stepCount = agent.GetStepCount();
+        int stepCount = agent.StepCount;
         bool newLight = _arenaConfiguration.lightsSwitch.LightStatus(stepCount, _agentDecisionInterval);
         if (newLight != _lightStatus)
         {

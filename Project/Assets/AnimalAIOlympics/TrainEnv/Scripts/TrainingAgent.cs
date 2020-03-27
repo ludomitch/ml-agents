@@ -64,9 +64,6 @@ public class TrainingAgent : Agent, IPrefab
     public override void CollectObservations()
     {
         Vector3 localVel = transform.InverseTransformDirection(_rigidBody.velocity);
-        // Debug.Log(transform.position.z.ToString("F4"));
-        // Debug.Log(localVel.z.ToString("F4"));
-        // Debug.Log("==============");
         AddVectorObs(localVel);
     }
 

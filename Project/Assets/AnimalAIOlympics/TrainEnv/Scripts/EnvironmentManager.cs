@@ -34,10 +34,6 @@ public class EnvironmentManager : MonoBehaviour
 
     public void EnvironmentReset()
     {
-        // TODO: check the side channel for the initial configuration containing:
-        //  - whether to train or play
-        //  - if play set the behavior to heuristic only
-        //  - if train get all the parameters (number of agents, resolution, others?)
         if (_firstReset)
         {
             _ResetParameters = Academy.Instance.FloatProperties;
@@ -91,16 +87,16 @@ public class EnvironmentManager : MonoBehaviour
         {
             arena.SetResolution(resolutionWidth, resolutionHeight);
         }
-        // var controlledBrains = broadcastHub.broadcastingBrains.Where(
-        //         x => x != null && x is LearningBrain && broadcastHub.IsControlled(x));
-        // foreach (LearningBrain brain in controlledBrains)
-        // {
-        //     if (brain.brainParameters.cameraResolutions.Length>0)
-        //     {
-        //         brain.brainParameters.cameraResolutions[0].height = resolution;
-        //         brain.brainParameters.cameraResolutions[0].width = resolution;
-        //     }
-        // }
+    }
+
+    public bool GetConfiguration(int arenaID, out ArenaConfiguration arenaConfiguration)
+    {
+        return _arenasConfigurations.configurations.TryGetValue(arenaID, out arenaConfiguration);
+    }
+
+    public void AddConfiguration(int arenaID, ArenaConfiguration arenaConfiguration)
+    {
+        _arenasConfigurations.configurations.Add(arenaID, arenaConfiguration);
     }
 
     private void ConfigureIfPlayer(bool playerMode, bool inferenceMode, bool receiveConfiguration)
@@ -137,19 +133,4 @@ public class EnvironmentManager : MonoBehaviour
             Academy.Instance.UnregisterSideChannel(_arenasParametersSideChannel);
         }
     }
-
-
-    // public override void AcademyReset()
-    // {
-    // }
-
-    // TODO: move lights on/off in the arena
-
-    // public override void AcademyStep()
-    // {
-    //     foreach (TrainingArea arena in _arenas)
-    //     {
-    //         arena.UpdateLigthStatus();
-    //     }
-    // }
 }
