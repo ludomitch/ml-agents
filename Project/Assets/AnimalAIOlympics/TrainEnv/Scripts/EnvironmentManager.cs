@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using MLAgents;
+using MLAgents.Sensors;
 using ArenasParameters;
 using UnityEngineExtensions;
 using MLAgents.SideChannels;
@@ -50,9 +51,9 @@ public class EnvironmentManager : MonoBehaviour
 
             _arenasConfigurations.numberOfArenas = numberOfArenas;
             _arenas = new TrainingArena[numberOfArenas];
+            ChangeResolution(resolutionWidth, resolutionHeight);
             InstantiateArenas(numberOfArenas);
             ConfigureIfPlayer(playerMode, inferenceMode, receiveConfiguration);
-            ChangeResolution(resolutionWidth, resolutionHeight);
             _firstReset = false;
         }
     }
@@ -83,10 +84,9 @@ public class EnvironmentManager : MonoBehaviour
 
     private void ChangeResolution(int resolutionWidth, int resolutionHeight)
     {
-        foreach (TrainingArena arena in _arenas)
-        {
-            arena.SetResolution(resolutionWidth, resolutionHeight);
-        }
+        CameraSensorComponent cameraSensor = arena.transform.FindChildWithTag("agent").GetComponent<CameraSensorComponent>();
+        cameraSensor.width = resolutionWidth;
+        cameraSensor.height = resolutionHeight;
     }
 
     public bool GetConfiguration(int arenaID, out ArenaConfiguration arenaConfiguration)

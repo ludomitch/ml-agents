@@ -1,12 +1,10 @@
-﻿// using System.Collections;
 using System.Collections.Generic;
-// using System;
 using UnityEngine;
 using MLAgents;
+using MLAgents.Sensors;
 using ArenaBuilders;
 using UnityEngineExtensions;
 using ArenasParameters;
-using System.Linq;
 using Holders;
 
 public class TrainingArena : MonoBehaviour
@@ -25,9 +23,10 @@ public class TrainingArena : MonoBehaviour
     private ArenaBuilder _builder;
     private ArenaConfiguration _arenaConfiguration = new ArenaConfiguration();
     private EnvironmentManager _environmentManager;
-    private int _agentDecisionInterval;
     private List<Fade> _fades = new List<Fade>();
     private bool _lightStatus = true;
+    private int _agentDecisionInterval; // To replace with a call to DecisionRequester.DecisionPeriod if possible
+    // (not possible at the moment as it's internal and we cannot call GetComponent on internals) 
 
     internal void Awake()
     {
@@ -44,7 +43,7 @@ public class TrainingArena : MonoBehaviour
         }
         
         agent = transform.FindChildWithTag("agent").GetComponent<Agent>();
-        _agentDecisionInterval = transform.FindChildWithTag("agent").GetComponent<DecisionRequester>().DecitionPeriod;
+        _agentDecisionInterval = transform.FindChildWithTag("agent").GetComponent<DecisionPeriod>().decisionPeriod;
         _fades = blackScreens.GetFades();
     }
 
@@ -81,10 +80,4 @@ public class TrainingArena : MonoBehaviour
             }
         }
     }
-
-    public void SetResolution(int resolutionWidth, int resolutionHeight)
-    {
-        // TODO: set the camera resolution
-    }
-
 }

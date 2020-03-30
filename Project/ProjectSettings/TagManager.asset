@@ -29,6 +29,14 @@ TagManager:
   - symbol_O_Goal
   - purpleAgent
   - purpleGoal
+  - score
+  - arena
+  - spawnArena
+  - camBase
+  - InnerWall
+  - badGoal
+  - goodGoal
+  - spawnedObjects
   layers:
   - Default
   - TransparentFX
@@ -38,7 +46,7 @@ TagManager:
   - UI
   - 
   - 
-  - invisible
+  - ground
   - 
   - 
   - 
