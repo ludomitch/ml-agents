@@ -128,7 +128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &139874914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 470bc2ad322c19cac82a66c1202a9d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activate: 0
   prevScore: 0
 --- !u!4 &139874915
 Transform:
@@ -617,6 +616,7 @@ MonoBehaviour:
     type: 3}
   maximumResolution: 512
   minimumResolution: 4
+  playerControls: {fileID: 139874913}
   arena: {fileID: 0}
 --- !u!4 &1823249184
 Transform:
