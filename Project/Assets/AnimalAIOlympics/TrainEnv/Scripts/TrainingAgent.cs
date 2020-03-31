@@ -6,8 +6,6 @@ using MLAgents;
 using PrefabInterface;
 using MLAgents.Sensors;
 
-// using ArenasParameters;
-
 public class TrainingAgent : Agent, IPrefab
 {
     public void RandomSize() { }
@@ -49,14 +47,13 @@ public class TrainingAgent : Agent, IPrefab
     private TrainingArena _arena;
     private float _rewardPerStep;
     private Color[] _allBlackImage;
-    private PlayerControls _playerScript;
+    private float _previousScore = 0;
 
     public override void Initialize()
     {
         _arena = GetComponentInParent<TrainingArena>();
         _rigidBody = GetComponent<Rigidbody>();
         _rewardPerStep = maxStep > 0 ? -1f / maxStep : 0;
-        _playerScript = GameObject.FindObjectOfType<PlayerControls>();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -128,9 +125,9 @@ public class TrainingAgent : Agent, IPrefab
         return action;
     }
 
-    public override void AgentReset()
+    public override void OnEpisodeBegin()
     {
-        _playerScript.prevScore = GetCumulativeReward();
+        _previousScore = GetCumulativeReward();
         numberOfGoalsCollected = 0;
         _arena.ResetArena();
         _rewardPerStep = maxStep > 0 ? -1f / maxStep : 0;
@@ -173,7 +170,7 @@ public class TrainingAgent : Agent, IPrefab
     public void AgentDeath(float reward)
     {
         AddReward(reward);
-        Done();
+        EndEpisode();
     }
 
     public void AddExtraReward(float rewardFactor)
@@ -181,8 +178,8 @@ public class TrainingAgent : Agent, IPrefab
         AddReward(Math.Min(rewardFactor * _rewardPerStep,-0.00001f));
     }
 
-    // public override bool LightStatus()
-    // {
-    //     return _area.UpdateLigthStatus(GetStepCount());
-    // }
+    public float GetPreviousScore()
+    {
+        return _previousScore;
+    }
 }

@@ -11,9 +11,13 @@ using Random = UnityEngine.Random;
 public class EnvironmentManager : MonoBehaviour
 {
 
-    public GameObject arena;
+    public GameObject arenaTraining; // we need two prefabs as the Heuristic/Training attribute of Agents
+    public GameObject arenaHeuristic; // is private and therefore can't be modified
     public int maximumResolution = 512;
     public int minimumResolution = 4;
+    public GameObject playerControls;
+    [HideInInspector]
+    public GameObject arena;
 
     private FloatPropertiesChannel _ResetParameters;
     private TrainingArena[] _arenas;
@@ -48,6 +52,7 @@ public class EnvironmentManager : MonoBehaviour
             resolutionWidth = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionWidth));
             resolutionHeight = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionHeight));
             numberOfArenas = playerMode ? 1 : numberOfArenas;
+            arena = playerMode ? arenaHeuristic : arenaTraining;
 
             _arenasConfigurations.numberOfArenas = numberOfArenas;
             _arenas = new TrainingArena[numberOfArenas];
@@ -102,10 +107,16 @@ public class EnvironmentManager : MonoBehaviour
     private void ConfigureIfPlayer(bool playerMode, bool inferenceMode, bool receiveConfiguration)
     {
 
-        // TODO
+        GameObject.FindGameObjectWithTag("score").SetActive(playerMode);
+        if (playerMode)
+        {
+            _agent = GameObject.FindObjectOfType<Agent>();
+            playerControls.SetActive(true);
+        }
 
         // if (playerMode)
         // {
+            // arena.transform.FindChildWithTag("agent").GetComponent<Agent>().
         //     if (!receiveConfiguration) // && !Application.isEditor)
         //     {
         //         this.broadcastHub.Clear();

@@ -34,14 +34,15 @@ public class TrainingArena : MonoBehaviour
                                     spawnedObjectsHolder,
                                     maxSpawnAttemptsForPrefabs,
                                     maxSpawnAttemptsForAgent);
-        EnvironmentManager _environmentManager = GameObject.FindObjectOfType<EnvironmentManager>();
-        if (!_environmentManager.GetConfiguration(arenaID, out _arenaConfiguration))
-        {
-            // Debug.Log("configuration missing for arena " + arenaID);
-            _arenaConfiguration = new ArenaConfiguration(prefabs);
-            _environmentManager.AddConfiguration(arenaID, _arenaConfiguration);
-        }
-        
+        _environmentManager = GameObject.FindObjectOfType<EnvironmentManager>();
+        // if (!_environmentManager.GetConfiguration(arenaID, out _arenaConfiguration))
+        // {
+        //     Debug.Log("configuration missing for arena " + arenaID);
+        //     _arenaConfiguration = new ArenaConfiguration(prefabs);
+        //     _environmentManager.AddConfiguration(arenaID, _arenaConfiguration);
+        // }
+        // Debug.Log(_environmentManager.GetConfiguration(arenaID, out _arenaConfiguration));
+        // Debug.Log(_arenaConfiguration);
         agent = transform.FindChildWithTag("agent").GetComponent<Agent>();
         _agentDecisionInterval = transform.FindChildWithTag("agent").GetComponent<DecisionPeriod>().decisionPeriod;
         _fades = blackScreens.GetFades();
@@ -52,17 +53,20 @@ public class TrainingArena : MonoBehaviour
         DestroyImmediate(transform.FindChildWithTag("spawnedObjects"));
 
         ArenaConfiguration newConfiguration;
-        if (_environmentManager.GetConfiguration(arenaID, out newConfiguration))
+        if (!_environmentManager.GetConfiguration(arenaID, out newConfiguration))
         {
-            _arenaConfiguration = newConfiguration;
-            if (_arenaConfiguration.toUpdate)
-            {
-                _arenaConfiguration.SetGameObject(prefabs.GetList());
-                _builder.Spawnables = _arenaConfiguration.spawnables;
-                _arenaConfiguration.toUpdate = false;
-                agent.maxStep = _arenaConfiguration.T * _agentDecisionInterval;
-            }
+            newConfiguration =  new ArenaConfiguration(prefabs);
+            _environmentManager.AddConfiguration(arenaID, newConfiguration);
         }
+        _arenaConfiguration = newConfiguration;
+        if (_arenaConfiguration.toUpdate)
+        {
+            _arenaConfiguration.SetGameObject(prefabs.GetList());
+            _builder.Spawnables = _arenaConfiguration.spawnables;
+            _arenaConfiguration.toUpdate = false;
+            agent.maxStep = _arenaConfiguration.T * _agentDecisionInterval;
+        }
+        
         _builder.Build();
         _arenaConfiguration.lightsSwitch.Reset();
     }
