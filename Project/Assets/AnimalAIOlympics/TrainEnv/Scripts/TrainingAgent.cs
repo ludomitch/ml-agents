@@ -48,6 +48,7 @@ public class TrainingAgent : Agent, IPrefab
     private float _rewardPerStep;
     private Color[] _allBlackImage;
     private float _previousScore = 0;
+    private float _currentScore = 0;
 
     public override void Initialize()
     {
@@ -70,6 +71,7 @@ public class TrainingAgent : Agent, IPrefab
         moveAgent(actionForward, actionRotate);
 
         AddReward(_rewardPerStep);
+        _currentScore = GetCumulativeReward();
     }
 
     private void moveAgent(int actionForward, int actionRotate)
@@ -127,7 +129,7 @@ public class TrainingAgent : Agent, IPrefab
 
     public override void OnEpisodeBegin()
     {
-        _previousScore = GetCumulativeReward();
+        _previousScore = _currentScore;
         numberOfGoalsCollected = 0;
         _arena.ResetArena();
         _rewardPerStep = maxStep > 0 ? -1f / maxStep : 0;
@@ -170,6 +172,7 @@ public class TrainingAgent : Agent, IPrefab
     public void AgentDeath(float reward)
     {
         AddReward(reward);
+        _currentScore = GetCumulativeReward();
         EndEpisode();
     }
 
