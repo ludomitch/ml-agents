@@ -207,7 +207,9 @@ namespace ArenaBuilders
             }
             else
             {
-                GameObject.DestroyImmediate(gameObjectInstance);
+                // GameObject.DestroyImmediate(gameObjectInstance);
+                gameObjectInstance.SetActive(false);
+                GameObject.Destroy(gameObjectInstance);
             }
         }
 

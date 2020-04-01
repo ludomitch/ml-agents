@@ -50,7 +50,9 @@ public class TrainingArena : MonoBehaviour
 
     public void ResetArena()
     {
-        DestroyImmediate(transform.FindChildWithTag("spawnedObjects"));
+        transform.FindChildWithTag("spawnedObjects").SetActive(false);
+        // DestroyImmediate(transform.FindChildWithTag("spawnedObjects"));
+        Destroy(transform.FindChildWithTag("spawnedObjects"));
 
         ArenaConfiguration newConfiguration;
         if (!_environmentManager.GetConfiguration(arenaID, out newConfiguration))
