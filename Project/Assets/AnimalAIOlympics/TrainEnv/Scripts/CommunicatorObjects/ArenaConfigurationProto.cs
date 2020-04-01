@@ -27,14 +27,14 @@ namespace AAIOCommunicators {
             "Cj1hbmltYWxhaS9jb21tdW5pY2F0b3Jfb2JqZWN0cy9hcmVuYV9jb25maWd1",
             "cmF0aW9uX3Byb3RvLnByb3RvEhRjb21tdW5pY2F0b3Jfb2JqZWN0cxo4YW5p",
             "bWFsYWkvY29tbXVuaWNhdG9yX29iamVjdHMvaXRlbXNfdG9fc3Bhd25fcHJv",
-            "dG8ucHJvdG8iagoXQXJlbmFDb25maWd1cmF0aW9uUHJvdG8SCQoBdBgBIAEo",
-            "BRIxCgVpdGVtcxgCIAMoCzIiLmNvbW11bmljYXRvcl9vYmplY3RzLkl0ZW1z",
-            "VG9TcGF3bhIRCglibGFja291dHMYAyADKAVCFKoCEUFBSU9Db21tdW5pY2F0",
-            "b3JzYgZwcm90bzM="));
+            "dG8ucHJvdG8igQEKF0FyZW5hQ29uZmlndXJhdGlvblByb3RvEgkKAXQYASAB",
+            "KAUSEQoJcGFzc19tYXJrGAIgASgCEjUKBWl0ZW1zGAMgAygLMiYuY29tbXVu",
+            "aWNhdG9yX29iamVjdHMuSXRlbVRvU3Bhd25Qcm90bxIRCglibGFja291dHMY",
+            "BCADKAVCFKoCEUFBSU9Db21tdW5pY2F0b3JzYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AAIOCommunicators.ItemsToSpawnProtoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AAIOCommunicators.ArenaConfigurationProto), global::AAIOCommunicators.ArenaConfigurationProto.Parser, new[]{ "T", "Items", "Blackouts" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AAIOCommunicators.ArenaConfigurationProto), global::AAIOCommunicators.ArenaConfigurationProto.Parser, new[]{ "T", "PassMark", "Items", "Blackouts" }, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +67,7 @@ namespace AAIOCommunicators {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ArenaConfigurationProto(ArenaConfigurationProto other) : this() {
       t_ = other.t_;
+      passMark_ = other.passMark_;
       items_ = other.items_.Clone();
       blackouts_ = other.blackouts_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -88,20 +89,31 @@ namespace AAIOCommunicators {
       }
     }
 
-    /// <summary>Field number for the "items" field.</summary>
-    public const int ItemsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AAIOCommunicators.ItemsToSpawn> _repeated_items_codec
-        = pb::FieldCodec.ForMessage(18, global::AAIOCommunicators.ItemsToSpawn.Parser);
-    private readonly pbc::RepeatedField<global::AAIOCommunicators.ItemsToSpawn> items_ = new pbc::RepeatedField<global::AAIOCommunicators.ItemsToSpawn>();
+    /// <summary>Field number for the "pass_mark" field.</summary>
+    public const int PassMarkFieldNumber = 2;
+    private float passMark_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AAIOCommunicators.ItemsToSpawn> Items {
+    public float PassMark {
+      get { return passMark_; }
+      set {
+        passMark_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "items" field.</summary>
+    public const int ItemsFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::AAIOCommunicators.ItemToSpawnProto> _repeated_items_codec
+        = pb::FieldCodec.ForMessage(26, global::AAIOCommunicators.ItemToSpawnProto.Parser);
+    private readonly pbc::RepeatedField<global::AAIOCommunicators.ItemToSpawnProto> items_ = new pbc::RepeatedField<global::AAIOCommunicators.ItemToSpawnProto>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::AAIOCommunicators.ItemToSpawnProto> Items {
       get { return items_; }
     }
 
     /// <summary>Field number for the "blackouts" field.</summary>
-    public const int BlackoutsFieldNumber = 3;
+    public const int BlackoutsFieldNumber = 4;
     private static readonly pb::FieldCodec<int> _repeated_blackouts_codec
-        = pb::FieldCodec.ForInt32(26);
+        = pb::FieldCodec.ForInt32(34);
     private readonly pbc::RepeatedField<int> blackouts_ = new pbc::RepeatedField<int>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<int> Blackouts {
@@ -122,6 +134,7 @@ namespace AAIOCommunicators {
         return true;
       }
       if (T != other.T) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PassMark, other.PassMark)) return false;
       if(!items_.Equals(other.items_)) return false;
       if(!blackouts_.Equals(other.blackouts_)) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -131,6 +144,7 @@ namespace AAIOCommunicators {
     public override int GetHashCode() {
       int hash = 1;
       if (T != 0) hash ^= T.GetHashCode();
+      if (PassMark != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PassMark);
       hash ^= items_.GetHashCode();
       hash ^= blackouts_.GetHashCode();
       if (_unknownFields != null) {
@@ -150,6 +164,10 @@ namespace AAIOCommunicators {
         output.WriteRawTag(8);
         output.WriteInt32(T);
       }
+      if (PassMark != 0F) {
+        output.WriteRawTag(21);
+        output.WriteFloat(PassMark);
+      }
       items_.WriteTo(output, _repeated_items_codec);
       blackouts_.WriteTo(output, _repeated_blackouts_codec);
       if (_unknownFields != null) {
@@ -162,6 +180,9 @@ namespace AAIOCommunicators {
       int size = 0;
       if (T != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(T);
+      }
+      if (PassMark != 0F) {
+        size += 1 + 4;
       }
       size += items_.CalculateSize(_repeated_items_codec);
       size += blackouts_.CalculateSize(_repeated_blackouts_codec);
@@ -178,6 +199,9 @@ namespace AAIOCommunicators {
       }
       if (other.T != 0) {
         T = other.T;
+      }
+      if (other.PassMark != 0F) {
+        PassMark = other.PassMark;
       }
       items_.Add(other.items_);
       blackouts_.Add(other.blackouts_);
@@ -196,12 +220,16 @@ namespace AAIOCommunicators {
             T = input.ReadInt32();
             break;
           }
-          case 18: {
+          case 21: {
+            PassMark = input.ReadFloat();
+            break;
+          }
+          case 26: {
             items_.AddEntriesFrom(input, _repeated_items_codec);
             break;
           }
-          case 26:
-          case 24: {
+          case 34:
+          case 32: {
             blackouts_.AddEntriesFrom(input, _repeated_blackouts_codec);
             break;
           }

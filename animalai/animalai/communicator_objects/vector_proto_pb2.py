@@ -19,35 +19,35 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='animalai/communicator_objects/vector_proto.proto',
   package='communicator_objects',
   syntax='proto3',
-  serialized_pb=_b('\n0animalai/communicator_objects/vector_proto.proto\x12\x14\x63ommunicator_objects\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\x42\x14\xaa\x02\x11\x41\x41IOCommunicatorsb\x06proto3')
+  serialized_pb=_b('\n0animalai/communicator_objects/vector_proto.proto\x12\x14\x63ommunicator_objects\".\n\x0bVectorProto\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\x42\x14\xaa\x02\x11\x41\x41IOCommunicatorsb\x06proto3')
 )
 
 
 
 
-_VECTOR = _descriptor.Descriptor(
-  name='Vector',
-  full_name='communicator_objects.Vector',
+_VECTORPROTO = _descriptor.Descriptor(
+  name='VectorProto',
+  full_name='communicator_objects.VectorProto',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='x', full_name='communicator_objects.Vector.x', index=0,
+      name='x', full_name='communicator_objects.VectorProto.x', index=0,
       number=1, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='y', full_name='communicator_objects.Vector.y', index=1,
+      name='y', full_name='communicator_objects.VectorProto.y', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='z', full_name='communicator_objects.Vector.z', index=2,
+      name='z', full_name='communicator_objects.VectorProto.z', index=2,
       number=3, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -66,18 +66,18 @@ _VECTOR = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=74,
-  serialized_end=115,
+  serialized_end=120,
 )
 
-DESCRIPTOR.message_types_by_name['Vector'] = _VECTOR
+DESCRIPTOR.message_types_by_name['VectorProto'] = _VECTORPROTO
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Vector = _reflection.GeneratedProtocolMessageType('Vector', (_message.Message,), dict(
-  DESCRIPTOR = _VECTOR,
+VectorProto = _reflection.GeneratedProtocolMessageType('VectorProto', (_message.Message,), dict(
+  DESCRIPTOR = _VECTORPROTO,
   __module__ = 'animalai.communicator_objects.vector_proto_pb2'
-  # @@protoc_insertion_point(class_scope:communicator_objects.Vector)
+  # @@protoc_insertion_point(class_scope:communicator_objects.VectorProto)
   ))
-_sym_db.RegisterMessage(Vector)
+_sym_db.RegisterMessage(VectorProto)
 
 
 DESCRIPTOR.has_options = True

@@ -46,7 +46,7 @@ public class EnvironmentManager : MonoBehaviour
 
             int paramValue;
             bool playerMode = (environmentParameters.TryGetValue("playerMode", out paramValue) ?  paramValue : 1) > 0;
-            bool inferenceMode = (environmentParameters.TryGetValue("inferenceMode", out paramValue) ?  paramValue : 0) > 0;
+            // bool inferenceMode = (environmentParameters.TryGetValue("inferenceMode", out paramValue) ?  paramValue : 0) > 0;
             bool receiveConfiguration = (environmentParameters.TryGetValue("receiveConfiguration", out paramValue) ?  paramValue : 0) > 0;
             int numberOfArenas = environmentParameters.TryGetValue("numberOfArenas", out paramValue) ?  paramValue : 1;
             int resolutionWidth = environmentParameters.TryGetValue("resolutionWidth", out paramValue) ?  paramValue : defaultResolution;
@@ -61,7 +61,7 @@ public class EnvironmentManager : MonoBehaviour
             _arenas = new TrainingArena[numberOfArenas];
             ChangeResolution(resolutionWidth, resolutionHeight);
             InstantiateArenas(numberOfArenas);
-            ConfigureIfPlayer(playerMode, inferenceMode, receiveConfiguration);
+            ConfigureIfPlayer(playerMode, receiveConfiguration);
             _firstReset = false;
         }
     }
@@ -107,7 +107,7 @@ public class EnvironmentManager : MonoBehaviour
         _arenasConfigurations.configurations.Add(arenaID, arenaConfiguration);
     }
 
-    private void ConfigureIfPlayer(bool playerMode, bool inferenceMode, bool receiveConfiguration)
+    private void ConfigureIfPlayer(bool playerMode, bool receiveConfiguration)
     {
 
         GameObject.FindGameObjectWithTag("score").SetActive(playerMode);
@@ -151,11 +151,12 @@ public class EnvironmentManager : MonoBehaviour
             switch (args[i])
             {
                 case "--playerMode":
-                    environmentParameters.Add("playerMode", 1);
+                    int playerMode = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : 1;
+                    environmentParameters.Add("playerMode", playerMode);
                     break;
-                case "--inferenceMode":
-                    environmentParameters.Add("inferenceMode", 0);
-                    break;
+                // case "--inferenceMode":
+                //     environmentParameters.Add("inferenceMode", 0);
+                //     break;
                 case "--receiveConfiguration":
                     environmentParameters.Add("receiveConfiguration", 0);
                     break;

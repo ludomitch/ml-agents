@@ -86,3 +86,6 @@ venv/
 .coverage
 coverage.xml
 /htmlcov/
+
+# Dev folder
+dev/

@@ -5,11 +5,11 @@ import "animalai/communicator_objects/vector_proto.proto";
 option csharp_namespace = "AAIOCommunicators";
 package communicator_objects;
 
-message ItemsToSpawn {
+message ItemToSpawnProto {
 
     string name =1;
-    repeated Vector positions = 3;
+    repeated VectorProto positions = 3;
     repeated float rotations = 4;
-    repeated Vector sizes = 5;
-    repeated Vector colors = 6;
+    repeated VectorProto sizes = 5;
+    repeated VectorProto colors = 6;
 }

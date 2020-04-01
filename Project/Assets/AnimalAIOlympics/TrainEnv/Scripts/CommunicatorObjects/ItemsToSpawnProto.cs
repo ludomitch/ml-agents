@@ -26,27 +26,28 @@ namespace AAIOCommunicators {
           string.Concat(
             "CjhhbmltYWxhaS9jb21tdW5pY2F0b3Jfb2JqZWN0cy9pdGVtc190b19zcGF3",
             "bl9wcm90by5wcm90bxIUY29tbXVuaWNhdG9yX29iamVjdHMaMGFuaW1hbGFp",
-            "L2NvbW11bmljYXRvcl9vYmplY3RzL3ZlY3Rvcl9wcm90by5wcm90byK7AQoM",
-            "SXRlbXNUb1NwYXduEgwKBG5hbWUYASABKAkSLwoJcG9zaXRpb25zGAMgAygL",
-            "MhwuY29tbXVuaWNhdG9yX29iamVjdHMuVmVjdG9yEhEKCXJvdGF0aW9ucxgE",
-            "IAMoAhIrCgVzaXplcxgFIAMoCzIcLmNvbW11bmljYXRvcl9vYmplY3RzLlZl",
-            "Y3RvchIsCgZjb2xvcnMYBiADKAsyHC5jb21tdW5pY2F0b3Jfb2JqZWN0cy5W",
-            "ZWN0b3JCFKoCEUFBSU9Db21tdW5pY2F0b3JzYgZwcm90bzM="));
+            "L2NvbW11bmljYXRvcl9vYmplY3RzL3ZlY3Rvcl9wcm90by5wcm90byLOAQoQ",
+            "SXRlbVRvU3Bhd25Qcm90bxIMCgRuYW1lGAEgASgJEjQKCXBvc2l0aW9ucxgD",
+            "IAMoCzIhLmNvbW11bmljYXRvcl9vYmplY3RzLlZlY3RvclByb3RvEhEKCXJv",
+            "dGF0aW9ucxgEIAMoAhIwCgVzaXplcxgFIAMoCzIhLmNvbW11bmljYXRvcl9v",
+            "YmplY3RzLlZlY3RvclByb3RvEjEKBmNvbG9ycxgGIAMoCzIhLmNvbW11bmlj",
+            "YXRvcl9vYmplY3RzLlZlY3RvclByb3RvQhSqAhFBQUlPQ29tbXVuaWNhdG9y",
+            "c2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AAIOCommunicators.VectorProtoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AAIOCommunicators.ItemsToSpawn), global::AAIOCommunicators.ItemsToSpawn.Parser, new[]{ "Name", "Positions", "Rotations", "Sizes", "Colors" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AAIOCommunicators.ItemToSpawnProto), global::AAIOCommunicators.ItemToSpawnProto.Parser, new[]{ "Name", "Positions", "Rotations", "Sizes", "Colors" }, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  internal sealed partial class ItemsToSpawn : pb::IMessage<ItemsToSpawn> {
-    private static readonly pb::MessageParser<ItemsToSpawn> _parser = new pb::MessageParser<ItemsToSpawn>(() => new ItemsToSpawn());
+  internal sealed partial class ItemToSpawnProto : pb::IMessage<ItemToSpawnProto> {
+    private static readonly pb::MessageParser<ItemToSpawnProto> _parser = new pb::MessageParser<ItemToSpawnProto>(() => new ItemToSpawnProto());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ItemsToSpawn> Parser { get { return _parser; } }
+    public static pb::MessageParser<ItemToSpawnProto> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -59,14 +60,14 @@ namespace AAIOCommunicators {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ItemsToSpawn() {
+    public ItemToSpawnProto() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ItemsToSpawn(ItemsToSpawn other) : this() {
+    public ItemToSpawnProto(ItemToSpawnProto other) : this() {
       name_ = other.name_;
       positions_ = other.positions_.Clone();
       rotations_ = other.rotations_.Clone();
@@ -76,8 +77,8 @@ namespace AAIOCommunicators {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ItemsToSpawn Clone() {
-      return new ItemsToSpawn(this);
+    public ItemToSpawnProto Clone() {
+      return new ItemToSpawnProto(this);
     }
 
     /// <summary>Field number for the "name" field.</summary>
@@ -93,11 +94,11 @@ namespace AAIOCommunicators {
 
     /// <summary>Field number for the "positions" field.</summary>
     public const int PositionsFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::AAIOCommunicators.Vector> _repeated_positions_codec
-        = pb::FieldCodec.ForMessage(26, global::AAIOCommunicators.Vector.Parser);
-    private readonly pbc::RepeatedField<global::AAIOCommunicators.Vector> positions_ = new pbc::RepeatedField<global::AAIOCommunicators.Vector>();
+    private static readonly pb::FieldCodec<global::AAIOCommunicators.VectorProto> _repeated_positions_codec
+        = pb::FieldCodec.ForMessage(26, global::AAIOCommunicators.VectorProto.Parser);
+    private readonly pbc::RepeatedField<global::AAIOCommunicators.VectorProto> positions_ = new pbc::RepeatedField<global::AAIOCommunicators.VectorProto>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AAIOCommunicators.Vector> Positions {
+    public pbc::RepeatedField<global::AAIOCommunicators.VectorProto> Positions {
       get { return positions_; }
     }
 
@@ -113,31 +114,31 @@ namespace AAIOCommunicators {
 
     /// <summary>Field number for the "sizes" field.</summary>
     public const int SizesFieldNumber = 5;
-    private static readonly pb::FieldCodec<global::AAIOCommunicators.Vector> _repeated_sizes_codec
-        = pb::FieldCodec.ForMessage(42, global::AAIOCommunicators.Vector.Parser);
-    private readonly pbc::RepeatedField<global::AAIOCommunicators.Vector> sizes_ = new pbc::RepeatedField<global::AAIOCommunicators.Vector>();
+    private static readonly pb::FieldCodec<global::AAIOCommunicators.VectorProto> _repeated_sizes_codec
+        = pb::FieldCodec.ForMessage(42, global::AAIOCommunicators.VectorProto.Parser);
+    private readonly pbc::RepeatedField<global::AAIOCommunicators.VectorProto> sizes_ = new pbc::RepeatedField<global::AAIOCommunicators.VectorProto>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AAIOCommunicators.Vector> Sizes {
+    public pbc::RepeatedField<global::AAIOCommunicators.VectorProto> Sizes {
       get { return sizes_; }
     }
 
     /// <summary>Field number for the "colors" field.</summary>
     public const int ColorsFieldNumber = 6;
-    private static readonly pb::FieldCodec<global::AAIOCommunicators.Vector> _repeated_colors_codec
-        = pb::FieldCodec.ForMessage(50, global::AAIOCommunicators.Vector.Parser);
-    private readonly pbc::RepeatedField<global::AAIOCommunicators.Vector> colors_ = new pbc::RepeatedField<global::AAIOCommunicators.Vector>();
+    private static readonly pb::FieldCodec<global::AAIOCommunicators.VectorProto> _repeated_colors_codec
+        = pb::FieldCodec.ForMessage(50, global::AAIOCommunicators.VectorProto.Parser);
+    private readonly pbc::RepeatedField<global::AAIOCommunicators.VectorProto> colors_ = new pbc::RepeatedField<global::AAIOCommunicators.VectorProto>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AAIOCommunicators.Vector> Colors {
+    public pbc::RepeatedField<global::AAIOCommunicators.VectorProto> Colors {
       get { return colors_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ItemsToSpawn);
+      return Equals(other as ItemToSpawnProto);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ItemsToSpawn other) {
+    public bool Equals(ItemToSpawnProto other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -203,7 +204,7 @@ namespace AAIOCommunicators {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ItemsToSpawn other) {
+    public void MergeFrom(ItemToSpawnProto other) {
       if (other == null) {
         return;
       }

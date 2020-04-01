@@ -44,22 +44,22 @@ namespace ArenasParameters
             colors = new List<Vector3>();
         }
 
-        internal Spawnable(ItemsToSpawn proto)
+        internal Spawnable(ItemToSpawnProto proto)
         {
             name = proto.Name;
             positions = new List<Vector3>();
-            foreach (Vector v in proto.Positions)
+            foreach (VectorProto v in proto.Positions)
             {
                 positions.Add(new Vector3(v.X, v.Y, v.Z));
             }
             rotations = new List<float>(proto.Rotations);
             sizes = new List<Vector3>();
-            foreach (Vector v in proto.Sizes)
+            foreach (VectorProto v in proto.Sizes)
             {
                 sizes.Add(new Vector3(v.X, v.Y, v.Z));
             }
             colors = new List<Vector3>();
-            foreach (Vector v in proto.Colors)
+            foreach (VectorProto v in proto.Colors)
             {
                 colors.Add(new Vector3(v.X, v.Y, v.Z));
             }
@@ -98,7 +98,7 @@ namespace ArenasParameters
         {
             T = proto.T;
             spawnables = new List<Spawnable>();
-            foreach (ItemsToSpawn item in proto.Items)
+            foreach (ItemToSpawnProto item in proto.Items)
             {
                 spawnables.Add(new Spawnable(item));
             }

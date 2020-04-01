@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='animalai/communicator_objects/arena_configuration_proto.proto',
   package='communicator_objects',
   syntax='proto3',
-  serialized_pb=_b('\n=animalai/communicator_objects/arena_configuration_proto.proto\x12\x14\x63ommunicator_objects\x1a\x38\x61nimalai/communicator_objects/items_to_spawn_proto.proto\"j\n\x17\x41renaConfigurationProto\x12\t\n\x01t\x18\x01 \x01(\x05\x12\x31\n\x05items\x18\x02 \x03(\x0b\x32\".communicator_objects.ItemsToSpawn\x12\x11\n\tblackouts\x18\x03 \x03(\x05\x42\x14\xaa\x02\x11\x41\x41IOCommunicatorsb\x06proto3')
+  serialized_pb=_b('\n=animalai/communicator_objects/arena_configuration_proto.proto\x12\x14\x63ommunicator_objects\x1a\x38\x61nimalai/communicator_objects/items_to_spawn_proto.proto\"\x81\x01\n\x17\x41renaConfigurationProto\x12\t\n\x01t\x18\x01 \x01(\x05\x12\x11\n\tpass_mark\x18\x02 \x01(\x02\x12\x35\n\x05items\x18\x03 \x03(\x0b\x32&.communicator_objects.ItemToSpawnProto\x12\x11\n\tblackouts\x18\x04 \x03(\x05\x42\x14\xaa\x02\x11\x41\x41IOCommunicatorsb\x06proto3')
   ,
   dependencies=[animalai_dot_communicator__objects_dot_items__to__spawn__proto__pb2.DESCRIPTOR,])
 
@@ -42,15 +42,22 @@ _ARENACONFIGURATIONPROTO = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='items', full_name='communicator_objects.ArenaConfigurationProto.items', index=1,
-      number=2, type=11, cpp_type=10, label=3,
+      name='pass_mark', full_name='communicator_objects.ArenaConfigurationProto.pass_mark', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='items', full_name='communicator_objects.ArenaConfigurationProto.items', index=2,
+      number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='blackouts', full_name='communicator_objects.ArenaConfigurationProto.blackouts', index=2,
-      number=3, type=5, cpp_type=1, label=3,
+      name='blackouts', full_name='communicator_objects.ArenaConfigurationProto.blackouts', index=3,
+      number=4, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -67,11 +74,11 @@ _ARENACONFIGURATIONPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=145,
-  serialized_end=251,
+  serialized_start=146,
+  serialized_end=275,
 )
 
-_ARENACONFIGURATIONPROTO.fields_by_name['items'].message_type = animalai_dot_communicator__objects_dot_items__to__spawn__proto__pb2._ITEMSTOSPAWN
+_ARENACONFIGURATIONPROTO.fields_by_name['items'].message_type = animalai_dot_communicator__objects_dot_items__to__spawn__proto__pb2._ITEMTOSPAWNPROTO
 DESCRIPTOR.message_types_by_name['ArenaConfigurationProto'] = _ARENACONFIGURATIONPROTO
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

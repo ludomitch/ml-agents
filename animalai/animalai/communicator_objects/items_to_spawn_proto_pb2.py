@@ -20,50 +20,50 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='animalai/communicator_objects/items_to_spawn_proto.proto',
   package='communicator_objects',
   syntax='proto3',
-  serialized_pb=_b('\n8animalai/communicator_objects/items_to_spawn_proto.proto\x12\x14\x63ommunicator_objects\x1a\x30\x61nimalai/communicator_objects/vector_proto.proto\"\xbb\x01\n\x0cItemsToSpawn\x12\x0c\n\x04name\x18\x01 \x01(\t\x12/\n\tpositions\x18\x03 \x03(\x0b\x32\x1c.communicator_objects.Vector\x12\x11\n\trotations\x18\x04 \x03(\x02\x12+\n\x05sizes\x18\x05 \x03(\x0b\x32\x1c.communicator_objects.Vector\x12,\n\x06\x63olors\x18\x06 \x03(\x0b\x32\x1c.communicator_objects.VectorB\x14\xaa\x02\x11\x41\x41IOCommunicatorsb\x06proto3')
+  serialized_pb=_b('\n8animalai/communicator_objects/items_to_spawn_proto.proto\x12\x14\x63ommunicator_objects\x1a\x30\x61nimalai/communicator_objects/vector_proto.proto\"\xce\x01\n\x10ItemToSpawnProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x34\n\tpositions\x18\x03 \x03(\x0b\x32!.communicator_objects.VectorProto\x12\x11\n\trotations\x18\x04 \x03(\x02\x12\x30\n\x05sizes\x18\x05 \x03(\x0b\x32!.communicator_objects.VectorProto\x12\x31\n\x06\x63olors\x18\x06 \x03(\x0b\x32!.communicator_objects.VectorProtoB\x14\xaa\x02\x11\x41\x41IOCommunicatorsb\x06proto3')
   ,
   dependencies=[animalai_dot_communicator__objects_dot_vector__proto__pb2.DESCRIPTOR,])
 
 
 
 
-_ITEMSTOSPAWN = _descriptor.Descriptor(
-  name='ItemsToSpawn',
-  full_name='communicator_objects.ItemsToSpawn',
+_ITEMTOSPAWNPROTO = _descriptor.Descriptor(
+  name='ItemToSpawnProto',
+  full_name='communicator_objects.ItemToSpawnProto',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='communicator_objects.ItemsToSpawn.name', index=0,
+      name='name', full_name='communicator_objects.ItemToSpawnProto.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='positions', full_name='communicator_objects.ItemsToSpawn.positions', index=1,
+      name='positions', full_name='communicator_objects.ItemToSpawnProto.positions', index=1,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='rotations', full_name='communicator_objects.ItemsToSpawn.rotations', index=2,
+      name='rotations', full_name='communicator_objects.ItemToSpawnProto.rotations', index=2,
       number=4, type=2, cpp_type=6, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sizes', full_name='communicator_objects.ItemsToSpawn.sizes', index=3,
+      name='sizes', full_name='communicator_objects.ItemToSpawnProto.sizes', index=3,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='colors', full_name='communicator_objects.ItemsToSpawn.colors', index=4,
+      name='colors', full_name='communicator_objects.ItemToSpawnProto.colors', index=4,
       number=6, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -82,21 +82,21 @@ _ITEMSTOSPAWN = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=133,
-  serialized_end=320,
+  serialized_end=339,
 )
 
-_ITEMSTOSPAWN.fields_by_name['positions'].message_type = animalai_dot_communicator__objects_dot_vector__proto__pb2._VECTOR
-_ITEMSTOSPAWN.fields_by_name['sizes'].message_type = animalai_dot_communicator__objects_dot_vector__proto__pb2._VECTOR
-_ITEMSTOSPAWN.fields_by_name['colors'].message_type = animalai_dot_communicator__objects_dot_vector__proto__pb2._VECTOR
-DESCRIPTOR.message_types_by_name['ItemsToSpawn'] = _ITEMSTOSPAWN
+_ITEMTOSPAWNPROTO.fields_by_name['positions'].message_type = animalai_dot_communicator__objects_dot_vector__proto__pb2._VECTORPROTO
+_ITEMTOSPAWNPROTO.fields_by_name['sizes'].message_type = animalai_dot_communicator__objects_dot_vector__proto__pb2._VECTORPROTO
+_ITEMTOSPAWNPROTO.fields_by_name['colors'].message_type = animalai_dot_communicator__objects_dot_vector__proto__pb2._VECTORPROTO
+DESCRIPTOR.message_types_by_name['ItemToSpawnProto'] = _ITEMTOSPAWNPROTO
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-ItemsToSpawn = _reflection.GeneratedProtocolMessageType('ItemsToSpawn', (_message.Message,), dict(
-  DESCRIPTOR = _ITEMSTOSPAWN,
+ItemToSpawnProto = _reflection.GeneratedProtocolMessageType('ItemToSpawnProto', (_message.Message,), dict(
+  DESCRIPTOR = _ITEMTOSPAWNPROTO,
   __module__ = 'animalai.communicator_objects.items_to_spawn_proto_pb2'
-  # @@protoc_insertion_point(class_scope:communicator_objects.ItemsToSpawn)
+  # @@protoc_insertion_point(class_scope:communicator_objects.ItemToSpawnProto)
   ))
-_sym_db.RegisterMessage(ItemsToSpawn)
+_sym_db.RegisterMessage(ItemToSpawnProto)
 
 
 DESCRIPTOR.has_options = True

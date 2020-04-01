@@ -25,24 +25,24 @@ namespace AAIOCommunicators {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CjBhbmltYWxhaS9jb21tdW5pY2F0b3Jfb2JqZWN0cy92ZWN0b3JfcHJvdG8u",
-            "cHJvdG8SFGNvbW11bmljYXRvcl9vYmplY3RzIikKBlZlY3RvchIJCgF4GAEg",
-            "ASgCEgkKAXkYAiABKAISCQoBehgDIAEoAkIUqgIRQUFJT0NvbW11bmljYXRv",
-            "cnNiBnByb3RvMw=="));
+            "cHJvdG8SFGNvbW11bmljYXRvcl9vYmplY3RzIi4KC1ZlY3RvclByb3RvEgkK",
+            "AXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCQhSqAhFBQUlPQ29tbXVu",
+            "aWNhdG9yc2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AAIOCommunicators.Vector), global::AAIOCommunicators.Vector.Parser, new[]{ "X", "Y", "Z" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AAIOCommunicators.VectorProto), global::AAIOCommunicators.VectorProto.Parser, new[]{ "X", "Y", "Z" }, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  internal sealed partial class Vector : pb::IMessage<Vector> {
-    private static readonly pb::MessageParser<Vector> _parser = new pb::MessageParser<Vector>(() => new Vector());
+  internal sealed partial class VectorProto : pb::IMessage<VectorProto> {
+    private static readonly pb::MessageParser<VectorProto> _parser = new pb::MessageParser<VectorProto>(() => new VectorProto());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<Vector> Parser { get { return _parser; } }
+    public static pb::MessageParser<VectorProto> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -55,14 +55,14 @@ namespace AAIOCommunicators {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Vector() {
+    public VectorProto() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Vector(Vector other) : this() {
+    public VectorProto(VectorProto other) : this() {
       x_ = other.x_;
       y_ = other.y_;
       z_ = other.z_;
@@ -70,8 +70,8 @@ namespace AAIOCommunicators {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Vector Clone() {
-      return new Vector(this);
+    public VectorProto Clone() {
+      return new VectorProto(this);
     }
 
     /// <summary>Field number for the "x" field.</summary>
@@ -109,11 +109,11 @@ namespace AAIOCommunicators {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as Vector);
+      return Equals(other as VectorProto);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(Vector other) {
+    public bool Equals(VectorProto other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -181,7 +181,7 @@ namespace AAIOCommunicators {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(Vector other) {
+    public void MergeFrom(VectorProto other) {
       if (other == null) {
         return;
       }
