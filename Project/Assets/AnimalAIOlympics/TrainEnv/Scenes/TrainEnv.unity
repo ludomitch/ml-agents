@@ -612,7 +612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arenaTraining: {fileID: 1540725604319108, guid: 95ed7bd32dcb7ff4f8f177e1db14d0a3,
     type: 3}
-  arenaHeuristic: {fileID: 4960466374671740532, guid: 83b488f2029a9683691fe37dfd545b62,
+  arenaHeuristic: {fileID: 1218465398865553744, guid: 2d8cb153226d3d7a5b200b0a6caa645f,
     type: 3}
   maximumResolution: 512
   minimumResolution: 4
