@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using MLAgents;
 using MLAgents.Sensors;
@@ -15,11 +15,12 @@ public class EnvironmentManager : MonoBehaviour
     public GameObject arenaHeuristic; // is private and therefore can't be modified
     public int maximumResolution = 512;
     public int minimumResolution = 4;
+    public int defaultResolution = 84;
     public GameObject playerControls;
     [HideInInspector]
     public GameObject arena;
 
-    private FloatPropertiesChannel _ResetParameters;
+    // private FloatPropertiesChannel _ResetParameters;
     private TrainingArena[] _arenas;
     private Agent _agent;
     private bool _firstReset = true;
@@ -41,13 +42,15 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (_firstReset)
         {
-            _ResetParameters = Academy.Instance.FloatProperties;
-            bool playerMode = (_ResetParameters.GetPropertyWithDefault("playerMode", 1f)) > 0;
-            bool inferenceMode = (_ResetParameters.GetPropertyWithDefault("inferenceMode", 0f)) > 0;
-            bool receiveConfiguration = (_ResetParameters.GetPropertyWithDefault("receiveConfiguration", 0f)) > 0;
-            int numberOfArenas = (int)(_ResetParameters.GetPropertyWithDefault("numberOfArenas", 1f));
-            int resolutionWidth = (int)(_ResetParameters.GetPropertyWithDefault("resolutionWidth", 84f));
-            int resolutionHeight = (int)(_ResetParameters.GetPropertyWithDefault("resolutionHeight", 84f));
+            Dictionary<string, int> environmentParameters = RetrieveEnvironmentParameters();
+
+            int paramValue;
+            bool playerMode = (environmentParameters.TryGetValue("playerMode", out paramValue) ?  paramValue : 1) > 0;
+            bool inferenceMode = (environmentParameters.TryGetValue("inferenceMode", out paramValue) ?  paramValue : 0) > 0;
+            bool receiveConfiguration = (environmentParameters.TryGetValue("receiveConfiguration", out paramValue) ?  paramValue : 0) > 0;
+            int numberOfArenas = environmentParameters.TryGetValue("numberOfArenas", out paramValue) ?  paramValue : 1;
+            int resolutionWidth = environmentParameters.TryGetValue("resolutionWidth", out paramValue) ?  paramValue : defaultResolution;
+            int resolutionHeight = environmentParameters.TryGetValue("resolutionHeight", out paramValue) ?  paramValue : defaultResolution;
 
             resolutionWidth = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionWidth));
             resolutionHeight = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionHeight));
@@ -116,7 +119,7 @@ public class EnvironmentManager : MonoBehaviour
 
         // if (playerMode)
         // {
-            // arena.transform.FindChildWithTag("agent").GetComponent<Agent>().
+        // arena.transform.FindChildWithTag("agent").GetComponent<Agent>().
         //     if (!receiveConfiguration) // && !Application.isEditor)
         //     {
         //         this.broadcastHub.Clear();
@@ -138,10 +141,65 @@ public class EnvironmentManager : MonoBehaviour
         // }
     }
 
-    public void OnDestroy()
+    private Dictionary<string, int> RetrieveEnvironmentParameters()
     {
-        if (Academy.IsInitialized){
-            Academy.Instance.UnregisterSideChannel(_arenasParametersSideChannel);
+        Dictionary<string, int> environmentParameters = new Dictionary<string, int>();
+
+        string[] args = System.Environment.GetCommandLineArgs();
+        for (int i = 0; i < args.Length; i++)
+        {
+            switch (args[i])
+            {
+                case "--playerMode":
+                    environmentParameters.Add("playerMode", 1);
+                    break;
+                case "--inferenceMode":
+                    environmentParameters.Add("inferenceMode", 0);
+                    break;
+                case "--receiveConfiguration":
+                    environmentParameters.Add("receiveConfiguration", 0);
+                    break;
+                case "--numberOfArenas":
+                    int nArenas = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : 1;
+                    environmentParameters.Add("numberOfArenas", nArenas);
+                    break;
+                case "--resolutionWidth":
+                    int resW = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
+                    environmentParameters.Add("resolutionWidth", resW);
+                    break;
+                case "--resolutionHeight":
+                    int resH = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
+                    environmentParameters.Add("resolutionHeight", resH);
+                    break;
+            }
+        }
+        return environmentParameters;
+    }
+
+        // private Dictionary<string,int> RetrieveEnvironmentParameters()
+        // {
+        //     // Version using the FloatProperties side channel
+        //     Dictionary<string, int> environmentParameters = new Dictionary<string, int>();
+
+        //     FloatPropertiesChannel _ResetParameters = Academy.Instance.FloatProperties;
+        //     environmentParameters.Add("playerMode",(int)_ResetParameters.GetPropertyWithDefault("playerMode", 1f));
+        //     environmentParameters.Add("inferenceMode",(int)_ResetParameters.GetPropertyWithDefault("inferenceMode", 0f));
+        //     environmentParameters.Add("receiveConfiguration",(int)_ResetParameters.GetPropertyWithDefault("receiveConfiguration", 0f));
+        //     environmentParameters.Add("numberOfArenas",(int)(_ResetParameters.GetPropertyWithDefault("numberOfArenas", 1f)));
+        //     environmentParameters.Add("resolutionWidth",(int)(_ResetParameters.GetPropertyWithDefault("resolutionWidth", 84f)));
+        //     environmentParameters.Add("resolutionHeight",(int)(_ResetParameters.GetPropertyWithDefault("resolutionHeight", 84f));
+
+        //     return environmentParameters;
+        // }
+
+
+
+
+        public void OnDestroy()
+        {
+            if (Academy.IsInitialized)
+            {
+                Academy.Instance.UnregisterSideChannel(_arenasParametersSideChannel);
+            }
         }
     }
-}

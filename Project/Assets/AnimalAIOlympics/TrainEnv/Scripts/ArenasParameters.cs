@@ -27,7 +27,7 @@ namespace ArenasParameters
     /// </summary>
     public class Spawnable
     {
-        public String name = "";
+        public string name = "";
         public GameObject gameObject = null;
         public List<Vector3> positions = null;
         public List<float> rotations = null;
