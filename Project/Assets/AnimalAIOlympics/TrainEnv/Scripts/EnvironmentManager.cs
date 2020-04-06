@@ -52,6 +52,13 @@ public class EnvironmentManager : MonoBehaviour
             int resolutionWidth = environmentParameters.TryGetValue("resolutionWidth", out paramValue) ?  paramValue : defaultResolution;
             int resolutionHeight = environmentParameters.TryGetValue("resolutionHeight", out paramValue) ?  paramValue : defaultResolution;
 
+            if (Application.isEditor)
+            {
+                numberOfArenas = 4;
+                playerMode=false;
+            }
+
+
             resolutionWidth = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionWidth));
             resolutionHeight = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionHeight));
             numberOfArenas = playerMode ? 1 : numberOfArenas;

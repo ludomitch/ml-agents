@@ -179,6 +179,12 @@ namespace ArenasParameters
                         Add(arenaConfiguration.Key, arenaConfiguration.Value);
                         toUpdate = true;
                     }
+                    else
+                    {
+                        // need to check what to do if we don t have the key already
+                        Add(arenaConfiguration.Key, arenaConfiguration.Value);
+                        toUpdate = true;
+                    }
                 }
             }
         }
