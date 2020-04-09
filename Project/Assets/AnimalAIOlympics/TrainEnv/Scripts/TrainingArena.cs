@@ -50,9 +50,24 @@ public class TrainingArena : MonoBehaviour
 
     public void ResetArena()
     {
-        transform.FindChildWithTag("spawnedObjects").SetActive(false);
+        // Debug.Log("resetting arena");
+        // if (transform.FindChildrenWithTag("spawnedObjects").Count>1)
+        // {
+        //     // Debug.Break();
+        //     Debug.Log("More than one holder");
+        // }
+        // if (transform.FindChildrenWithTag("spawnedObjects").Count<1)
+        // {
+        //     Debug.Log("Zero holder");
+        // }
+        foreach (GameObject holder in transform.FindChildrenWithTag("spawnedObjects"))
+        {
+            holder.SetActive(false);
+            Destroy(holder);
+        }
+        // transform.FindChildWithTag("spawnedObjects").SetActive(false);
         // DestroyImmediate(transform.FindChildWithTag("spawnedObjects"));
-        Destroy(transform.FindChildWithTag("spawnedObjects"));
+        // Destroy(transform.FindChildWithTag("spawnedObjects"));
 
         ArenaConfiguration newConfiguration;
         if (!_environmentManager.GetConfiguration(arenaID, out newConfiguration))

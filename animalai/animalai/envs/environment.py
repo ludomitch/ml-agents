@@ -2,6 +2,7 @@ import uuid
 from typing import Optional, List
 from mlagents_envs.environment import UnityEnvironment
 from mlagents_envs.side_channel.raw_bytes_channel import RawBytesChannel
+from mlagents_envs.side_channel.side_channel import SideChannel
 from animalai.envs.arena_config import ArenaConfig
 
 
@@ -18,12 +19,14 @@ class AnimalAIEnvironment(UnityEnvironment):
             play: bool = False,
             arenas_configurations: ArenaConfig = None,
             inference: bool = False,
-            resolution_width: int = None,
-            resolution_height: int = None,
+            camera_width: int = None,
+            camera_height: int = None,
+            side_channels: Optional[List[SideChannel]] = None,
     ):
 
-        args = self.executable_args(n_arenas, play, resolution_height, resolution_width)
+        args = self.executable_args(n_arenas, play, camera_height, camera_width)
         self.arenas_parameters_side_channel = RawBytesChannel(channel_id=uuid.UUID("9c36c837-cad5-498a-b675-bc19c9370072"))
+        side_channels = [] if side_channels is None else side_channels
         super().__init__(file_name=file_name,
                        worker_id=worker_id,
                        base_port=base_port,
@@ -32,7 +35,7 @@ class AnimalAIEnvironment(UnityEnvironment):
                        no_graphics=False,
                        timeout_wait=60,
                        args=args,
-                       side_channels=[self.arenas_parameters_side_channel],
+                       side_channels=side_channels+[self.arenas_parameters_side_channel],
                        )
         self.reset()
         if arenas_configurations:
@@ -50,19 +53,19 @@ class AnimalAIEnvironment(UnityEnvironment):
         super().reset()
 
     @staticmethod
-    def executable_args(n_arenas, play, resolution_height, resolution_width):
-        args = ["--receiveConfiguration", "--playerMode"]  # maybe no need for receive conf
+    def executable_args(n_arenas, play, camera_height, camera_width):
+        args = ["--playerMode"]
         if play:
             args.append("1")
         else:
             args.append("0")
         args.append("--numberOfArenas")
         args.append(str(n_arenas))
-        if resolution_width:
-            args.append("--resolutionWidth")
-            args.append(str(resolution_width))
-        if resolution_height:
-            args.append("--resolutionHeight")
-            args.append(str(resolution_height))
+        if camera_width:
+            args.append("--cameraWidth")
+            args.append(str(camera_width))
+        if camera_height:
+            args.append("--cameraHeight")
+            args.append(str(camera_height))
 
         return args

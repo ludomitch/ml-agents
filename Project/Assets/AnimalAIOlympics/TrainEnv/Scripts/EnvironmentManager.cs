@@ -46,29 +46,28 @@ public class EnvironmentManager : MonoBehaviour
 
             int paramValue;
             bool playerMode = (environmentParameters.TryGetValue("playerMode", out paramValue) ?  paramValue : 1) > 0;
-            // bool inferenceMode = (environmentParameters.TryGetValue("inferenceMode", out paramValue) ?  paramValue : 0) > 0;
-            bool receiveConfiguration = (environmentParameters.TryGetValue("receiveConfiguration", out paramValue) ?  paramValue : 0) > 0;
             int numberOfArenas = environmentParameters.TryGetValue("numberOfArenas", out paramValue) ?  paramValue : 1;
-            int resolutionWidth = environmentParameters.TryGetValue("resolutionWidth", out paramValue) ?  paramValue : defaultResolution;
-            int resolutionHeight = environmentParameters.TryGetValue("resolutionHeight", out paramValue) ?  paramValue : defaultResolution;
+            int cameraWidth = environmentParameters.TryGetValue("cameraWidth", out paramValue) ?  paramValue : defaultResolution;
+            int cameraHeight = environmentParameters.TryGetValue("cameraHeight", out paramValue) ?  paramValue : defaultResolution;
 
             if (Application.isEditor)
             {
-                numberOfArenas = 4;
+                numberOfArenas = 1;
                 playerMode=false;
+                // receiveConfiguration = true;
             }
 
 
-            resolutionWidth = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionWidth));
-            resolutionHeight = Math.Max(minimumResolution, Math.Min(maximumResolution, resolutionHeight));
+            cameraWidth = Math.Max(minimumResolution, Math.Min(maximumResolution, cameraWidth));
+            cameraHeight = Math.Max(minimumResolution, Math.Min(maximumResolution, cameraHeight));
             numberOfArenas = playerMode ? 1 : numberOfArenas;
             arena = playerMode ? arenaHeuristic : arenaTraining;
 
             _arenasConfigurations.numberOfArenas = numberOfArenas;
             _arenas = new TrainingArena[numberOfArenas];
-            ChangeResolution(resolutionWidth, resolutionHeight);
+            ChangeResolution(cameraWidth, cameraHeight);
             InstantiateArenas(numberOfArenas);
-            ConfigureIfPlayer(playerMode, receiveConfiguration);
+            ConfigureIfPlayer(playerMode); //, receiveConfiguration);
             _firstReset = false;
         }
     }
@@ -97,11 +96,11 @@ public class EnvironmentManager : MonoBehaviour
             new Vector3(n * width / 2, 50 * (float)n, (float)n * height / 2);
     }
 
-    private void ChangeResolution(int resolutionWidth, int resolutionHeight)
+    private void ChangeResolution(int cameraWidth, int cameraHeight)
     {
         CameraSensorComponent cameraSensor = arena.transform.FindChildWithTag("agent").GetComponent<CameraSensorComponent>();
-        cameraSensor.width = resolutionWidth;
-        cameraSensor.height = resolutionHeight;
+        cameraSensor.width = cameraWidth;
+        cameraSensor.height = cameraHeight;
     }
 
     public bool GetConfiguration(int arenaID, out ArenaConfiguration arenaConfiguration)
@@ -114,7 +113,7 @@ public class EnvironmentManager : MonoBehaviour
         _arenasConfigurations.configurations.Add(arenaID, arenaConfiguration);
     }
 
-    private void ConfigureIfPlayer(bool playerMode, bool receiveConfiguration)
+    private void ConfigureIfPlayer(bool playerMode) //, bool receiveConfiguration)
     {
 
         GameObject.FindGameObjectWithTag("score").SetActive(playerMode);
@@ -123,29 +122,6 @@ public class EnvironmentManager : MonoBehaviour
             _agent = GameObject.FindObjectOfType<Agent>();
             playerControls.SetActive(true);
         }
-
-        // if (playerMode)
-        // {
-        // arena.transform.FindChildWithTag("agent").GetComponent<Agent>().
-        //     if (!receiveConfiguration) // && !Application.isEditor)
-        //     {
-        //         this.broadcastHub.Clear();
-        //     }
-        //     if (!externalInferenceMode)
-        //     {
-        //         _arenas[0].gameObject.GetComponentInChildren<Agent>().brain = playerBrain;
-        //     }
-        //     GameObject.FindObjectOfType<PlayerControls>().activate = true;
-        //     _agent = GameObject.FindObjectOfType<Agent>();
-        // }
-        // else
-        // {
-        //     GameObject.FindGameObjectWithTag("agent")
-        //                 .transform.Find("AgentCamMid")
-        //                 .GetComponent<Camera>()
-        //                 .enabled = false;
-        //     GameObject.FindGameObjectWithTag("score").SetActive(false);
-        // }
     }
 
     private Dictionary<string, int> RetrieveEnvironmentParameters()
@@ -161,9 +137,6 @@ public class EnvironmentManager : MonoBehaviour
                     int playerMode = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : 1;
                     environmentParameters.Add("playerMode", playerMode);
                     break;
-                // case "--inferenceMode":
-                //     environmentParameters.Add("inferenceMode", 0);
-                //     break;
                 case "--receiveConfiguration":
                     environmentParameters.Add("receiveConfiguration", 0);
                     break;
@@ -171,13 +144,13 @@ public class EnvironmentManager : MonoBehaviour
                     int nArenas = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : 1;
                     environmentParameters.Add("numberOfArenas", nArenas);
                     break;
-                case "--resolutionWidth":
-                    int resW = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
-                    environmentParameters.Add("resolutionWidth", resW);
+                case "--cameraWidth":
+                    int camW = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
+                    environmentParameters.Add("cameraWidth", camW);
                     break;
-                case "--resolutionHeight":
-                    int resH = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
-                    environmentParameters.Add("resolutionHeight", resH);
+                case "--cameraHeight":
+                    int camH = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
+                    environmentParameters.Add("cameraHeight", camH);
                     break;
             }
         }
@@ -194,8 +167,8 @@ public class EnvironmentManager : MonoBehaviour
         //     environmentParameters.Add("inferenceMode",(int)_ResetParameters.GetPropertyWithDefault("inferenceMode", 0f));
         //     environmentParameters.Add("receiveConfiguration",(int)_ResetParameters.GetPropertyWithDefault("receiveConfiguration", 0f));
         //     environmentParameters.Add("numberOfArenas",(int)(_ResetParameters.GetPropertyWithDefault("numberOfArenas", 1f)));
-        //     environmentParameters.Add("resolutionWidth",(int)(_ResetParameters.GetPropertyWithDefault("resolutionWidth", 84f)));
-        //     environmentParameters.Add("resolutionHeight",(int)(_ResetParameters.GetPropertyWithDefault("resolutionHeight", 84f));
+        //     environmentParameters.Add("cameraWidth",(int)(_ResetParameters.GetPropertyWithDefault("cameraWidth", 84f)));
+        //     environmentParameters.Add("cameraHeight",(int)(_ResetParameters.GetPropertyWithDefault("cameraHeight", 84f));
 
         //     return environmentParameters;
         // }

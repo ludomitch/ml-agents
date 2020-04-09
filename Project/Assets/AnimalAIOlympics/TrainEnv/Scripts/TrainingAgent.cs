@@ -171,6 +171,7 @@ public class TrainingAgent : Agent, IPrefab
 
     public void AgentDeath(float reward)
     {
+        // Debug.Log("Agent death called");
         AddReward(reward);
         _currentScore = GetCumulativeReward();
         EndEpisode();

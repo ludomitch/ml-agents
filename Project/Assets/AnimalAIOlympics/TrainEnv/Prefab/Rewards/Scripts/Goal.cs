@@ -27,23 +27,25 @@ public class Goal : Prefab
     {
         if (collision.gameObject.CompareTag("agent"))
         {
+            TrainingAgent agentScript = collision.gameObject.GetComponent<TrainingAgent>();
+            // Debug.Break();
             if (!isMulti)
-            {
-                collision.gameObject.GetComponent<TrainingAgent>().AgentDeath(reward);
-            }
-            else
-            {
-                TrainingAgent agentScript = collision.gameObject.GetComponent<TrainingAgent>();
-            agentScript.numberOfGoalsCollected++;
-            if (agentScript.numberOfGoalsCollected == numberOfGoals)
             {
                 agentScript.AgentDeath(reward);
             }
             else
             {
-                agentScript.AddReward(reward);
-            }
-            Object.Destroy(this.gameObject);
+                agentScript.numberOfGoalsCollected++;
+                if (agentScript.numberOfGoalsCollected == numberOfGoals)
+                {
+                    agentScript.AgentDeath(reward);
+                }
+                else
+                {
+                    agentScript.AddReward(reward);
+                }
+                gameObject.SetActive(false);
+                Object.Destroy(gameObject);
             }
         }
     }

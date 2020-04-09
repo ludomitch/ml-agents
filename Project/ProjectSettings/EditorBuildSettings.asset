@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/AnimalAIOlympics/TrainEnv/Scenes/TrainEnv.unity
+    guid: f9d0f88a7d1374d0c973d4403984317c
   m_configObjects: {}
