@@ -8,6 +8,8 @@ from animalai.envs.arena_config import ArenaConfig
 
 class AnimalAIEnvironment(UnityEnvironment):
 
+    API_VERSION = "aai-1.0.0"
+
     def __init__(
             self,
             file_name: Optional[str] = None,

@@ -260,18 +260,18 @@ def prepare_for_docker_run(docker_target_name, env_path):
 
 if __name__ == "__main__":
     args = RunOptions()
-    args.trainer_config = load_config("/home/ben/AnimalAI/ml-agents/dev/trainer_config.yaml")
+    args.trainer_config = load_config("../../dev/sandbox/trainer_config.yaml")
     # args.debug: bool = False
     # args.seed: int = 0
-    # args.env_path ="/home/ben/AnimalAI/builds-ml-agents-aaio/aaio"
-    args.env_path = None
-    # args.run_id: str = "ppo"
-    args.load_model: bool = True
+    args.env_path ="/home/ben/AnimalAI/builds-ml-agents-aaio/aaio"
+    # args.env_path = None
+    args.run_id: str = "ppo-debug"
+    # args.load_model: bool = True
     # args.train_model: bool = True
     # args.save_freq: int = 50000
     # args.keep_checkpoints: int = 5
-    # args.base_port: int = 5005
-    # args.num_envs: int = 1
+    args.base_port: int = 5015
+    # args.num_envs: int = 16
     # args.curriculum_config: Optional[Dict] = None
     # args.lesson: int = 0
     # args.no_graphics: bool = False
@@ -286,7 +286,7 @@ if __name__ == "__main__":
     args.time_scale: float = 300
     args.target_frame_rate: int = -1
 
-    arena_config_path = "/home/ben/AnimalAI/ml-agents/dev/conf_simple.yml"
+    arena_config_path = "../../dev/sandbox/conf_simple.yml"
     arena_config = ArenaConfig(arena_config_path)
 
     run_training(0, arena_config, args)

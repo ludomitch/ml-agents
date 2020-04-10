@@ -616,6 +616,7 @@ MonoBehaviour:
     type: 3}
   maximumResolution: 512
   minimumResolution: 4
+  defaultResolution: 84
   playerControls: {fileID: 139874913}
   arena: {fileID: 0}
 --- !u!4 &1823249184
