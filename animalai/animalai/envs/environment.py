@@ -2,6 +2,7 @@ import uuid
 from typing import NamedTuple
 from typing import Optional, List
 from mlagents_envs.environment import UnityEnvironment
+from mlagents_envs.rpc_communicator import UnityTimeOutException
 from mlagents_envs.side_channel.raw_bytes_channel import RawBytesChannel
 from mlagents_envs.side_channel.side_channel import SideChannel
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfig, EngineConfigurationChannel
@@ -14,7 +15,6 @@ class PlayTrain(NamedTuple):
 
 
 class AnimalAIEnvironment(UnityEnvironment):
-    API_VERSION = "aai-1.0.0"
 
     # Default values for configuration parameters of the environment, can be changed if needed
     # Increasing the timescale value for training might speed up the process on powefull machines
@@ -44,6 +44,7 @@ class AnimalAIEnvironment(UnityEnvironment):
         args = self.executable_args(n_arenas, play, camera_height, camera_width)
         self.play = play
         self.inference = inference
+        self.timeout = 10 if play else 60
         self.arenas_parameters_side_channel = RawBytesChannel(
             channel_id=uuid.UUID("9c36c837-cad5-498a-b675-bc19c9370072"))
         self.side_channels = [] if side_channels is None else side_channels
@@ -57,26 +58,24 @@ class AnimalAIEnvironment(UnityEnvironment):
                          seed=seed,
                          docker_training=docker_training,
                          no_graphics=False,
-                         timeout_wait=600, # TODO: back to 60
+                         timeout_wait=self.timeout,
                          args=args,
                          side_channels=self.side_channels + [self.arenas_parameters_side_channel],
                          )
-        # self.reset()
-        if arenas_configurations:
-            self.reset(arenas_configurations)
-        else:
-            self.reset()
-            # arenas_configurations_proto = arenas_configurations.to_proto()
-            # arenas_configurations_proto_string = arenas_configurations_proto.SerializeToString()
-            # arenas_parameters_side_channel.send_raw_data(bytearray(arenas_configurations_proto_string))
-            # env.reset()
+        self.reset(arenas_configurations)
 
     def reset(self, arenas_configurations: ArenaConfig = None) -> None:
         if arenas_configurations:
             arenas_configurations_proto = arenas_configurations.to_proto()
             arenas_configurations_proto_string = arenas_configurations_proto.SerializeToString()
             self.arenas_parameters_side_channel.send_raw_data(bytearray(arenas_configurations_proto_string))
-        super().reset()
+        try:
+            super().reset()
+        except UnityTimeOutException as timeoutException:
+            if self.play:
+                pass
+            else:
+                raise timeoutException
 
     def create_engine_config_side_channel(self) -> EngineConfigurationChannel:
 

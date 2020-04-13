@@ -1,4 +1,3 @@
-import os
 from animalai.envs.arena_config import ArenaConfig
 from animalai.envs.environment import AnimalAIEnvironment
 
@@ -13,3 +12,11 @@ environment = AnimalAIEnvironment(
     arenas_configurations=configuration,
     play=True
 )
+
+try:
+    while environment.proc1:
+        continue
+except KeyboardInterrupt:
+    pass
+finally:
+    environment.close()
