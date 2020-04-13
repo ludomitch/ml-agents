@@ -19,8 +19,8 @@ class AnimalAIEnvironment(UnityEnvironment):
     # Default values for configuration parameters of the environment, can be changed if needed
     # Increasing the timescale value for training might speed up the process on powefull machines
     # but take care as the higher the timescale the more likely the physics might break
-    WINDOW_WIDTH = PlayTrain(play=800, train=80)
-    WINDOW_HEIGHT = PlayTrain(play=600, train=80)
+    WINDOW_WIDTH = PlayTrain(play=1200, train=80)
+    WINDOW_HEIGHT = PlayTrain(play=800, train=80)
     QUALITY_LEVEL = PlayTrain(play=5, train=1)
     TIMESCALE = PlayTrain(play=1, train=300)
     TARGET_FRAME_RATE = PlayTrain(play=60, train=-1)
@@ -57,13 +57,15 @@ class AnimalAIEnvironment(UnityEnvironment):
                          seed=seed,
                          docker_training=docker_training,
                          no_graphics=False,
-                         timeout_wait=60,
+                         timeout_wait=600, # TODO: back to 60
                          args=args,
                          side_channels=self.side_channels + [self.arenas_parameters_side_channel],
                          )
-        self.reset()
+        # self.reset()
         if arenas_configurations:
             self.reset(arenas_configurations)
+        else:
+            self.reset()
             # arenas_configurations_proto = arenas_configurations.to_proto()
             # arenas_configurations_proto_string = arenas_configurations_proto.SerializeToString()
             # arenas_parameters_side_channel.send_raw_data(bytearray(arenas_configurations_proto_string))
@@ -83,7 +85,7 @@ class AnimalAIEnvironment(UnityEnvironment):
                 width=self.WINDOW_WIDTH.play,
                 height=self.WINDOW_HEIGHT.play,
                 quality_level=self.QUALITY_LEVEL.play,
-                time_scale=self.QUALITY_LEVEL.play,
+                time_scale=self.TIMESCALE.play,
                 target_frame_rate=self.TARGET_FRAME_RATE.play
             )
         else:
@@ -91,7 +93,7 @@ class AnimalAIEnvironment(UnityEnvironment):
                 width=self.WINDOW_WIDTH.train,
                 height=self.WINDOW_HEIGHT.train,
                 quality_level=self.QUALITY_LEVEL.train,
-                time_scale=self.QUALITY_LEVEL.train,
+                time_scale=self.TIMESCALE.train,
                 target_frame_rate=self.TARGET_FRAME_RATE.train
             )
         engine_configuration_channel = EngineConfigurationChannel()
