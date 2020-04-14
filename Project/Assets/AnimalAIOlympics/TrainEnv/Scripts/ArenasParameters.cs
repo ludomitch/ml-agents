@@ -138,18 +138,15 @@ namespace ArenasParameters
 
         internal void Add(int k, ArenaConfigurationProto arenaConfigurationProto)
         {
-            if (k<numberOfArenas)
+            if (!configurations.ContainsKey(k))
             {
-                if (!configurations.ContainsKey(k))
+                configurations.Add(k, new ArenaConfiguration(arenaConfigurationProto));
+            }
+            else
+            {
+                if (arenaConfigurationProto.ToString() != configurations[k].protoString)
                 {
-                    configurations.Add(k, new ArenaConfiguration(arenaConfigurationProto));
-                }
-                else
-                {
-                    if (arenaConfigurationProto.ToString() != configurations[k].protoString)
-                    {
-                        configurations[k] = new ArenaConfiguration(arenaConfigurationProto);
-                    }
+                    configurations[k] = new ArenaConfiguration(arenaConfigurationProto);
                 }
             }
         }

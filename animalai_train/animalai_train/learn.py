@@ -270,7 +270,7 @@ if __name__ == "__main__":
     # args.train_model: bool = True
     # args.save_freq: int = 50000
     # args.keep_checkpoints: int = 5
-    args.base_port: int = 5015
+    args.base_port: int = 5008
     # args.num_envs: int = 16
     # args.curriculum_config: Optional[Dict] = None
     # args.lesson: int = 0

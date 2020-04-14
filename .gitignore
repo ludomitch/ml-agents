@@ -1,6 +1,6 @@
 # Tensorflow Model Info
-/models
-/summaries
+models/
+summaries/
 
 # Training environments
 /envs

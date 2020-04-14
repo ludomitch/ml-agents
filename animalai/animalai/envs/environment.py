@@ -15,7 +15,6 @@ class PlayTrain(NamedTuple):
 
 
 class AnimalAIEnvironment(UnityEnvironment):
-
     # Default values for configuration parameters of the environment, can be changed if needed
     # Increasing the timescale value for training might speed up the process on powefull machines
     # but take care as the higher the timescale the more likely the physics might break
@@ -24,6 +23,7 @@ class AnimalAIEnvironment(UnityEnvironment):
     QUALITY_LEVEL = PlayTrain(play=5, train=1)
     TIMESCALE = PlayTrain(play=1, train=300)
     TARGET_FRAME_RATE = PlayTrain(play=60, train=-1)
+    ARENA_CONFIG_SC_UUID = "9c36c837-cad5-498a-b675-bc19c9370072"
 
     def __init__(
             self,
@@ -45,12 +45,10 @@ class AnimalAIEnvironment(UnityEnvironment):
         self.play = play
         self.inference = inference
         self.timeout = 10 if play else 60
-        self.arenas_parameters_side_channel = RawBytesChannel(
-            channel_id=uuid.UUID("9c36c837-cad5-498a-b675-bc19c9370072"))
-        self.side_channels = [] if side_channels is None else side_channels
-        contains_engine_config = any([isinstance(side_channel, EngineConfig) for side_channel in self.side_channels])
-        if not contains_engine_config:
-            self.side_channels.append(self.create_engine_config_side_channel())
+        self.side_channels = side_channels if side_channels else []
+        self.arenas_parameters_side_channel = None
+
+        self.configure_side_channels(side_channels)
 
         super().__init__(file_name=file_name,
                          worker_id=worker_id,
@@ -60,22 +58,19 @@ class AnimalAIEnvironment(UnityEnvironment):
                          no_graphics=False,
                          timeout_wait=self.timeout,
                          args=args,
-                         side_channels=self.side_channels + [self.arenas_parameters_side_channel],
+                         side_channels=self.side_channels,
                          )
         self.reset(arenas_configurations)
 
-    def reset(self, arenas_configurations: ArenaConfig = None) -> None:
-        if arenas_configurations:
-            arenas_configurations_proto = arenas_configurations.to_proto()
-            arenas_configurations_proto_string = arenas_configurations_proto.SerializeToString()
-            self.arenas_parameters_side_channel.send_raw_data(bytearray(arenas_configurations_proto_string))
-        try:
-            super().reset()
-        except UnityTimeOutException as timeoutException:
-            if self.play:
-                pass
-            else:
-                raise timeoutException
+    def configure_side_channels(self, side_channels: List[SideChannel]) -> None:
+
+        contains_engine_config_sc = any([isinstance(sc, EngineConfigurationChannel) for sc in side_channels])
+        if not contains_engine_config_sc:
+            self.side_channels.append(self.create_engine_config_side_channel())
+        contains_arena_config_sc = any([sc.channel_id == self.ARENA_CONFIG_SC_UUID for sc in side_channels])
+        if not contains_arena_config_sc:
+            self.arenas_parameters_side_channel = RawBytesChannel(channel_id=uuid.UUID(self.ARENA_CONFIG_SC_UUID))
+            self.side_channels.append(self.arenas_parameters_side_channel)
 
     def create_engine_config_side_channel(self) -> EngineConfigurationChannel:
 
@@ -98,6 +93,19 @@ class AnimalAIEnvironment(UnityEnvironment):
         engine_configuration_channel = EngineConfigurationChannel()
         engine_configuration_channel.set_configuration(engine_configuration)
         return engine_configuration_channel
+
+    def reset(self, arenas_configurations: ArenaConfig = None) -> None:
+        if arenas_configurations:
+            arenas_configurations_proto = arenas_configurations.to_proto()
+            arenas_configurations_proto_string = arenas_configurations_proto.SerializeToString()
+            self.arenas_parameters_side_channel.send_raw_data(bytearray(arenas_configurations_proto_string))
+        try:
+            super().reset()
+        except UnityTimeOutException as timeoutException:
+            if self.play:
+                pass
+            else:
+                raise timeoutException
 
     @staticmethod
     def executable_args(
