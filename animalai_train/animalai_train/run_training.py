@@ -16,10 +16,10 @@ from mlagents.trainers.learn import create_sampler_manager
 
 from animalai.envs.environment import AnimalAIEnvironment
 
-from utils.run_options import RunOptions
-from utils.environment_factory import create_environment_factory
-# from examples.utils.run_options import RunOptions
-# from examples.utils.environment_factory import create_environment_factory
+# from .run_options import RunOptions
+# from .environment_factory import create_environment_factory
+from animalai_train.run_options import RunOptions
+from animalai_train.environment_factory import create_environment_factory
 
 
 def run_training(run_seed: int, options: RunOptions) -> None:
