@@ -2,7 +2,7 @@ from typing import NamedTuple, Dict, Optional, List
 from animalai.envs.arena_config import ArenaConfig
 
 
-class RunOptions(NamedTuple):
+class RunOptionsAAI(NamedTuple):
     trainer_config: Dict = None
     debug: bool = False
     seed: int = 0

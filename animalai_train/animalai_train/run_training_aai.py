@@ -9,7 +9,6 @@ from mlagents.trainers.stats import (
     GaugeWriter,
 )
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfig
-# from mlagents.trainers.subprocess_env_manager import SubprocessEnvManager
 from mlagents.trainers.trainer_util import TrainerFactory
 from mlagents.trainers.trainer_controller import TrainerController
 from mlagents.trainers.learn import create_sampler_manager
@@ -17,11 +16,11 @@ from mlagents.trainers.learn import create_sampler_manager
 from animalai.envs.environment import AnimalAIEnvironment
 
 from animalai_train.subprocess_env_manager_aai import SubprocessEnvManagerAAI
-from animalai_train.run_options import RunOptions
-from animalai_train.environment_factory import create_environment_factory
+from animalai_train.run_options_aai import RunOptionsAAI
+from animalai_train.environment_factory_aai import create_environment_factory_aai
 
 
-def run_training(run_seed: int, options: RunOptions) -> None:
+def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
     """
     Launches training session.
     :param options: parsed command line arguments
@@ -55,7 +54,7 @@ def run_training(run_seed: int, options: RunOptions) -> None:
 
         if options.env_path is None:
             port = AnimalAIEnvironment.DEFAULT_EDITOR_PORT
-        env_factory = create_environment_factory(
+        env_factory = create_environment_factory_aai(
             options.env_path,
             options.docker_target_name,
             run_seed,

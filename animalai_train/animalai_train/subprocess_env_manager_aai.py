@@ -25,7 +25,7 @@ from mlagents.trainers.subprocess_env_manager import (
 from animalai.envs.arena_config import ArenaConfig
 
 
-def worker(
+def worker_aai(
         parent_conn: Connection,
         step_queue: Queue,
         pickled_env_factory: str,

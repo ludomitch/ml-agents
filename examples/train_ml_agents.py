@@ -1,20 +1,18 @@
-# import os
-# os.chdir("examples/")
 from mlagents.trainers.trainer_util import load_config
 from animalai.envs.arena_config import ArenaConfig
 
-from animalai_train.run_options import RunOptions
-from animalai_train.run_training import run_training
+from animalai_train.run_options_aai import RunOptionsAAI
+from animalai_train.run_training_aai import run_training_aai
 
 trainer_config_path = "configurations/training_configurations/train_ml_agents_config.yaml"
 environment_path = "/home/ben/AnimalAI/builds-ml-agents-aaio/aaio"
 arena_config_path = "configurations/arena_configurations/train_ml_agents_arenas.yml"
 run_id = "train_ml_agents"
-base_port = 5010
+base_port = 5005
 number_of_environments = 4
 number_of_arenas_per_environment = 8
 
-args = RunOptions(
+args = RunOptionsAAI(
     trainer_config=load_config(trainer_config_path),
     env_path=environment_path,
     run_id=run_id,
@@ -24,4 +22,4 @@ args = RunOptions(
     n_arenas_per_env=number_of_arenas_per_environment,
 )
 
-run_training(0, args)
+run_training_aai(0, args)

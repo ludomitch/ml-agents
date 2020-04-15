@@ -10,7 +10,7 @@ from animalai.envs.arena_config import ArenaConfig
 from animalai.envs.environment import AnimalAIEnvironment
 
 
-def create_environment_factory(
+def create_environment_factory_aai(
         env_path: Optional[str],
         docker_target_name: Optional[str],
         seed: Optional[int],
