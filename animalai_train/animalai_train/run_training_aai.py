@@ -1,6 +1,6 @@
 from typing import Optional, Dict
 
-from mlagents.trainers.meta_curriculum import MetaCurriculum
+# from mlagents.trainers.meta_curriculum import MetaCurriculum
 from mlagents_envs.timers import hierarchical_timer
 from mlagents.trainers.stats import (
     TensorboardWriter,
@@ -10,7 +10,7 @@ from mlagents.trainers.stats import (
 )
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfig
 from mlagents.trainers.trainer_util import TrainerFactory
-from mlagents.trainers.trainer_controller import TrainerController
+# from mlagents.trainers.trainer_controller import TrainerController
 from mlagents.trainers.learn import create_sampler_manager
 
 from animalai.envs.environment import AnimalAIEnvironment
@@ -18,6 +18,8 @@ from animalai.envs.environment import AnimalAIEnvironment
 from animalai_train.subprocess_env_manager_aai import SubprocessEnvManagerAAI
 from animalai_train.run_options_aai import RunOptionsAAI
 from animalai_train.environment_factory_aai import create_environment_factory_aai
+from animalai_train.meta_curriculum_aai import MetaCurriculumAAI
+from animalai_train.trainer_controller_aai import TrainerControllerAAI
 
 
 def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
@@ -90,7 +92,7 @@ def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
             options.multi_gpu,
         )
         # Create controller and begin training.
-        tc = TrainerController(
+        tc = TrainerControllerAAI(
             trainer_factory,
             model_path,
             summaries_dir,
@@ -112,13 +114,13 @@ def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
 
 
 def try_create_meta_curriculum(
-        curriculum_config: Optional[Dict], env: SubprocessEnvManagerAAI, lesson: int
-) -> Optional[MetaCurriculum]:
+        curriculum_config: str, env: SubprocessEnvManagerAAI, lesson: int
+) -> Optional[MetaCurriculumAAI]:
     # TODO: may need rewrite for arena configuration curricula
     if curriculum_config is None:
         return None
     else:
-        meta_curriculum = MetaCurriculum(curriculum_config)
+        meta_curriculum = MetaCurriculumAAI(curriculum_config)
         # TODO: Should be able to start learning at different lesson numbers
         # for each curriculum.
         meta_curriculum.set_all_curricula_to_lesson_num(lesson)

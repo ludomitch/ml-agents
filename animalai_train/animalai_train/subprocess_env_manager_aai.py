@@ -1,7 +1,7 @@
-from typing import List, Callable
+from typing import List, Callable, Optional, Dict
 import cloudpickle
 
-from mlagents_envs.environment import UnityEnvironment
+from multiprocessing import Process, Pipe
 from mlagents_envs.exception import UnityCommunicationException, UnityTimeOutException
 from multiprocessing import Queue
 from multiprocessing.connection import Connection
@@ -20,9 +20,9 @@ from mlagents.trainers.subprocess_env_manager import (
     SubprocessEnvManager,
     EnvironmentCommand,
     EnvironmentResponse,
-    StepResponse
+    StepResponse,
+    UnityEnvWorker
 )
-from animalai.envs.arena_config import ArenaConfig
 from animalai.envs.environment import AnimalAIEnvironment
 
 
@@ -107,7 +107,32 @@ def worker_aai(
 
 class SubprocessEnvManagerAAI(SubprocessEnvManager):
 
-    def _reset_env(self, config: ArenaConfig = None) -> List[EnvironmentStep]:
+    @staticmethod
+    def create_worker(
+            worker_id: int,
+            step_queue: Queue,
+            env_factory: Callable[[int, List[SideChannel]], BaseEnv],
+            engine_configuration: EngineConfig,
+    ) -> UnityEnvWorker:
+        parent_conn, child_conn = Pipe()
+
+        # Need to use cloudpickle for the env factory function since function objects aren't picklable
+        # on Windows as of Python 3.6.
+        pickled_env_factory = cloudpickle.dumps(env_factory)
+        child_process = Process(
+            target=worker_aai,
+            args=(
+                child_conn,
+                step_queue,
+                pickled_env_factory,
+                worker_id,
+                engine_configuration,
+            ),
+        )
+        child_process.start()
+        return UnityEnvWorker(child_process, worker_id, parent_conn)
+
+    def _reset_env(self, config: Optional[Dict] = None) -> List[EnvironmentStep]:
         while any(ew.waiting for ew in self.env_workers):
             if not self.step_queue.empty():
                 step = self.step_queue.get_nowait()

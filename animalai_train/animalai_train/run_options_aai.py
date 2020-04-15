@@ -14,7 +14,7 @@ class RunOptionsAAI(NamedTuple):
     keep_checkpoints: int = 5
     base_port: int = 5005
     num_envs: int = 1
-    curriculum_config: Optional[Dict] = None
+    curriculum_config: str = None
     lesson: int = 0
     no_graphics: bool = False
     multi_gpu: bool = False

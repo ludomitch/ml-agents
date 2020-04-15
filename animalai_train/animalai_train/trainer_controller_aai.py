@@ -1,12 +1,12 @@
 from mlagents.trainers.trainer_controller import TrainerController
+from mlagents.trainers.env_manager import EnvManager
 from mlagents_envs.timers import timed
-from animalai_train.env_manager_aai import EnvManagerAAI
 
 
 class TrainerControllerAAI(TrainerController):
 
     @timed
-    def _reset_env(self, env: EnvManagerAAI) -> None:
+    def _reset_env(self, env: EnvManager) -> None:
         """Resets the environment.
 
         Returns:
