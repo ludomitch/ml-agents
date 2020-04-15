@@ -23,6 +23,7 @@ from mlagents.trainers.subprocess_env_manager import (
     StepResponse
 )
 from animalai.envs.arena_config import ArenaConfig
+from animalai.envs.environment import AnimalAIEnvironment
 
 
 def worker_aai(
@@ -33,12 +34,12 @@ def worker_aai(
         engine_configuration: EngineConfig,
 ) -> None:
     env_factory: Callable[
-        [int, List[SideChannel]], UnityEnvironment
+        [int, List[SideChannel]], AnimalAIEnvironment
     ] = cloudpickle.loads(pickled_env_factory)
     shared_float_properties = FloatPropertiesChannel()
     engine_configuration_channel = EngineConfigurationChannel()
     engine_configuration_channel.set_configuration(engine_configuration)
-    env: BaseEnv = env_factory(
+    env: AnimalAIEnvironment = env_factory(
         worker_id, [shared_float_properties, engine_configuration_channel]
     )
 

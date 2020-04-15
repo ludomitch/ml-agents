@@ -23,9 +23,8 @@ from animalai_train.environment_factory_aai import create_environment_factory_aa
 def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
     """
     Launches training session.
-    :param options: parsed command line arguments
     :param run_seed: Random seed used for training.
-    :param run_options: Command line arguments for training.
+    :param options: training parameters
     """
     with hierarchical_timer("run_training.setup"):
         # Recognize and use docker volume if one is passed as an argument
