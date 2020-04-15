@@ -9,15 +9,14 @@ from mlagents.trainers.stats import (
     GaugeWriter,
 )
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfig
-from mlagents.trainers.subprocess_env_manager import SubprocessEnvManager
+# from mlagents.trainers.subprocess_env_manager import SubprocessEnvManager
 from mlagents.trainers.trainer_util import TrainerFactory
 from mlagents.trainers.trainer_controller import TrainerController
 from mlagents.trainers.learn import create_sampler_manager
 
 from animalai.envs.environment import AnimalAIEnvironment
 
-# from .run_options import RunOptions
-# from .environment_factory import create_environment_factory
+from animalai_train.subprocess_env_manager_aai import SubprocessEnvManagerAAI
 from animalai_train.run_options import RunOptions
 from animalai_train.environment_factory import create_environment_factory
 
@@ -73,7 +72,7 @@ def run_training(run_seed: int, options: RunOptions) -> None:
             AnimalAIEnvironment.TIMESCALE.train,
             AnimalAIEnvironment.TARGET_FRAME_RATE.train,
         )
-        env_manager = SubprocessEnvManager(env_factory, engine_config, options.num_envs)
+        env_manager = SubprocessEnvManagerAAI(env_factory, engine_config, options.num_envs)
         maybe_meta_curriculum = try_create_meta_curriculum(
             options.curriculum_config, env_manager, options.lesson
         )
@@ -115,7 +114,7 @@ def run_training(run_seed: int, options: RunOptions) -> None:
 
 
 def try_create_meta_curriculum(
-        curriculum_config: Optional[Dict], env: SubprocessEnvManager, lesson: int
+        curriculum_config: Optional[Dict], env: SubprocessEnvManagerAAI, lesson: int
 ) -> Optional[MetaCurriculum]:
     # TODO: may need rewrite for arena configuration curricula
     if curriculum_config is None:

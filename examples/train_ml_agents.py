@@ -10,7 +10,7 @@ trainer_config_path = "configurations/training_configurations/train_ml_agents_co
 environment_path = "/home/ben/AnimalAI/builds-ml-agents-aaio/aaio"
 arena_config_path = "configurations/arena_configurations/train_ml_agents_arenas.yml"
 run_id = "train_ml_agents"
-base_port = 5005
+base_port = 5010
 number_of_environments = 4
 number_of_arenas_per_environment = 8
 
