@@ -48,7 +48,7 @@ class AnimalAIEnvironment(UnityEnvironment):
         self.side_channels = side_channels if side_channels else []
         self.arenas_parameters_side_channel = None
 
-        self.configure_side_channels(side_channels)
+        self.configure_side_channels(self.side_channels)
 
         super().__init__(file_name=file_name,
                          worker_id=worker_id,
