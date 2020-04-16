@@ -1,6 +1,5 @@
-from typing import Optional, Dict
+from typing import Optional
 
-# from mlagents.trainers.meta_curriculum import MetaCurriculum
 from mlagents_envs.timers import hierarchical_timer
 from mlagents.trainers.stats import (
     TensorboardWriter,
@@ -10,8 +9,7 @@ from mlagents.trainers.stats import (
 )
 from mlagents_envs.side_channel.engine_configuration_channel import EngineConfig
 from mlagents.trainers.trainer_util import TrainerFactory
-# from mlagents.trainers.trainer_controller import TrainerController
-from mlagents.trainers.learn import create_sampler_manager
+from mlagents.trainers.learn import write_timing_tree
 
 from animalai.envs.environment import AnimalAIEnvironment
 
@@ -76,9 +74,6 @@ def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
         maybe_meta_curriculum = try_create_meta_curriculum(
             options.curriculum_config, env_manager, options.lesson
         )
-        sampler_manager, resampling_interval = create_sampler_manager(
-            options.sampler_config, run_seed
-        )
         trainer_factory = TrainerFactory(
             options.trainer_config,
             summaries_dir,
@@ -89,7 +84,7 @@ def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
             options.load_model,
             run_seed,
             maybe_meta_curriculum,
-            options.multi_gpu,
+            # options.multi_gpu,
         )
         # Create controller and begin training.
         tc = TrainerControllerAAI(
@@ -101,8 +96,6 @@ def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
             maybe_meta_curriculum,
             options.train_model,
             run_seed,
-            sampler_manager,
-            resampling_interval,
         )
 
     # Begin training
@@ -110,7 +103,7 @@ def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
         tc.start_learning(env_manager)
     finally:
         env_manager.close()
-        # write_timing_tree(summaries_dir, options.run_id)
+        write_timing_tree(summaries_dir, options.run_id)
 
 
 def try_create_meta_curriculum(
