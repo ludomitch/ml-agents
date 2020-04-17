@@ -21,7 +21,8 @@ setup(
     zip_safe=False,
     install_requires=[
         'mlagents-envs==0.15.0',
-        'jsonpickle'
+        'jsonpickle',
+        'pyyaml'
     ],
     python_requires=">=3.5",  # ,<3.8",
 )

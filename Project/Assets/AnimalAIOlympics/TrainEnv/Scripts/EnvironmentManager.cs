@@ -49,6 +49,7 @@ public class EnvironmentManager : MonoBehaviour
             int numberOfArenas = environmentParameters.TryGetValue("numberOfArenas", out paramValue) ?  paramValue : 1;
             int cameraWidth = environmentParameters.TryGetValue("cameraWidth", out paramValue) ?  paramValue : defaultResolution;
             int cameraHeight = environmentParameters.TryGetValue("cameraHeight", out paramValue) ?  paramValue : defaultResolution;
+            bool grayscale = (environmentParameters.TryGetValue("grayscalse", out paramValue) ?  paramValue : 0) > 0;
 
             if (Application.isEditor)
             {
@@ -65,7 +66,7 @@ public class EnvironmentManager : MonoBehaviour
 
             _arenasConfigurations.numberOfArenas = numberOfArenas;
             _arenas = new TrainingArena[numberOfArenas];
-            ChangeResolution(cameraWidth, cameraHeight);
+            ChangeResolution(cameraWidth, cameraHeight, grayscale);
             InstantiateArenas(numberOfArenas);
             ConfigureIfPlayer(playerMode); //, receiveConfiguration);
             _firstReset = false;
@@ -96,11 +97,12 @@ public class EnvironmentManager : MonoBehaviour
             new Vector3(n * width / 2, 50 * (float)n, (float)n * height / 2);
     }
 
-    private void ChangeResolution(int cameraWidth, int cameraHeight)
+    private void ChangeResolution(int cameraWidth, int cameraHeight, bool grayscale)
     {
         CameraSensorComponent cameraSensor = arena.transform.FindChildWithTag("agent").GetComponent<CameraSensorComponent>();
         cameraSensor.width = cameraWidth;
         cameraSensor.height = cameraHeight;
+        cameraSensor.grayscale = grayscale;
     }
 
     public bool GetConfiguration(int arenaID, out ArenaConfiguration arenaConfiguration)
@@ -151,6 +153,9 @@ public class EnvironmentManager : MonoBehaviour
                 case "--cameraHeight":
                     int camH = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
                     environmentParameters.Add("cameraHeight", camH);
+                    break;
+                case "--grayscale":
+                    environmentParameters.Add("grayscale", 1);
                     break;
             }
         }

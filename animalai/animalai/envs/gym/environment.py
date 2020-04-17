@@ -27,6 +27,7 @@ class AnimalAIGym(UnityEnv):
             n_arenas: int = 1,
             seed: int = 0,
             inference: bool = False,
+            grayscale: bool = False,
             arenas_configurations: ArenaConfig = None,
     ):
         """
@@ -53,6 +54,7 @@ class AnimalAIGym(UnityEnv):
             n_arenas=n_arenas,
             inference=inference,
             arenas_configurations=arenas_configurations,
+            grayscale=grayscale
         )
 
         # Take a single step so that the brain information will be sent over
@@ -89,21 +91,7 @@ class AnimalAIGym(UnityEnv):
                 " visual observations as part of this environment."
             )
         self.use_visual = self._get_n_vis_obs() >= 1
-
-        # if not use_visual and uint8_visual:
-        #     logger.warning(
-        #         "`uint8_visual was set to true, but visual observations are not in use. "
-        #         "This setting will not have any effect."
-        #     )
-        # else:
         self.uint8_visual = uint8_visual
-
-        # if self._get_n_vis_obs() > 1 and not self._allow_multiple_visual_obs:
-        #     logger.warning(
-        #         "The environment contains more than one visual observation. "
-        #         "You must define allow_multiple_visual_obs=True to received them all. "
-        #         "Otherwise, please note that only the first will be provided in the observation."
-        #     )
 
         # Check for number of agents in scene.
         self._env.reset()

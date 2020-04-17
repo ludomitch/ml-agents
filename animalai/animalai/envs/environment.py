@@ -38,10 +38,11 @@ class AnimalAIEnvironment(UnityEnvironment):
             inference: bool = False,
             camera_width: int = None,
             camera_height: int = None,
+            grayscale: bool = False,
             side_channels: Optional[List[SideChannel]] = None,
     ):
 
-        args = self.executable_args(n_arenas, play, camera_height, camera_width)
+        args = self.executable_args(n_arenas, play, camera_height, camera_width, grayscale)
         self.play = play
         self.inference = inference
         self.timeout = 10 if play else 60
@@ -112,7 +113,8 @@ class AnimalAIEnvironment(UnityEnvironment):
             n_arenas: int = 1,
             play: bool = False,
             camera_height: int = 84,
-            camera_width: int = 84) -> List[str]:
+            camera_width: int = 84,
+            grayscale: bool = False) -> List[str]:
         args = ["--playerMode"]
         if play:
             args.append("1")
@@ -126,5 +128,6 @@ class AnimalAIEnvironment(UnityEnvironment):
         if camera_height:
             args.append("--cameraHeight")
             args.append(str(camera_height))
-
+        if grayscale:
+            args.append("--grayscale")
         return args
