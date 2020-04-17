@@ -49,7 +49,7 @@ public class EnvironmentManager : MonoBehaviour
             int numberOfArenas = environmentParameters.TryGetValue("numberOfArenas", out paramValue) ?  paramValue : 1;
             int cameraWidth = environmentParameters.TryGetValue("cameraWidth", out paramValue) ?  paramValue : defaultResolution;
             int cameraHeight = environmentParameters.TryGetValue("cameraHeight", out paramValue) ?  paramValue : defaultResolution;
-            bool grayscale = (environmentParameters.TryGetValue("grayscalse", out paramValue) ?  paramValue : 0) > 0;
+            bool grayscale = (environmentParameters.TryGetValue("grayscale", out paramValue) ?  paramValue : 0) > 0;
 
             if (Application.isEditor)
             {
