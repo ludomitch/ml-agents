@@ -28,12 +28,12 @@ def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
     """
     with hierarchical_timer("run_training.setup"):
         # Recognize and use docker volume if one is passed as an argument
-        if not options.docker_target_name:
-            model_path = f"./models/{options.run_id}"
-            summaries_dir = "./summaries"
-        else:
-            model_path = f"/{options.docker_target_name}/models/{options.run_id}"
-            summaries_dir = f"/{options.docker_target_name}/summaries"
+        # if not options.docker_target_name:
+        model_path = f"./models/{options.run_id}"
+        summaries_dir = "./summaries"
+        # else:
+        #     model_path = f"/{options.docker_target_name}/models/{options.run_id}"
+        #     summaries_dir = f"/{options.docker_target_name}/summaries"
         port = options.base_port
 
         # Configure CSV, Tensorboard Writers and StatsReporter
@@ -55,7 +55,7 @@ def run_training_aai(run_seed: int, options: RunOptionsAAI) -> None:
             port = AnimalAIEnvironment.DEFAULT_EDITOR_PORT
         env_factory = create_environment_factory_aai(
             options.env_path,
-            options.docker_target_name,
+            # options.docker_target_name,
             run_seed,
             port,
             options.n_arenas_per_env,

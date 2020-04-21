@@ -31,7 +31,7 @@ class AnimalAIEnvironment(UnityEnvironment):
             worker_id: int = 0,
             base_port: int = 5005,
             seed: int = 0,
-            docker_training: bool = False,
+            # docker_training: bool = False, # Will be removed in final version
             n_arenas: int = 1,
             play: bool = False,
             arenas_configurations: ArenaConfig = None,
@@ -55,7 +55,6 @@ class AnimalAIEnvironment(UnityEnvironment):
                          worker_id=worker_id,
                          base_port=base_port,
                          seed=seed,
-                         docker_training=docker_training,
                          no_graphics=False,
                          timeout_wait=self.timeout,
                          args=args,

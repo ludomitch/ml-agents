@@ -17,7 +17,7 @@ class RunOptionsAAI(NamedTuple):
     curriculum_config: str = None
     lesson: int = 0
     # multi_gpu: bool = False   # Will be added in later version
-    docker_target_name: Optional[str] = None
+    # docker_target_name: Optional[str] = None
     cpu: bool = False
     width: int = 84
     height: int = 84
@@ -41,7 +41,6 @@ class RunOptionsAAI(NamedTuple):
     curriculum_config:  Path to curriculum training folder 
     lesson:             Start learning from this lesson if using curriculum
     multi_gpu:          Whether or not to use multiple GPU (not in current version)
-    docker_target_name: Docker volume to store training-specific files
     cpu:                Run with CPU only
     width:              The width of the executable window of the environment(s)
     height:             The height of the executable window of the environment(s)
