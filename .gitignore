@@ -5,6 +5,7 @@ logs/
 
 # Training environments
 /envs
+env/
 
 # Environemnt logfile
 *Project.log
