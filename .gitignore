@@ -1,9 +1,11 @@
 # Tensorflow Model Info
-/models
-/summaries
+models/
+summaries/
+logs/
 
 # Training environments
 /envs
+env/
 
 # Environemnt logfile
 *Project.log
@@ -86,3 +88,6 @@ venv/
 .coverage
 coverage.xml
 /htmlcov/
+
+# Dev folder
+dev/

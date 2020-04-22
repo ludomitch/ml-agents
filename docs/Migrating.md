@@ -7,13 +7,6 @@ The versions can be found in
 
 # Migrating
 
-## Migrating from 0.15 to latest
-
-### Important changes
-
-### Steps to Migrate
-
-
 ## Migrating from 0.14 to 0.15
 
 ### Important changes

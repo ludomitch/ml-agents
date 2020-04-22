@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "/home/ben/AnimalAI/ml-agents/com.unity.ml-agents"
+		},
+		{
+			"path": "/home/ben/AnimalAI/ml-agents/protobuf-definitions"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,3 @@
+[submodule "AnimalAI-Olympics"]
+	path = AnimalAI-Olympics
+	url = https://github.com/beyretb/AnimalAI-Olympics
