@@ -101,4 +101,9 @@ public class TrainingArena : MonoBehaviour
             }
         }
     }
+
+    void FixedUpdate()
+    {
+        UpdateLigthStatus();
+    }
 }

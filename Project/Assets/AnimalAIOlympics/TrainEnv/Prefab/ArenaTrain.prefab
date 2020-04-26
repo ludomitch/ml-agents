@@ -804,7 +804,9 @@ MonoBehaviour:
   maxSpawnAttemptsForAgent: 100
   maxSpawnAttemptsForPrefabs: 20
   blackScreens:
-    allBlackScreens: []
+    allBlackScreens:
+    - {fileID: 5360384863279496820}
+    - {fileID: 2437595699717466361}
   arenaID: -1
   agent: {fileID: 0}
 --- !u!1 &1583564189836146
