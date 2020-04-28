@@ -48,28 +48,25 @@ public class EnvironmentManager : MonoBehaviour
             int paramValue;
             playerMode = (environmentParameters.TryGetValue("playerMode", out paramValue) ? paramValue : 1) > 0;
             int numberOfArenas = environmentParameters.TryGetValue("numberOfArenas", out paramValue) ? paramValue : 1;
-            int cameraWidth = environmentParameters.TryGetValue("cameraWidth", out paramValue) ? paramValue : defaultResolution;
-            int cameraHeight = environmentParameters.TryGetValue("cameraHeight", out paramValue) ? paramValue : defaultResolution;
+            int resolution = environmentParameters.TryGetValue("resolution", out paramValue) ? paramValue : defaultResolution;
             bool grayscale = (environmentParameters.TryGetValue("grayscale", out paramValue) ? paramValue : 0) > 0;
 
             if (Application.isEditor)
             {
                 numberOfArenas = 1;
                 playerMode = false;
-                cameraWidth = 512;
-                cameraHeight = 512;
+                resolution = 512;
                 // receiveConfiguration = true;
             }
 
 
-            cameraWidth = Math.Max(minimumResolution, Math.Min(maximumResolution, cameraWidth));
-            cameraHeight = Math.Max(minimumResolution, Math.Min(maximumResolution, cameraHeight));
+            resolution = Math.Max(minimumResolution, Math.Min(maximumResolution, resolution));
             numberOfArenas = playerMode ? 1 : numberOfArenas;
             arena = playerMode ? arenaHeuristic : arenaTraining;
 
             _arenasConfigurations.numberOfArenas = numberOfArenas;
             _arenas = new TrainingArena[numberOfArenas];
-            ChangeResolution(cameraWidth, cameraHeight, grayscale);
+            ChangeResolution(resolution, resolution, grayscale);
             InstantiateArenas(numberOfArenas);
             ConfigureIfPlayer(playerMode);
             _firstReset = false;
@@ -149,13 +146,9 @@ public class EnvironmentManager : MonoBehaviour
                     int nArenas = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : 1;
                     environmentParameters.Add("numberOfArenas", nArenas);
                     break;
-                case "--cameraWidth":
+                case "--resolution":
                     int camW = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
-                    environmentParameters.Add("cameraWidth", camW);
-                    break;
-                case "--cameraHeight":
-                    int camH = (i < args.Length - 1) ? Int32.Parse(args[i + 1]) : defaultResolution;
-                    environmentParameters.Add("cameraHeight", camH);
+                    environmentParameters.Add("resolution", camW);
                     break;
                 case "--grayscale":
                     environmentParameters.Add("grayscale", 1);
