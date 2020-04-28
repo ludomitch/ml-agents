@@ -14,7 +14,7 @@ public class ArenasParametersSideChannel : SideChannel
     {
         // when a new message is received we trigger an event to signal the environment
         // configurations to check if they need to update
-        
+
         ArenasParametersEventArgs args = new ArenasParametersEventArgs();
         args.Proto = msg.GetRawBytes();
         OnArenasParametersReceived(args);
@@ -33,7 +33,7 @@ public class ArenasParametersSideChannel : SideChannel
 
 
     // TODO: maybe add feedback on which items haven't been spawned ??
-    
+
     // public void SendDebugStatementToPython(string logString, string stackTrace, LogType type)
     // {
     //     if (type == LogType.Error)

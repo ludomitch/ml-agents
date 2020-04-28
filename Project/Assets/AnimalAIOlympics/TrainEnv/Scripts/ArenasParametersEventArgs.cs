@@ -1,9 +1,10 @@
 using System;
 
-namespace ArenasParameters{
+namespace ArenasParameters
+{
 
-    public class ArenasParametersEventArgs: EventArgs
+    public class ArenasParametersEventArgs : EventArgs
     {
-        public byte[] Proto {get; set;}
+        public byte[] Proto { get; set; }
     }
 }

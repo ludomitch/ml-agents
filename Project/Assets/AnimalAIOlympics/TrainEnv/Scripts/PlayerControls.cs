@@ -13,7 +13,6 @@ public class PlayerControls : MonoBehaviour
     private Text _score;
     private int _numActive = 0;
     private Dictionary<int, Camera> _cameras;
-    // public bool activate = false;
     public float prevScore = 0;
 
     void Start()
@@ -23,7 +22,7 @@ public class PlayerControls : MonoBehaviour
         _cameraAgent = _agent.transform.Find("AgentCamMid").GetComponent<Camera>();
         _cameraFollow = GameObject.FindGameObjectWithTag("camBase").GetComponent<Camera>();
         _score = GameObject.FindObjectOfType<Text>();
-        
+
         _cameraAbove.enabled = true;
         _cameraAgent.enabled = false;
         _cameraFollow.enabled = false;
@@ -37,13 +36,11 @@ public class PlayerControls : MonoBehaviour
 
     void FixedUpdate()
     {
-        // if (activate)
-        // {
         bool cDown = Input.GetKeyDown(KeyCode.C);
         if (cDown)
         {
             _cameras[_numActive].enabled = false;
-            _numActive = (_numActive + 1) %3;
+            _numActive = (_numActive + 1) % 3;
             _cameras[_numActive].enabled = true;
         }
         if (Input.GetKeyDown(KeyCode.R))
@@ -51,8 +48,7 @@ public class PlayerControls : MonoBehaviour
             _agent.EndEpisode();
         }
 
-        _score.text = "Prev reward: "+ _agent.GetPreviousScore().ToString("0.000")+ "\n"
-                        + "Reward: "+ _agent.GetCumulativeReward().ToString("0.000");
-        // }
+        _score.text = "Prev reward: " + _agent.GetPreviousScore().ToString("0.000") + "\n"
+                        + "Reward: " + _agent.GetCumulativeReward().ToString("0.000");
     }
 }

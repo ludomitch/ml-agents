@@ -35,14 +35,6 @@ public class TrainingArena : MonoBehaviour
                                     maxSpawnAttemptsForPrefabs,
                                     maxSpawnAttemptsForAgent);
         _environmentManager = GameObject.FindObjectOfType<EnvironmentManager>();
-        // if (!_environmentManager.GetConfiguration(arenaID, out _arenaConfiguration))
-        // {
-        //     Debug.Log("configuration missing for arena " + arenaID);
-        //     _arenaConfiguration = new ArenaConfiguration(prefabs);
-        //     _environmentManager.AddConfiguration(arenaID, _arenaConfiguration);
-        // }
-        // Debug.Log(_environmentManager.GetConfiguration(arenaID, out _arenaConfiguration));
-        // Debug.Log(_arenaConfiguration);
         agent = transform.FindChildWithTag("agent").GetComponent<Agent>();
         _agentDecisionInterval = transform.FindChildWithTag("agent").GetComponent<DecisionPeriod>().decisionPeriod;
         _fades = blackScreens.GetFades();
@@ -50,29 +42,16 @@ public class TrainingArena : MonoBehaviour
 
     public void ResetArena()
     {
-        // Debug.Log("resetting arena");
-        // if (transform.FindChildrenWithTag("spawnedObjects").Count>1)
-        // {
-        //     // Debug.Break();
-        //     Debug.Log("More than one holder");
-        // }
-        // if (transform.FindChildrenWithTag("spawnedObjects").Count<1)
-        // {
-        //     Debug.Log("Zero holder");
-        // }
         foreach (GameObject holder in transform.FindChildrenWithTag("spawnedObjects"))
         {
             holder.SetActive(false);
             Destroy(holder);
         }
-        // transform.FindChildWithTag("spawnedObjects").SetActive(false);
-        // DestroyImmediate(transform.FindChildWithTag("spawnedObjects"));
-        // Destroy(transform.FindChildWithTag("spawnedObjects"));
 
         ArenaConfiguration newConfiguration;
         if (!_environmentManager.GetConfiguration(arenaID, out newConfiguration))
         {
-            newConfiguration =  new ArenaConfiguration(prefabs);
+            newConfiguration = new ArenaConfiguration(prefabs);
             _environmentManager.AddConfiguration(arenaID, newConfiguration);
         }
         _arenaConfiguration = newConfiguration;
@@ -83,7 +62,7 @@ public class TrainingArena : MonoBehaviour
             _arenaConfiguration.toUpdate = false;
             agent.maxStep = _arenaConfiguration.T * _agentDecisionInterval;
         }
-        
+
         _builder.Build();
         _arenaConfiguration.lightsSwitch.Reset();
     }

@@ -22,7 +22,7 @@ namespace Holders
         public List<GameObject> allBlackScreens;
         public List<Fade> GetFades()
         {
-            return (from blackScreen in allBlackScreens select blackScreen.transform.GetChild(0).GetComponent<Fade>()).ToList();
+            return (from blackScreen in allBlackScreens select blackScreen.GetComponentInChildren<Fade>()).ToList();
         }
     }
 }

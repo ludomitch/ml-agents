@@ -155,12 +155,12 @@ namespace ArenasParameters
         {
             byte[] arenas = arenasParametersEvent.Proto;
             ArenasConfigurationsProto arenasConfigurationsProto = ArenasConfigurationsProto.Parser.ParseFrom(arenas);
-            
+
             if (arenasConfigurationsProto.Arenas.ContainsKey(-1))
             {
                 // In case we have only a single configuration for all arenas we copy this configuration
                 // to all arenas
-                for (int i=0; i<numberOfArenas; i++)
+                for (int i = 0; i < numberOfArenas; i++)
                 {
                     Add(i, arenasConfigurationsProto.Arenas[-1]);
                 }
@@ -168,7 +168,7 @@ namespace ArenasParameters
             }
             else
             {
-                foreach (KeyValuePair<int,ArenaConfigurationProto> arenaConfiguration in arenasConfigurationsProto.Arenas)
+                foreach (KeyValuePair<int, ArenaConfigurationProto> arenaConfiguration in arenasConfigurationsProto.Arenas)
                 {
                     if (configurations.ContainsKey(arenaConfiguration.Key))
                     {

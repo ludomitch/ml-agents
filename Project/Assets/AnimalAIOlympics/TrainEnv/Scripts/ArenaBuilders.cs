@@ -207,7 +207,6 @@ namespace ArenaBuilders
             }
             else
             {
-                // GameObject.DestroyImmediate(gameObjectInstance);
                 gameObjectInstance.SetActive(false);
                 GameObject.Destroy(gameObjectInstance);
             }
@@ -255,7 +254,7 @@ namespace ArenaBuilders
 
         private bool IsSpotFree(Collider[] colliders, bool isAgent)
         {
-            return colliders.Length == 0 || 
+            return colliders.Length == 0 ||
                     (colliders.All(collider => collider.isTrigger) && !isAgent);
         }
 

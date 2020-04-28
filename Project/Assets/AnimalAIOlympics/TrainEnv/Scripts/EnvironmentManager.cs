@@ -19,8 +19,9 @@ public class EnvironmentManager : MonoBehaviour
     public GameObject playerControls;
     [HideInInspector]
     public GameObject arena;
+    [HideInInspector]
+    public bool playerMode;
 
-    // private FloatPropertiesChannel _ResetParameters;
     private TrainingArena[] _arenas;
     private Agent _agent;
     private bool _firstReset = true;
@@ -45,16 +46,18 @@ public class EnvironmentManager : MonoBehaviour
             Dictionary<string, int> environmentParameters = RetrieveEnvironmentParameters();
 
             int paramValue;
-            bool playerMode = (environmentParameters.TryGetValue("playerMode", out paramValue) ?  paramValue : 1) > 0;
-            int numberOfArenas = environmentParameters.TryGetValue("numberOfArenas", out paramValue) ?  paramValue : 1;
-            int cameraWidth = environmentParameters.TryGetValue("cameraWidth", out paramValue) ?  paramValue : defaultResolution;
-            int cameraHeight = environmentParameters.TryGetValue("cameraHeight", out paramValue) ?  paramValue : defaultResolution;
-            bool grayscale = (environmentParameters.TryGetValue("grayscale", out paramValue) ?  paramValue : 0) > 0;
+            playerMode = (environmentParameters.TryGetValue("playerMode", out paramValue) ? paramValue : 1) > 0;
+            int numberOfArenas = environmentParameters.TryGetValue("numberOfArenas", out paramValue) ? paramValue : 1;
+            int cameraWidth = environmentParameters.TryGetValue("cameraWidth", out paramValue) ? paramValue : defaultResolution;
+            int cameraHeight = environmentParameters.TryGetValue("cameraHeight", out paramValue) ? paramValue : defaultResolution;
+            bool grayscale = (environmentParameters.TryGetValue("grayscale", out paramValue) ? paramValue : 0) > 0;
 
             if (Application.isEditor)
             {
                 numberOfArenas = 1;
-                playerMode=true;
+                playerMode = false;
+                cameraWidth = 512;
+                cameraHeight = 512;
                 // receiveConfiguration = true;
             }
 
@@ -68,7 +71,7 @@ public class EnvironmentManager : MonoBehaviour
             _arenas = new TrainingArena[numberOfArenas];
             ChangeResolution(cameraWidth, cameraHeight, grayscale);
             InstantiateArenas(numberOfArenas);
-            ConfigureIfPlayer(playerMode); //, receiveConfiguration);
+            ConfigureIfPlayer(playerMode);
             _firstReset = false;
         }
     }
@@ -115,7 +118,7 @@ public class EnvironmentManager : MonoBehaviour
         _arenasConfigurations.configurations.Add(arenaID, arenaConfiguration);
     }
 
-    private void ConfigureIfPlayer(bool playerMode) //, bool receiveConfiguration)
+    private void ConfigureIfPlayer(bool playerMode)
     {
 
         GameObject.FindGameObjectWithTag("score").SetActive(playerMode);
@@ -162,30 +165,11 @@ public class EnvironmentManager : MonoBehaviour
         return environmentParameters;
     }
 
-        // private Dictionary<string,int> RetrieveEnvironmentParameters()
-        // {
-        //     // Version using the FloatProperties side channel
-        //     Dictionary<string, int> environmentParameters = new Dictionary<string, int>();
-
-        //     FloatPropertiesChannel _ResetParameters = Academy.Instance.FloatProperties;
-        //     environmentParameters.Add("playerMode",(int)_ResetParameters.GetPropertyWithDefault("playerMode", 1f));
-        //     environmentParameters.Add("inferenceMode",(int)_ResetParameters.GetPropertyWithDefault("inferenceMode", 0f));
-        //     environmentParameters.Add("receiveConfiguration",(int)_ResetParameters.GetPropertyWithDefault("receiveConfiguration", 0f));
-        //     environmentParameters.Add("numberOfArenas",(int)(_ResetParameters.GetPropertyWithDefault("numberOfArenas", 1f)));
-        //     environmentParameters.Add("cameraWidth",(int)(_ResetParameters.GetPropertyWithDefault("cameraWidth", 84f)));
-        //     environmentParameters.Add("cameraHeight",(int)(_ResetParameters.GetPropertyWithDefault("cameraHeight", 84f));
-
-        //     return environmentParameters;
-        // }
-
-
-
-
-        public void OnDestroy()
+    public void OnDestroy()
+    {
+        if (Academy.IsInitialized)
         {
-            if (Academy.IsInitialized)
-            {
-                Academy.Instance.UnregisterSideChannel(_arenasParametersSideChannel);
-            }
+            Academy.Instance.UnregisterSideChannel(_arenasParametersSideChannel);
         }
     }
+}
