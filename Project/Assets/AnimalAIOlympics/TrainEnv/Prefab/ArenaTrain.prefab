@@ -1119,6 +1119,7 @@ GameObject:
   - component: {fileID: 4249718019869002}
   - component: {fileID: 20488899185956688}
   - component: {fileID: 124182321160154930}
+  - component: {fileID: 7483980988628861282}
   m_Layer: 0
   m_Name: AgentCamMid
   m_TagString: Untagged
@@ -1190,6 +1191,19 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673189049811478}
   m_Enabled: 1
+--- !u!114 &7483980988628861282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673189049811478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 744c71b6883254034af1399e4c1d4238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 20488899185956688}
 --- !u!1 &1771744159503734
 GameObject:
   m_ObjectHideFlags: 0
