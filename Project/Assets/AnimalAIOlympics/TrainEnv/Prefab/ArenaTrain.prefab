@@ -1592,7 +1592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    vectorObservationSize: 3
+    vectorObservationSize: 97
     numStackedVectorObservations: 1
     vectorActionSize: 0300000003000000
     vectorActionDescriptions: []
@@ -1619,6 +1619,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   maxStep: 0
+  cam: {fileID: 20488899185956688}
   speed: 30
   rotationSpeed: 100
   rotationAngle: 0.25

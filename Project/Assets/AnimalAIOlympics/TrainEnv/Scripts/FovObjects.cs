@@ -18,22 +18,22 @@ public class FovObjects : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        string allObjects = "";
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("arena"))
-        {
-            Transform[] allChildren = go.GetComponentsInChildren<Transform>();
-            foreach (Transform child in allChildren) {
-				Vector3 screenPoint = cam.WorldToViewportPoint(child.position);
-				bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+   //      string allObjects = "";
+   //      foreach (GameObject go in GameObject.FindGameObjectsWithTag("arena"))
+   //      {
+   //          Transform[] allChildren = go.GetComponentsInChildren<Transform>();
+   //          foreach (Transform child in allChildren) {
+			// 	Vector3 screenPoint = cam.WorldToViewportPoint(child.position);
+			// 	bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
 
-				if(!(new[] {
-					"fence", "Wall", "Ground", "Cam",
-					 "Fwd", "Spawn", "Screen", "Light",
-					  "Arena", "Image", "Agent" }.Any(x => child.name.Contains(x))) && onScreen) {
-					allObjects += child.name + "-";
-				}
-            }
-			Debug.Log(allObjects);
-        }
+			// 	if(!(new[] {
+			// 		"fence", "Wall", "Ground", "Cam",
+			// 		 "Fwd", "Spawn", "Screen", "Light",
+			// 		  "Arena", "Image", "Agent" }.Any(x => child.name.Contains(x))) && onScreen) {
+			// 		allObjects += child.name + "-";
+			// 	}
+   //          }
+			// Debug.Log(allObjects);
+        // }
     }
 }

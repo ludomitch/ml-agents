@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using MLAgents;
 using PrefabInterface;
 using MLAgents.Sensors;
+using System.Collections.Generic;
 
 public class TrainingAgent : Agent, IPrefab
 {
@@ -34,7 +35,7 @@ public class TrainingAgent : Agent, IPrefab
                         rotationY < 0 ? Random.Range(0f, 360f) : rotationY,
                         0);
     }
-
+    public Camera cam;
     public float speed = 30f;
     public float rotationSpeed = 100f;
     public float rotationAngle = 0.25f;
@@ -49,6 +50,35 @@ public class TrainingAgent : Agent, IPrefab
     private Color[] _allBlackImage;
     private float _previousScore = 0;
     private float _currentScore = 0;
+    // enum ObjMap {Agent,
+    //              Cardbox1,
+    //              Cardbox2,
+    //              CylinderTunnel,
+    //              CylinderTunnelTransparent,
+    //              DeathZone,
+    //              GoodGoal,
+    //              GoodGoalMulti,
+    //              LObject,
+    //              LObject2,
+    //              Ramp,
+    //              UObject,
+    //              Wall,
+    //              WallTransparent};
+    List<string> ObjMap = new List<string> {"Agent",
+                                             "Cardbox1",
+                                             "Cardbox2",
+                                             "CylinderTunnel",
+                                             "CylinderTunnelTransparent",
+                                             "DeathZone",
+                                             "GoodGoal",
+                                             "GoodGoalMulti",
+                                             "LObject",
+                                             "LObject2",
+                                             "Ramp",
+                                             "UObject",
+                                             "Wall",
+                                             "WallTransparent"};
+    // const int NUM_OBJ_TYPES = (int)ObjMap.WallTransparent;
 
     public override void Initialize()
     {
@@ -59,8 +89,61 @@ public class TrainingAgent : Agent, IPrefab
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        // Agent attributes
         Vector3 localVel = transform.InverseTransformDirection(_rigidBody.velocity);
+        Vector3 localPos = transform.localPosition;
+        float localRot = transform.rotation.eulerAngles.y;
         sensor.AddObservation(localVel);
+        sensor.AddObservation(localPos);
+        sensor.AddObservation(localRot);
+        // Objects in scene
+        List<Vector3> objects = getFovObjects();
+        // Debug.Log(objects.Count);
+        for (var i = 0; i < 30; i++) {
+            if (i<objects.Count){
+                sensor.AddObservation(objects[i]);
+            }
+            else {
+                sensor.AddObservation(new Vector3(-1.0f, -1.0f, -1.0f));
+            }
+        }
+
+        // TODO
+        // 1) Need to get all FOV objects in some format, list of array
+        // 2) Get the number of objects retrieved: do len of list
+        // 3) Do a add observation in batches of 9 for each 10 objects
+        // 4) If num objects under 10 then loop through adding vector size 9 of 0s, use
+        // -1 for class if enum is 0 indexed
+        // 5) Total observations should be 97, 7 for agent + 9*10 objects
+
+    }
+
+    public List<Vector3> getFovObjects()
+    {
+
+        List<Vector3> obj_vectors = new List<Vector3>();
+
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("arena"))
+        {
+            Transform[] allChildren = go.GetComponentsInChildren<Transform>();
+            foreach (Transform child in allChildren) {
+                Vector3 screenPoint = cam.WorldToViewportPoint(child.position);
+                bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+
+                if(!(new[] {
+                    "fence", "Wall", "Ground", "Cam",
+                     "Fwd", "Spawn", "Screen", "Light",
+                      "Arena", "Image", "Agent" }.Any(x => child.name.Contains(x))) && onScreen) {
+                    // int obj_idx =  (int)Enum.Parse(typeof(ObjMap), child.name);
+                    int obj_idx =  ObjMap.FindIndex(s => child.name.Contains(s));
+                    obj_vectors.Add(new Vector3(obj_idx, child.transform.rotation.eulerAngles.y, 0));
+                    obj_vectors.Add(child.transform.localPosition);
+                    obj_vectors.Add(child.transform.localScale);
+
+                }
+            }
+        }
+        return obj_vectors;
     }
 
     public override void OnActionReceived(float[] vectorAction)

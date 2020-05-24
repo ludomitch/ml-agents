@@ -53,7 +53,7 @@ public class EnvironmentManager : MonoBehaviour
 
             if (Application.isEditor)
             {
-                numberOfArenas = 4;
+                numberOfArenas = 1;
                 playerMode=false;
                 // receiveConfiguration = true;
             }
