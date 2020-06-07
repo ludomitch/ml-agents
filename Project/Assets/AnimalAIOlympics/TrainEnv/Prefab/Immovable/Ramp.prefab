@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2693895385181290156}
   - component: {fileID: 7814912912115926410}
   - component: {fileID: 8839437840819701191}
+  - component: {fileID: 33744855512046834}
+  - component: {fileID: 23960013776130138}
   m_Layer: 0
   m_Name: Ramp
   m_TagString: Untagged
@@ -67,6 +69,51 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!33 &33744855512046834
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8591433599567253167}
+  m_Mesh: {fileID: 0}
+--- !u!23 &23960013776130138
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8591433599567253167}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1001 &2255156442941002422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,11 +121,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2693895385181290156}
     m_Modifications:
-    - target: {fileID: 1557087961563428408, guid: 1eedc02129bdcb94f8fbd39f24ebfe90,
-        type: 3}
-      propertyPath: m_Name
-      value: RampFBX
-      objectReference: {fileID: 0}
     - target: {fileID: 1557087961563130392, guid: 1eedc02129bdcb94f8fbd39f24ebfe90,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -133,6 +175,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1557087961563428408, guid: 1eedc02129bdcb94f8fbd39f24ebfe90,
+        type: 3}
+      propertyPath: m_Name
+      value: RampFBX
       objectReference: {fileID: 0}
     - target: {fileID: 6151151473114806142, guid: 1eedc02129bdcb94f8fbd39f24ebfe90,
         type: 3}

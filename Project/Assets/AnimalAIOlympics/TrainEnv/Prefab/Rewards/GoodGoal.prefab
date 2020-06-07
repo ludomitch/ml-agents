@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911e4af03bc256936b3ecd119051789f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationRange: {x: 0, y: 0}
+  rotationRange: {x: 0, y: 360}
   sizeMin: {x: 0.5, y: 0.5, z: 0.5}
   sizeMax: {x: 5, y: 5, z: 5}
   canRandomizeColor: 0

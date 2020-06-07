@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5231839437112532351}
   - component: {fileID: 5520576157327949313}
   - component: {fileID: 3038050628839231131}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WallTransparent
   m_TagString: InnerWall
   m_Icon: {fileID: 0}

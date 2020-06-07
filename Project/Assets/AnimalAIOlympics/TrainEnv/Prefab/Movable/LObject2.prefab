@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1969802435881918363}
   - component: {fileID: 5113590004169307912}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube0-LObject2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,6 +102,8 @@ GameObject:
   - component: {fileID: 7898088356410768433}
   - component: {fileID: 6046221030157881141}
   - component: {fileID: 4489711801502536768}
+  - component: {fileID: 33500442655896480}
+  - component: {fileID: 23103740755429210}
   m_Layer: 0
   m_Name: LObject2
   m_TagString: Untagged
@@ -159,6 +161,51 @@ MonoBehaviour:
   canRandomizeColor: 0
   ratioSize: {x: 0.3, y: 1, z: 0.1}
   sizeAdjustement: 0.999
+--- !u!33 &33500442655896480
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2677753433345384935}
+  m_Mesh: {fileID: 0}
+--- !u!23 &23103740755429210
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2677753433345384935}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &3737336817413075431
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +219,7 @@ GameObject:
   - component: {fileID: 5953095897406844037}
   - component: {fileID: 6281066211440010373}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube1-LObject2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
