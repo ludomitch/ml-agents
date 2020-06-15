@@ -1134,12 +1134,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1673189049811478}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.9983748, z: 0}
+  m_LocalScale: {x: 1.3322499, y: 1.3322499, z: 1.3322499}
   m_Children: []
-  m_Father: {fileID: 4092218514560712}
-  m_RootOrder: 2
+  m_Father: {fileID: 4013282289215744887}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &20488899185956688
 Camera:
@@ -1477,7 +1477,6 @@ GameObject:
   - component: {fileID: 54706170264663100}
   - component: {fileID: 9181951476684829857}
   - component: {fileID: 7020771223157296603}
-  - component: {fileID: 6854058171075518781}
   - component: {fileID: 718439775431632637}
   - component: {fileID: 1120385695744362398}
   m_Layer: 0
@@ -1500,7 +1499,6 @@ Transform:
   m_Children:
   - {fileID: 1599359691213110525}
   - {fileID: 2664912034856299287}
-  - {fileID: 4249718019869002}
   - {fileID: 8643874490457405965}
   m_Father: {fileID: 4143868646325880}
   m_RootOrder: 5
@@ -1592,8 +1590,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    vectorObservationSize: 99
-    numStackedVectorObservations: 1
+    vectorObservationSize: 5
+    numStackedVectorObservations: 2
     vectorActionSize: 0300000003000000
     vectorActionDescriptions: []
     vectorActionSpaceType: 0
@@ -1624,24 +1622,6 @@ MonoBehaviour:
   rotationSpeed: 100
   rotationAngle: 0.25
   numberOfGoalsCollected: 0
---- !u!114 &6854058171075518781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956805098100504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 282f342c2ab144bf38be65d4d0c4e07d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Camera: {fileID: 20488899185956688}
-  m_SensorName: CameraSensor
-  m_Width: 84
-  m_Height: 84
-  m_Grayscale: 0
-  m_Compression: 1
 --- !u!114 &718439775431632637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1775,6 +1755,7 @@ Transform:
   m_LocalPosition: {x: 20, y: 2, z: 20}
   m_LocalScale: {x: 0.75061, y: 0.75061, z: 0.75061}
   m_Children:
+  - {fileID: 4249718019869002}
   - {fileID: 2444077339431798383}
   m_Father: {fileID: 4143868646325880}
   m_RootOrder: 6
@@ -2382,7 +2363,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.001, z: 0.3}
   m_Children: []
   m_Father: {fileID: 4092218514560712}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6084844896521554512
 MeshFilter:
@@ -2459,7 +2440,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4013282289215744887}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
 --- !u!20 &5072189168678401457
 Camera:

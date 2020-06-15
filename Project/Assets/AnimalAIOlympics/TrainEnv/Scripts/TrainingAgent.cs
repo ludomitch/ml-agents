@@ -78,23 +78,64 @@ public class TrainingAgent : Agent, IPrefab
     public override void CollectObservations(VectorSensor sensor)
     {
         // Agent attributes
-        Vector3 localVel = transform.InverseTransformDirection(_rigidBody.velocity);
+        Vector3 localVel = transform.InverseTransformDirection(_rigidBody.velocity); //max vel
         Vector3 localPos = transform.localPosition;
-        Vector3 localRot = transform.rotation.eulerAngles;
-        sensor.AddObservation(localVel);
-        sensor.AddObservation(localPos);
-        sensor.AddObservation(localRot);
-        // Objects in scene
-        List<Vector3> objects = getFovObjects();
-        // Debug.Log(objects.Count);
-        for (var i = 0; i < 30; i++) { // 10 objects = 10*Vector3 objects. 29 with 0 indexing
-            if (i<objects.Count){
-                sensor.AddObservation(objects[i]);
-            }
-            else {
-                sensor.AddObservation(new Vector3(-1.0f, -1.0f, -1.0f));
+        // Vector3 localRot = transform.rotation.eulerAngles / 180.0f - Vector3.one;
+        float ang_vel = localVel.x/5.81f;
+        float normvel = localVel.z/11.6f;
+        sensor.AddObservation(ang_vel);
+        sensor.AddObservation(normvel);
+        Transform parent_arena = transform.parent;
+        Transform goal = parent_arena;
+        foreach ( Transform child in parent_arena.GetComponentsInChildren<Transform>() ) {
+            if (child.name == "GoodGoal(Clone)") {
+                goal = child;
             }
         }
+
+        Vector3 destination = goal.localPosition;
+        Vector3 rel_distance = (destination - localPos)/40.0f;
+        float rel_angle = Vector3.SignedAngle(rel_distance, cam.transform.forward, Vector3.up)/180.0f;
+        // Debug.Log(rel_distance.magnitude);
+        sensor.AddObservation(rel_angle);
+        Vector3 reld = transform.InverseTransformDirection(rel_distance);
+        sensor.AddObservation(reld.x);
+        sensor.AddObservation(reld.z);
+        // Debug.Log(reld);
+
+
+        // sensor.AddObservation(localRot.y); //agent can only rotate in one direction
+
+        // Debug.Log(rel_distance.x);
+
+        // List<Vector3> objects = getFovObjects();
+        // if (objects.Count>1){
+        //     // Debug.Log(objects[1]);
+        //     // Debug.Log(localPos);
+        //     // Debug.Log("-----");
+        //     Vector3 rel_distance = localPos- objects[1]/40.0f;
+        //     rel_distance.x = Mathf.Abs(rel_distance.x);
+        //     rel_distance.y = Mathf.Abs(rel_distance.y);
+        //     rel_distance.z = Mathf.Abs(rel_distance.z);
+        //     sensor.AddObservation(rel_distance);
+        //     // Debug.Log(rel_distance);
+        //     // Debug.Log(localVel);
+
+
+        // }
+        // else {
+        //     sensor.AddObservation(new Vector3(0.0f, 0.0f, 0.0f));
+        // }
+        // Debug.Log(objects.Count);
+        // for (var i = 0; i < 30; i++) { // 10 objects = 10*Vector3 objects. 29 with 0 indexing
+        //     if (i<objects.Count){
+        //         sensor.AddObservation(objects[i]);
+        //     }
+        //     else {
+        //         sensor.AddObservation(new Vector3(-1.0f, -1.0f, -1.0f));
+        //     }
+        // }
+
 
 
         // RaycastSweep();
@@ -190,17 +231,21 @@ public class TrainingAgent : Agent, IPrefab
 
     public List<Vector3> getFovObjects()
     {
-        string all_objects = "";
+        // string all_objects = "";
         List<Vector3> obj_vectors = new List<Vector3>();
         Transform parent_arena = transform.parent;
         List<string> blacklist = new List<string> {
                 "fence", "WallOut", "Walls", "Ground", "Cam",
                  "Fwd", "Spawn", "Screen", "Light",
                   "Arena", "Image", "Agent", "Ramp(Clone)"};
+        List<string> whitelist = new List<string> {
+                "GoodGoal"};
         float percentage;
         Transform[] allChildren = parent_arena.GetComponentsInChildren<Transform>();
         foreach (Transform child in allChildren) {
-            if(!(blacklist.Any(x => child.name.Contains(x)))) {
+            // if(!(blacklist.Any(x => child.name.Contains(x)))) {
+            if((whitelist.Any(x => child.name.Contains(x)))) {
+
                 Vector3 screenPoint = cam.WorldToViewportPoint(child.position);
                 bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
                 // Vector3 dir = child.transform.position - cam.transform.position;
@@ -221,14 +266,15 @@ public class TrainingAgent : Agent, IPrefab
                     obj_vectors.Add(new Vector3(obj_idx, child.transform.rotation.eulerAngles.y, percentage));
                     obj_vectors.Add(child.transform.localPosition);
                     obj_vectors.Add(child.transform.localScale);
-                    all_objects += child.name;// + percentage.ToString("N2");                    
+                    Debug.Log(child.name);
+                    // all_objects += child.name;// + percentage.ToString("N2");                    
                     // }
                 }
             }
         }
-        if (!string.IsNullOrEmpty(all_objects)) {
-            Debug.Log(all_objects);
-        }
+        // if (!string.IsNullOrEmpty(all_objects)) {
+        //     Debug.Log(all_objects);
+        // }
 
         // Vector3 forward = cam.transform.TransformDirection(Vector3.forward) * 10;
         // RaycastHit hit;

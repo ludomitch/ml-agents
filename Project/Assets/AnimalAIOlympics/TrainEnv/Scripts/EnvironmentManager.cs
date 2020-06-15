@@ -66,7 +66,7 @@ public class EnvironmentManager : MonoBehaviour
 
             _arenasConfigurations.numberOfArenas = numberOfArenas;
             _arenas = new TrainingArena[numberOfArenas];
-            ChangeResolution(cameraWidth, cameraHeight, grayscale);
+            // ChangeResolution(cameraWidth, cameraHeight, grayscale);
             InstantiateArenas(numberOfArenas);
             ConfigureIfPlayer(playerMode); //, receiveConfiguration);
             _firstReset = false;
