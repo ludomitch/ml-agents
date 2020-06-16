@@ -85,70 +85,25 @@ public class TrainingAgent : Agent, IPrefab
         float normvel = localVel.z/11.6f;
         sensor.AddObservation(ang_vel);
         sensor.AddObservation(normvel);
-        Transform parent_arena = transform.parent;
-        Transform goal = parent_arena;
-        foreach ( Transform child in parent_arena.GetComponentsInChildren<Transform>() ) {
-            if (child.name == "GoodGoal(Clone)") {
-                goal = child;
+        sensor.AddObservation(localPos);
+
+        // All objects in scene with all necessary info
+        List<float> objects = getFovObjects();
+        // Debug.Log(objects.Count);
+        for (var i = 0; i < 140; i++) { // 10 objects = 10*Vector3 objects. 29 with 0 indexing
+            if (i<objects.Count){
+                sensor.AddObservation(objects[i]);
+            }
+            else {
+                sensor.AddObservation(-1.0f);
             }
         }
 
-        Vector3 destination = goal.localPosition;
-        Vector3 rel_distance = (destination - localPos)/40.0f;
-        float rel_angle = Vector3.SignedAngle(rel_distance, cam.transform.forward, Vector3.up)/180.0f;
-        // Debug.Log(rel_distance.magnitude);
-        sensor.AddObservation(rel_angle);
-        Vector3 reld = transform.InverseTransformDirection(rel_distance);
-        sensor.AddObservation(reld.x);
-        sensor.AddObservation(reld.z);
-        // Debug.Log(reld);
-
-
-        // sensor.AddObservation(localRot.y); //agent can only rotate in one direction
-
-        // Debug.Log(rel_distance.x);
-
-        // List<Vector3> objects = getFovObjects();
-        // if (objects.Count>1){
-        //     // Debug.Log(objects[1]);
-        //     // Debug.Log(localPos);
-        //     // Debug.Log("-----");
-        //     Vector3 rel_distance = localPos- objects[1]/40.0f;
-        //     rel_distance.x = Mathf.Abs(rel_distance.x);
-        //     rel_distance.y = Mathf.Abs(rel_distance.y);
-        //     rel_distance.z = Mathf.Abs(rel_distance.z);
-        //     sensor.AddObservation(rel_distance);
-        //     // Debug.Log(rel_distance);
-        //     // Debug.Log(localVel);
-
-
-        // }
-        // else {
-        //     sensor.AddObservation(new Vector3(0.0f, 0.0f, 0.0f));
-        // }
-        // Debug.Log(objects.Count);
-        // for (var i = 0; i < 30; i++) { // 10 objects = 10*Vector3 objects. 29 with 0 indexing
-        //     if (i<objects.Count){
-        //         sensor.AddObservation(objects[i]);
-        //     }
-        //     else {
-        //         sensor.AddObservation(new Vector3(-1.0f, -1.0f, -1.0f));
-        //     }
-        // }
-
-
+        // All raycast distances
         List<float> r_hits = RaycastSweep();
         foreach (float r in r_hits){
             sensor.AddObservation(r);
         }
-        // TODO
-        // 1) Need to get all FOV objects in some format, list of array
-        // 2) Get the number of objects retrieved: do len of list
-        // 3) Do a add observation in batches of 9 for each 10 objects
-        // 4) If num objects under 10 then loop through adding vector size 9 of 0s, use
-        // -1 for class if enum is 0 indexed
-        // 5) Total observations should be 97, 7 for agent + 9*10 objects
-
     }
 
     public bool check_raycasts(List<Vector3> corners, string name){
@@ -159,19 +114,13 @@ public class TrainingAgent : Agent, IPrefab
         string cleanName = (index < 0)
             ? name
             : name.Remove(index, removeString.Length);
-        int layer_mask = LayerMask.GetMask("noray");
-        // Debug.Log(layer_mask);
+        // int layer_mask = LayerMask.GetMask("noray");
         foreach (Vector3 corner in corners) {
             RaycastHit hit;
             Vector3 dir = corner - cam.transform.position;
-            // Debug.Log(corners);
-            // Vector3 forward = cam.transform.TransformDirection(Vector3.forward) * 10;
-            // Debug.DrawRay(cam.transform.position, forward, Color.green);
-            // Debug.Log(cleanName);
-            if(Physics.Raycast(cam.transform.position, dir, out hit, 100, 1)){
-                // Debug.Log(hit.collider.gameObject.name+"-"+cleanName);
+
+            if(Physics.Raycast(cam.transform.position, dir, out hit, 100)){
                 if (hit.collider.gameObject.name.Contains(cleanName)){
-                    // Debug.Log("HITTT" + cleanName);
                     return true;
                 }
             }
@@ -231,31 +180,23 @@ public class TrainingAgent : Agent, IPrefab
         return (float)percentage;
     }
 
-    public List<Vector3> getFovObjects()
+    public List<float> getFovObjects()
     {
         // string all_objects = "";
-        List<Vector3> obj_vectors = new List<Vector3>();
+        Vector3 localPos = transform.localPosition;
+        List<float> obj_vectors = new List<float>();
         Transform parent_arena = transform.parent;
         List<string> blacklist = new List<string> {
                 "fence", "WallOut", "Walls", "Ground", "Cam",
                  "Fwd", "Spawn", "Screen", "Light",
                   "Arena", "Image", "Agent", "Ramp(Clone)"};
-        List<string> whitelist = new List<string> {
-                "GoodGoal"};
         float percentage;
         Transform[] allChildren = parent_arena.GetComponentsInChildren<Transform>();
         foreach (Transform child in allChildren) {
-            // if(!(blacklist.Any(x => child.name.Contains(x)))) {
-            if((whitelist.Any(x => child.name.Contains(x)))) {
-
+            if(!(blacklist.Any(x => child.name.Contains(x)))) {
+            // if((whitelist.Any(x => child.name.Contains(x)))) {
                 Vector3 screenPoint = cam.WorldToViewportPoint(child.position);
                 bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-                // Vector3 dir = child.transform.position - cam.transform.position;
-                // ray = cam.transform.position;
-                // if(Physics.Raycast(cam.transform.position, dir, out hit)&&onScreen){
-                //     if (hit.collider.gameObject.name==child.name){
-
-                        // Debug.Log("HIT:" + hit.collider.gameObject.name);
                 if (onScreen){
                     percentage = CalcScreenPercentage(child);
                     // Debug.Log(percentage + child.name);
@@ -263,76 +204,37 @@ public class TrainingAgent : Agent, IPrefab
                 else {
                     percentage = (float)-1.0;
                 }
-                if (percentage !=-1.0){
-                    int obj_idx =  ObjMap.FindIndex(s => child.name.Contains(s));
-                    obj_vectors.Add(new Vector3(obj_idx, child.transform.rotation.eulerAngles.y, percentage));
-                    obj_vectors.Add(child.transform.localPosition);
-                    obj_vectors.Add(child.transform.localScale);
-                    Debug.Log(child.name);
-                    // all_objects += child.name;// + percentage.ToString("N2");                    
-                    // }
-                }
+                Vector3 rel_distance = transform.InverseTransformDirection((child.transform.localPosition - localPos));
+                float rel_angle = Vector3.SignedAngle(rel_distance, cam.transform.forward, Vector3.up);
+                int obj_idx =  ObjMap.FindIndex(s => child.name.Contains(s));
+                obj_vectors.Add(child.GetInstanceID());
+                obj_vectors.Add(obj_idx);
+                obj_vectors.Add(percentage);
+                obj_vectors.Add(child.transform.localPosition.x/40.0f);
+                obj_vectors.Add(child.transform.localPosition.y/40.0f);
+                obj_vectors.Add(child.transform.localPosition.z/40.0f);
+                obj_vectors.Add(rel_distance.x/40.0f);
+                obj_vectors.Add(rel_distance.y/40.0f);
+                obj_vectors.Add(rel_distance.z/40.0f);
+                obj_vectors.Add(child.transform.rotation.eulerAngles.y/180.0f);
+                obj_vectors.Add(rel_angle/180.0f);
+                obj_vectors.Add(child.transform.localScale.x/40.0f);
+                obj_vectors.Add(child.transform.localScale.y/40.0f);
+                obj_vectors.Add(child.transform.localScale.z/40.0f);
+
             }
         }
-        // if (!string.IsNullOrEmpty(all_objects)) {
-        //     Debug.Log(all_objects);
-        // }
-
-        // Vector3 forward = cam.transform.TransformDirection(Vector3.forward) * 10;
-        // RaycastHit hit;
-        // // Vector3 forward = cam.transform.TransformDirection(Vector3.forward) * 10;
-        // // Debug.DrawRay(cam.transform.position, forward, Color.green);
-
-        // if(Physics.Raycast(cam.transform.position, forward, out hit)){
-        //     Debug.Log(hit.collider.gameObject.name);
-        //     }
      
         return obj_vectors;
     }
-    // public void RaycastSweep() 
-    //  {
-    //     float theAngle = 90.0f;
-    //     float segments = 9.0f;
-    //     Vector3 startPos = transform.position; // umm, start position !
-    //     Vector3 targetDir = Vector3.zero; // variable for calculated end position
 
-    //     int startAngle = Convert.ToInt32(-theAngle * 0.5f); // half the angle to the Left of the forward
-    //     int finishAngle = Convert.ToInt32(theAngle * 0.5f); // half the angle to the Right of the forward
-         
-    //      // the gap between each ray (increment)
-    //     int inc = Convert.ToInt32(theAngle / segments);
-    //     RaycastHit hit;
 
-    //     List<string> blacklist = new List<string> {
-    //             "fence", "Wall", "Ground", "Cam",
-    //              "Fwd", "Spawn", "Screen", "Light",
-    //               "Arena", "Image"};
-    //     string all_objects = "";
-    //      // step through and find each target point
-    //      // targetDir = (Quaternion.Euler( 0, i, 0 ) * transform.forward).normalized;    
-         
-    //      // Raycast between points
-    //      if ( Physics.Raycast( startPos, transform.forward, out hit, 100 ) )
-    //      {
-    //         if(!(blacklist.Any(x => hit.collider.gameObject.name.Contains(x)))){
-    //          Debug.Log( "Hit " + hit.collider.gameObject.name );
-    //         all_objects += hit.collider.gameObject.name + hit.distance.ToString() +  "-";                    
-
-    //         }
-             
-    //          // to show ray just for testing
-    //          // Debug.DrawLine( startPos, targetPos, Color.green ); 
-    //      }    
-    //     // if (!string.IsNullOrEmpty(all_objects)) {
-    //     //     Debug.Log(all_objects);
-    //     // }  
-    //  }
     public List<float> RaycastSweep() 
      {
         float theAngle = 60.0f;
-        float segments = 15.0f;
+        float segments = 5.0f;
         float max_distance = 20.0f;
-        Vector3 startPos = transform.localPosition; // umm, start position !
+        Vector3 startPos = cam.transform.localPosition; // umm, start position !
         Vector3 targetDirStraight = Vector3.zero; // variable for calculated end position
         Vector3 targetDirDown = Vector3.zero; // variable for calculated end position
 
@@ -345,7 +247,7 @@ public class TrainingAgent : Agent, IPrefab
         List<float> r_hits = new List<float>();
 
         List<string> blacklist = new List<string> {
-                "fence", "WallOut", "Ground", "Cam",
+                "fence", "Ground", "Cam",
                  "Fwd", "Spawn", "Screen", "Light",
                   "Arena", "Image", "Goal"};
         // string all_objects = "";
@@ -353,8 +255,8 @@ public class TrainingAgent : Agent, IPrefab
          // step through and find each target point
          for (int i = startAngle; i < finishAngle; i += inc ) // Angle from forward
          {
-             targetDirStraight = (Quaternion.Euler( 0, i, 0 ) * transform.forward).normalized;    
-             targetDirDown = (Quaternion.Euler( 0, i, -55 ) * transform.forward).normalized;    
+             targetDirStraight = (Quaternion.Euler( 0, i, 0 ) * cam.transform.forward).normalized;    
+             targetDirDown = (Quaternion.Euler( 0, i, -55 ) * cam.transform.forward).normalized;    
              // Raycast between points
              if ( Physics.Raycast( startPos, targetDirStraight, out hit, max_distance ) )
              {
@@ -391,113 +293,6 @@ public class TrainingAgent : Agent, IPrefab
          // Debug.Log(r_hits.Count);
          return r_hits;
      }
-    // public void RaycastSweep() 
-    //  {
-    //     float distance = 40.0f;
-    //     float theAngle = 25.0f;
-    //     float segments = 10.0f;
-    //     Vector3 startPos = cam.transform.position; // umm, start position !
-    //     Vector3 targetPos = Vector3.zero; // variable for calculated end position
-         
-    //     int startAngle = Convert.ToInt32(-theAngle * 0.5f); // half the angle to the Left of the forward
-    //     int finishAngle = Convert.ToInt32(theAngle * 0.5f); // half the angle to the Right of the forward
-         
-    //      // the gap between each ray (increment)
-    //     int inc = Convert.ToInt32(theAngle / segments);
-    //     RaycastHit hit;
-
-    //     List<string> blacklist = new List<string> {
-    //             "fence", "Wall", "Ground", "Cam",
-    //              "Fwd", "Spawn", "Screen", "Light",
-    //               "Arena", "Image"};
-    //     string all_objects = "";
-    //      // step through and find each target point
-    //      for (int i = startAngle; i < finishAngle; i += inc ) // Angle from forward
-    //      {
-    //          targetPos = (Quaternion.Euler( 0, i, 0 ) * transform.forward).normalized * distance;    
-             
-    //          // linecast between points
-    //          if ( Physics.Linecast( startPos, targetPos, out hit ) )
-    //          {
-    //             if(!(blacklist.Any(x => hit.collider.gameObject.name.Contains(x)))){
-    //              // Debug.Log( "Hit " + hit.collider.gameObject.name );
-    //             all_objects += hit.collider.gameObject.name + hit.distance.ToString() +  "-";                    
-
-    //             }
-    //          }    
-             
-    //          // to show ray just for testing
-    //          // Debug.DrawLine( startPos, targetPos, Color.green ); 
-    //      }    
-    //     if (!string.IsNullOrEmpty(all_objects)) {
-    //         Debug.Log(all_objects);
-    //     }  
-    //  }
-    // {
-
-    //     List<Vector3> obj_vectors = new List<Vector3>();
-    //     Transform parent_arena = transform.parent;
-    //     string all_objects = "";
-    //     List<string> blacklist = new List<string> {
-    //             "fence", "Wall", "Ground", "Cam",
-    //              "Fwd", "Spawn", "Screen", "Light",
-    //               "Arena", "Image", "Agent", "Cube" };
-    //     Transform[] allChildren = parent_arena.GetComponentsInChildren<Transform>();
-    //     foreach (Transform child in allChildren) {
-    //         Vector3 screenPoint = cam.WorldToViewportPoint(child.position);
-    //         bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-
-    //         if(!(blacklist.Any(x => child.name.Contains(x))) && onScreen) {
-    //             // int obj_idx =  (int)Enum.Parse(typeof(ObjMap), child.name);
-    //             // Debug.Log(child.name);
-    //             int obj_idx =  ObjMap.FindIndex(s => child.name.Contains(s));
-    //             obj_vectors.Add(new Vector3(obj_idx, child.transform.rotation.eulerAngles.y, 0));
-    //             obj_vectors.Add(child.transform.localPosition);
-    //             obj_vectors.Add(child.transform.localScale);
-    //             all_objects += child.name + obj_idx + "-";
-    //         }
-    //     }
-    //     Debug.Log(all_objects);
-    //     // }
-    //     return obj_vectors;
-    // }
-
-    // public List<Vector3> getFovObjects()
-    // {
-    //     RaycastHit hit;
-    //     string all_objects = "";
-    //     List<Vector3> obj_vectors = new List<Vector3>();
-    //     Transform parent_arena = transform.parent;
-    //     List<string> blacklist = new List<string> {
-    //             "fence", "Wall", "Ground", "Cam",
-    //              "Fwd", "Spawn", "Screen", "Light",
-    //               "Arena", "Image", "Agent", "Cube" };
-    //     Transform[] allChildren = parent_arena.GetComponentsInChildren<Transform>();
-    //     foreach (Transform child in allChildren) {
-    //         if(!(blacklist.Any(x => child.name.Contains(x)))) {
-    //             Vector3 screenPoint = cam.WorldToViewportPoint(child.position);
-    //             bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-    //             Vector3 dir = child.transform.position - cam.transform.position;
-    //             // ray = cam.transform.position;
-    //             if(Physics.Raycast(cam.transform.position, dir, out hit)&&onScreen){
-    //                 if (hit.collider.gameObject.name==child.name){
-    //                     Debug.Log("HIT:" + hit.collider.gameObject.name);
-    //                     int obj_idx =  ObjMap.FindIndex(s => child.name.Contains(s));
-    //                     obj_vectors.Add(new Vector3(obj_idx, child.transform.rotation.eulerAngles.y, 0));
-    //                     obj_vectors.Add(child.transform.localPosition);
-    //                     obj_vectors.Add(child.transform.localScale);
-    //                     all_objects += child.name + obj_idx + "-";                    
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     if (!string.IsNullOrEmpty(all_objects)) {
-    //         Debug.Log(all_objects);
-    //     }
-
-     
-    //     return obj_vectors;
-    // }
 
     public override void OnActionReceived(float[] vectorAction)
     {
