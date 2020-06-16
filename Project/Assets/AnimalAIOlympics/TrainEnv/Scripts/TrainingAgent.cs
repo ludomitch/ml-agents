@@ -330,11 +330,11 @@ public class TrainingAgent : Agent, IPrefab
     public List<float> RaycastSweep() 
      {
         float theAngle = 60.0f;
-        float segments = 15.0f;
+        float segments = 5.0f;
         float max_distance = 20.0f;
         Vector3 startPos = transform.localPosition; // umm, start position !
         Vector3 targetDirStraight = Vector3.zero; // variable for calculated end position
-        Vector3 targetDirDown = Vector3.zero; // variable for calculated end position
+        // Vector3 targetDirDown = Vector3.zero; // variable for calculated end position
 
         int startAngle = Convert.ToInt32(-theAngle * 0.5f); // half the angle to the Left of the forward
         int finishAngle = Convert.ToInt32(theAngle * 0.5f); // half the angle to the Right of the forward
@@ -345,7 +345,7 @@ public class TrainingAgent : Agent, IPrefab
         List<float> r_hits = new List<float>();
 
         List<string> blacklist = new List<string> {
-                "fence", "WallOut", "Ground", "Cam",
+                "fence", "Ground", "Cam",
                  "Fwd", "Spawn", "Screen", "Light",
                   "Arena", "Image", "Goal"};
         // string all_objects = "";
@@ -354,7 +354,7 @@ public class TrainingAgent : Agent, IPrefab
          for (int i = startAngle; i < finishAngle; i += inc ) // Angle from forward
          {
              targetDirStraight = (Quaternion.Euler( 0, i, 0 ) * transform.forward).normalized;    
-             targetDirDown = (Quaternion.Euler( 0, i, -55 ) * transform.forward).normalized;    
+             // targetDirDown = (Quaternion.Euler( 0, i, -55 ) * transform.forward).normalized;    
              // Raycast between points
              if ( Physics.Raycast( startPos, targetDirStraight, out hit, max_distance ) )
              {
@@ -367,17 +367,17 @@ public class TrainingAgent : Agent, IPrefab
              }
             else {r_hits.Add(1.0f);}
 
-             if ( Physics.Raycast( startPos, targetDirDown, out hit, max_distance ) )
-             {
-                if(!(blacklist.Any(x => hit.collider.gameObject.name.Contains(x)))){
-                 // Debug.Log( "Hit " + hit.collider.gameObject.name );
-                // all_objects += hit.collider.gameObject.name + hit.distance.ToString() +  "-";                    
-                    r_hits.Add(hit.distance/max_distance);
-                }
-                else {r_hits.Add(1.0f);}
+            //  if ( Physics.Raycast( startPos, targetDirDown, out hit, max_distance ) )
+            //  {
+            //     if(!(blacklist.Any(x => hit.collider.gameObject.name.Contains(x)))){
+            //      // Debug.Log( "Hit " + hit.collider.gameObject.name );
+            //     // all_objects += hit.collider.gameObject.name + hit.distance.ToString() +  "-";                    
+            //         r_hits.Add(hit.distance/max_distance);
+            //     }
+            //     else {r_hits.Add(1.0f);}
 
-             }
-            else {r_hits.Add(1.0f);}
+            //  }
+            // else {r_hits.Add(1.0f);}
 
              // to show ray just for testing
              // Debug.DrawLine( startPos, targetPos, Color.green ); 
