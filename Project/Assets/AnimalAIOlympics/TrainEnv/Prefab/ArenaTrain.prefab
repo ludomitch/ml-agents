@@ -1592,8 +1592,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    vectorObservationSize: 155
-    numStackedVectorObservations: 2
+    vectorObservationSize: 6
+    numStackedVectorObservations: 1
     vectorActionSize: 0300000003000000
     vectorActionDescriptions: []
     vectorActionSpaceType: 0
@@ -1624,6 +1624,7 @@ MonoBehaviour:
   rotationSpeed: 100
   rotationAngle: 0.25
   numberOfGoalsCollected: 0
+  bytesPerPixel: 3
 --- !u!114 &718439775431632637
 MonoBehaviour:
   m_ObjectHideFlags: 0
