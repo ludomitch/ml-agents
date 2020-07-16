@@ -110,16 +110,19 @@ public class TrainingAgent : Agent, IPrefab
         rawByteData = ImageConversion.EncodeToJPG(texture2D);
         string fileName = "/Users/ludo/Desktop/tmp/" + Guid.NewGuid().ToString() + ".jpg";
         // string fileName = "/media/home/ludovico/aai/neuro/tmp/" + Guid.NewGuid().ToString() + ".jpg";
+        // /Users/ludo/Desktop/img.jpg
         File.WriteAllBytes(fileName, rawByteData); // Requires System.IO
 
          ProcessStartInfo start = new ProcessStartInfo();
          // start.FileName = "/media/home/ludovico/venv/bin/python3";
          start.FileName = "/Library/Frameworks/Python.framework/Versions/3.6/bin/python3";
-         // start.Arguments = string.Format("{0} {1}", cmd, args);
          // start.Arguments = string.Format(
          //    "/media/home/ludovico/aai/neuro/ctrack_wall.py photo {0}", fileName);
+         // start.Arguments = string.Format(
+         //    "/Users/ludo/Desktop/animalai/animalai/neuro/ctrack_wall.py photo {0}", fileName);
          start.Arguments = string.Format(
-            "/Users/ludo/Desktop/animalai/animalai/neuro/ctrack_wall.py photo {0}", fileName);         start.UseShellExecute = false;
+            "/Users/ludo/Desktop/test.py photo {0}", fileName);
+         start.UseShellExecute = false;
          start.RedirectStandardOutput = true;
          start.RedirectStandardError = true;
          string strout;
@@ -140,22 +143,22 @@ public class TrainingAgent : Agent, IPrefab
 
          }
 
-        if (!string.IsNullOrEmpty(strerr)) {
-            File.WriteAllText("/Users/ludo/Desktop/err.txt", strerr);
-        }
+        // if (!string.IsNullOrEmpty(strerr)) {
+        //     File.WriteAllText("/Users/ludo/Desktop/err.txt", strerr);
+        // }
         // if (!string.IsNullOrEmpty(strerr)) {
         //     File.WriteAllText("/media/home/ludovico/aai/neuro/err.txt", strerr);
         // }
-
+        var result = new List<float>() {1, 2, 3, 5};
          // UnityEngine.Debug.Log(strerr);
-        string[] tokens = strout.Split(',');
-        List<float> result = tokens.Select(x => float.Parse(x)).ToList();
+        // string[] tokens = strout.Split(',');
+        // List<float> result = tokens.Select(x => float.Parse(x)).ToList();
          // UnityEngine.Debug.Log(String.Join(",",
          //             new List<float>(result)
          //             .ConvertAll(i => i.ToString())
          //             .ToArray()));
 
-        System.IO.File.Delete(fileName);
+        // System.IO.File.Delete(fileName);
 
         return result;
 
