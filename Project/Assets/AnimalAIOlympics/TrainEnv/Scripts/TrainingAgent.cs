@@ -60,7 +60,10 @@ public class TrainingAgent : Agent, IPrefab
     public override void CollectObservations(VectorSensor sensor)
     {
         Vector3 localVel = transform.InverseTransformDirection(_rigidBody.velocity);
-        sensor.AddObservation(localVel);
+        float ang_vel = localVel.x/5.81f;
+        float normvel = localVel.z/11.6f;
+        sensor.AddObservation(ang_vel);
+        sensor.AddObservation(normvel);
     }
 
     public override void OnActionReceived(float[] vectorAction)
